@@ -134,7 +134,7 @@ public abstract class AbstractRunnableLoTEAnalysis<S extends LoTESource> impleme
             LOG.warn(e.getMessage());
             cacheAccess.downloadError(e);
         }
-        return document;
+        return null;
     }
 
     /**
