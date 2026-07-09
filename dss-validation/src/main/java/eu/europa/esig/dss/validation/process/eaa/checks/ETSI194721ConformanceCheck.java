@@ -208,12 +208,12 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
     protected String buildAdditionalInfo() {
         List<String> errors = new ArrayList<>();
         if (!checkVCTPresent()) {
-            errors.add(i18nProvider.getMessage(MessageTag.SDJWT_EAA_VCT_PRESENT,
+            errors.add(i18nProvider.getMessage(MessageTag.SDJWT_EAA_VCT_PRESENT_ANS,
                     ValidationProcessUtils.getFormattedDate(validationTime),
                     ValidationProcessUtils.getFormattedDate(eaa.getEAANotBefore())));
         }
         if (!checkVCTIntegrityPresent()) {
-            errors.add(i18nProvider.getMessage(MessageTag.SDJWT_EAA_VCT_INT_PRESENT,
+            errors.add(i18nProvider.getMessage(MessageTag.SDJWT_EAA_VCT_INT_PRESENT_ANS,
                     ValidationProcessUtils.getFormattedDate(validationTime),
                     ValidationProcessUtils.getFormattedDate(eaa.getEAANotBefore())));
         }
