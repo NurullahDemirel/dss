@@ -56,7 +56,7 @@ public abstract class DefaultMdocEAAClaimsBuilder implements MdocEAAClaimsBuilde
      * @param payloadParameters {@link MdocEAAPayloadParameters}
      * @return a list of {@link MdocEAAClaim}s
      */
-    public List<MdocEAAClaim> build(MdocEAAPayloadParameters payloadParameters) {
+    public List<MdocEAAClaim> buildClaims(MdocEAAPayloadParameters payloadParameters) {
         final List<MdocEAAClaim> result = new ArrayList<>();
 
         /* ETSI technical claims */

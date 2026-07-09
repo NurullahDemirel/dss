@@ -180,7 +180,7 @@ public class MdocPayloadBuilder extends AbstractEAAPayloadBuilder<MdocEAAPayload
      */
     protected Map<String, List<MdocEAAClaim>> getRootPayloadClaims(MdocEAAPayloadParameters payloadParameters) {
         MdocEAAClaimsBuilder mdocEAAClaimsBuilder = getMdocClaimProviderFactory().create(payloadParameters);
-        List<MdocEAAClaim> claims = mdocEAAClaimsBuilder.build(payloadParameters);
+        List<MdocEAAClaim> claims = mdocEAAClaimsBuilder.buildClaims(payloadParameters);
         return claims.stream().collect(Collectors.groupingBy(
                 MdocEAAClaim::getNamespace, LinkedHashMap::new, Collectors.toList()));
     }

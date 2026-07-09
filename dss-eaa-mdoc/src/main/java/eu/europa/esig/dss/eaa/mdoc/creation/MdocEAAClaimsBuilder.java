@@ -34,6 +34,6 @@ public interface MdocEAAClaimsBuilder {
      * @param payloadParameters {@link MdocEAAPayloadParameters}
      * @return a list of {@link MdocEAAClaim}s
      */
-    List<MdocEAAClaim> build(MdocEAAPayloadParameters payloadParameters);
+    List<MdocEAAClaim> buildClaims(MdocEAAPayloadParameters payloadParameters);
 
 }
