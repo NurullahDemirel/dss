@@ -198,7 +198,7 @@ public class MdocPayloadBuilder extends AbstractEAAPayloadBuilder<MdocEAAPayload
         claims = new ArrayList<>(claims);
         for (int i = 0; i < payloadParameters.getDecoyDigestNumber(); i++) {
             byte[] bytes = nextRandomSalt(secureRandom);
-            claims.add(MdocEAAClaim.createVoidClaim(bytes));
+            claims.add(MdocEAAClaim.create(bytes));
         }
         if (payloadParameters.isShuffleHashes()) {
             Collections.shuffle(claims, secureRandom);

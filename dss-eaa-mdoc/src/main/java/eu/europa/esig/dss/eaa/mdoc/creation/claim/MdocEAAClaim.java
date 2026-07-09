@@ -20,7 +20,11 @@
  */
 package eu.europa.esig.dss.eaa.mdoc.creation.claim;
 
+import eu.europa.esig.dss.cbades.cbor.CBORObject;
+import eu.europa.esig.dss.cbades.cbor.CBORObjectFactory;
 import eu.europa.esig.dss.eaa.common.creation.claim.AbstractEAAClaim;
+import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAClaimArray;
+import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAClaimObject;
 
 import java.util.Arrays;
 
@@ -40,6 +44,27 @@ public class MdocEAAClaim extends AbstractEAAClaim {
 
     /** Salt of the selectively disclosable claim, when applicable */
     private byte[] salt;
+
+    /**
+     * Create an {@link MdocEAAClaim} to be used as an array item.
+     *
+     * @param value {@link Object} the claim value
+     * @return the created {@link MdocEAAClaim}
+     */
+    public static MdocEAAClaim create(final Object value) {
+        return new MdocEAAClaim(value);
+    }
+
+    /**
+     * Create an {@link MdocEAAClaim} to be used as an object item.
+     *
+     * @param name {@link String} the claim name
+     * @param value {@link Object} the claim value
+     * @return the created {@link MdocEAAClaim}
+     */
+    public static MdocEAAClaim create(final String name, final Object value) {
+        return new MdocEAAClaim(name, value);
+    }
 
     /**
      * Create a {@link MdocEAAClaim} with the provided namespace, name and value.
@@ -93,18 +118,147 @@ public class MdocEAAClaim extends AbstractEAAClaim {
      * @return the created {@link MdocEAAClaim}
      */
     public static MdocEAAClaim create(final String namespace, final int digestId, final String name, final Object value, final byte[] salt) {
-        return new MdocEAAClaim(namespace, digestId, name, value);
+        return new MdocEAAClaim(namespace, digestId, name, value, salt);
     }
 
     /**
-     * Create a {@link MdocEAAClaim} with the value only.
-     * Used for decoy digests definition within the implementation
+     * Create an {@link MdocEAAClaimObject} to be used as an array item.
      *
-     * @param value {@link Object} the claim value
-     * @return the created {@link MdocEAAClaim}
+     * @return the created {@link MdocEAAClaimObject}
      */
-    public static MdocEAAClaim createVoidClaim(final Object value) {
-        return new MdocEAAClaim(value);
+    public static MdocEAAClaimObject createObject() {
+        return MdocEAAClaimObject.create();
+    }
+
+    /**
+     * Create an {@link MdocEAAClaimObject} to be used as an object item.
+     *
+     * @param name {@link String} the claim name
+     * @return the created {@link MdocEAAClaimObject}
+     */
+    public static MdocEAAClaimObject createObject(final String name) {
+        return MdocEAAClaimObject.create(name);
+    }
+
+    /**
+     * Create a {@link MdocEAAClaimObject} with the provided namespace, name and value.
+     * NOTE: digestId and salt will be computed during EAA payload computation.
+     *
+     * @param namespace {@link String} the claim namespace
+     * @param name {@link String} the claim name
+     * @return the created {@link MdocEAAClaimObject}
+     */
+    public static MdocEAAClaimObject createObject(final String namespace, final String name) {
+        return MdocEAAClaimObject.create(namespace, name);
+    }
+
+    /**
+     * Create a {@link MdocEAAClaimObject} with the provided namespace, digestId, name and value.
+     * NOTE: salt will be computed during EAA payload computation.
+     *
+     * @param namespace {@link String} the claim namespace
+     * @param digestId integer representing a unique identifier of the claim within the namespace in EAA
+     * @param name {@link String} the claim name
+     * @return the created {@link MdocEAAClaimObject}
+     */
+    public static MdocEAAClaimObject createObject(final String namespace, final int digestId, final String name) {
+        return MdocEAAClaimObject.create(namespace, digestId, name);
+    }
+
+    /**
+     * Create a {@link MdocEAAClaimObject} with the provided namespace, name, value and salt.
+     * NOTE: digestId will be computed during EAA payload computation.
+     *
+     * @param namespace {@link String} the claim namespace
+     * @param name {@link String} the claim name
+     * @param salt byte array containing a high entropy value to prevent a hash collision
+     * @return the created {@link MdocEAAClaimObject}
+     */
+    public static MdocEAAClaimObject createObject(final String namespace, final String name, final byte[] salt) {
+        return MdocEAAClaimObject.create(namespace, name, salt);
+    }
+
+    /**
+     * Create a {@link MdocEAAClaimObject} with the provided namespace, digestId, name, value and salt.
+     *
+     * @param namespace {@link String} the claim namespace
+     * @param digestId integer representing a unique identifier of the claim within the namespace in EAA
+     * @param name {@link String} the claim name
+     * @param salt byte array containing a high entropy value to prevent a hash collision
+     * @return the created {@link MdocEAAClaimObject}
+     */
+    public static MdocEAAClaimObject createObject(final String namespace, final int digestId, final String name, final byte[] salt) {
+        return MdocEAAClaimObject.create(namespace, digestId, name, salt);
+    }
+
+    /**
+     * Create an {@link MdocEAAClaimArray} to be used as an array item.
+     *
+     * @return the created {@link MdocEAAClaimArray}
+     */
+    public static MdocEAAClaimArray createArray() {
+        return MdocEAAClaimArray.create();
+    }
+
+    /**
+     * Create an {@link MdocEAAClaimArray} to be used as an object item.
+     *
+     * @param name {@link String} the claim name
+     * @return the created {@link MdocEAAClaimArray}
+     */
+    public static MdocEAAClaimArray createArray(final String name) {
+        return MdocEAAClaimArray.create(name);
+    }
+
+    /**
+     * Create a {@link MdocEAAClaimArray} with the provided namespace, name and value.
+     * NOTE: digestId and salt will be computed during EAA payload computation.
+     *
+     * @param namespace {@link String} the claim namespace
+     * @param name {@link String} the claim name
+     * @return the created {@link MdocEAAClaimArray}
+     */
+    public static MdocEAAClaimArray createArray(final String namespace, final String name) {
+        return MdocEAAClaimArray.create(namespace, name);
+    }
+
+    /**
+     * Create a {@link MdocEAAClaimArray} with the provided namespace, digestId, name and value.
+     * NOTE: salt will be computed during EAA payload computation.
+     *
+     * @param namespace {@link String} the claim namespace
+     * @param digestId integer representing a unique identifier of the claim within the namespace in EAA
+     * @param name {@link String} the claim name
+     * @return the created {@link MdocEAAClaimArray}
+     */
+    public static MdocEAAClaimArray createArray(final String namespace, final int digestId, final String name) {
+        return MdocEAAClaimArray.create(namespace, digestId, name);
+    }
+
+    /**
+     * Create a {@link MdocEAAClaimArray} with the provided namespace, name, value and salt.
+     * NOTE: digestId will be computed during EAA payload computation.
+     *
+     * @param namespace {@link String} the claim namespace
+     * @param name {@link String} the claim name
+     * @param salt byte array containing a high entropy value to prevent a hash collision
+     * @return the created {@link MdocEAAClaimArray}
+     */
+    public static MdocEAAClaimArray createArray(final String namespace, final String name, final byte[] salt) {
+        return MdocEAAClaimArray.create(namespace, name, salt);
+    }
+
+    /**
+     * Create a {@link MdocEAAClaimArray} with the provided namespace, digestId, name, value and salt.
+     *
+     * @param namespace {@link String} the claim namespace
+     * @param digestId integer representing a unique identifier of the claim within the namespace in EAA
+     * @param name {@link String} the claim name
+     * @param salt byte array containing a high entropy value to prevent a hash collision
+     * @return the created {@link MdocEAAClaimArray}
+     */
+    public static MdocEAAClaimArray createArray(final String namespace, final int digestId, final String name, final byte[] salt) {
+        return MdocEAAClaimArray.create(namespace, digestId, name, salt);
     }
 
     /**
@@ -113,7 +267,16 @@ public class MdocEAAClaim extends AbstractEAAClaim {
      * @param value {@link Object} the value of the claim
      */
     protected MdocEAAClaim(Object value) {
-        this(null, null, value, null);
+        this(null, value);
+    }
+
+    /**
+     * Constructor with the value
+     *
+     * @param value {@link Object} the value of the claim
+     */
+    protected MdocEAAClaim(String name, Object value) {
+        this(null, name, value, null);
     }
 
     /**
@@ -221,6 +384,15 @@ public class MdocEAAClaim extends AbstractEAAClaim {
      */
     public boolean isVoid() {
         return getNamespace() == null && getName() == null;
+    }
+
+    /**
+     * Gets a CBOR representation of the claim value
+     *
+     * @return {@link CBORObject}
+     */
+    public CBORObject getValueAsCbor() {
+        return CBORObjectFactory.toCBORObject(getValue());
     }
 
     @Override

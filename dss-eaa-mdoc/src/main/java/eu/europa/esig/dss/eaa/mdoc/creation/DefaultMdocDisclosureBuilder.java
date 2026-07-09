@@ -52,7 +52,7 @@ public class DefaultMdocDisclosureBuilder implements MdocDisclosureBuilder {
         issuerSignedItem.put(MdocHeaderParameter.DIGEST_ID.toString(), claim.getDigestId());
         issuerSignedItem.put(MdocHeaderParameter.RANDOM.toString(), claim.getSalt());
         issuerSignedItem.put(MdocHeaderParameter.ELEMENT_IDENTIFIER.toString(), claim.getName());
-        issuerSignedItem.put(MdocHeaderParameter.ELEMENT_VALUE.toString(), claim.getValue());
+        issuerSignedItem.put(MdocHeaderParameter.ELEMENT_VALUE.toString(), claim.getValueAsCbor());
 
         if (claim.isVoid()) {
             return new MdocEAADisclosure(claim.getDigestId(), CBORUtils.toCborBtsrWrappedTagged(issuerSignedItem));

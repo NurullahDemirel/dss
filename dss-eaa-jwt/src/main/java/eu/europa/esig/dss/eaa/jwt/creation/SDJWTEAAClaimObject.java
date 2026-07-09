@@ -128,7 +128,7 @@ public class SDJWTEAAClaimObject extends SDJWTEAAClaim implements EAAClaimObject
      * @param selectivelyDisclosable whether the claim is selectively disclosable
      * @param salt {@link String} the salt (mandatory if the claim is selectively disclosable)
      */
-    protected SDJWTEAAClaimObject(final String name, List<?> children, final boolean selectivelyDisclosable, final String salt) {
+    protected SDJWTEAAClaimObject(final String name, List<SDJWTEAAClaim> children, final boolean selectivelyDisclosable, final String salt) {
         super(name, children, selectivelyDisclosable, salt);
     }
 
