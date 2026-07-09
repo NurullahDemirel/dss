@@ -22,14 +22,13 @@ package eu.europa.esig.dss.tsl.alerts;
 
 import eu.europa.esig.dss.alert.detector.AlertDetector;
 import eu.europa.esig.dss.alert.handler.AlertHandler;
-import eu.europa.esig.dss.model.tsl.LOTLInfo;
 import eu.europa.esig.dss.model.tsl.TLInfo;
 import eu.europa.esig.dss.validation.job.alerts.DocumentAlert;
 
 /**
  * The class to process events on TL
  */
-public class TLAlert extends DocumentAlert<TLInfo, LOTLInfo> {
+public class TLAlert extends DocumentAlert<TLInfo> {
 
 	/**
 	 * Default constructor

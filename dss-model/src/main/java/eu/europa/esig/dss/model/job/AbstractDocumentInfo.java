@@ -31,7 +31,7 @@ import java.util.Objects;
  *
  * @param <P> {@link DocumentInfo}
  */
-public abstract class AbstractDocumentInfo<P extends DocumentInfo<P>> implements DocumentInfo<P>, Serializable {
+public abstract class AbstractDocumentInfo<P extends DocumentInfo> implements DocumentInfo, Serializable {
 
     private static final long serialVersionUID = -5439324653080984894L;
 

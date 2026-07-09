@@ -28,7 +28,7 @@ import java.util.List;
  * @param <D> {@link DocumentInfo}
  * @param <L> {@link DocumentListInfo}
  */
-public interface ValidationJobSummary<D extends DocumentInfo<L>, L extends DocumentListInfo<L, D>> {
+public interface ValidationJobSummary<D extends DocumentInfo, L extends DocumentListInfo<D>> {
 
     /**
      * Returns a list of document list infos

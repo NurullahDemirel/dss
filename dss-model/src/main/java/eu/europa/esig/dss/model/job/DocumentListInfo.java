@@ -25,10 +25,8 @@ import java.util.List;
 /**
  * Contains a validation result for a document list
  *
- * @param <P> parent {@link DocumentInfo}
- * @param <C> child {@link DocumentInfo}
  */
-public interface DocumentListInfo<P extends DocumentInfo<P>, C extends DocumentInfo<P>> extends DocumentInfo<P> {
+public interface DocumentListInfo<C extends DocumentInfo> extends DocumentInfo {
 
     /**
      * Returns a list of {@code DocumentInfo}s summary for documents referenced from the current document

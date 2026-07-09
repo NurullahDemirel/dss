@@ -26,9 +26,8 @@ import eu.europa.esig.dss.model.identifier.IdentifierBasedObject;
 /**
  * Contains a validation result for a document.
  *
- * @param <P> parent {@link DocumentInfo}
  */
-public interface DocumentInfo<P extends DocumentInfo<P>> extends IdentifierBasedObject {
+public interface DocumentInfo extends IdentifierBasedObject {
 
     /**
      * Returns Download Cache Info
@@ -63,7 +62,7 @@ public interface DocumentInfo<P extends DocumentInfo<P>> extends IdentifierBased
      *
      * @return {@link DocumentInfo}
      */
-    P getParent();
+    DocumentInfo getParent();
 
     /**
      * Returns the TL id
@@ -78,6 +77,5 @@ public interface DocumentInfo<P extends DocumentInfo<P>> extends IdentifierBased
      * @return {@link String}
      */
     String getDSSIdAsString();
-
 
 }

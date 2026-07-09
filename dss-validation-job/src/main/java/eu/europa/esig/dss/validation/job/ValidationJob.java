@@ -60,7 +60,7 @@ import java.util.stream.Collectors;
  * @param <L> parent {@link DocumentListInfo}
  * @param <C> {@link CacheAccessFactory}
  */
-public abstract class ValidationJob<D extends DocumentInfo<L>, L extends DocumentListInfo<L, D>, C extends CacheAccessFactory> {
+public abstract class ValidationJob<D extends DocumentInfo, L extends DocumentListInfo<D>, C extends CacheAccessFactory> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ValidationJob.class);
 

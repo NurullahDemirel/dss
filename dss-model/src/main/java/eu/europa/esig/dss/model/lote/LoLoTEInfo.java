@@ -33,7 +33,7 @@ import java.util.List;
  * Contains information about the List of TS 119 602 Lists of Trusted Entities
  *
  */
-public class LoLoTEInfo extends LoTEInfo implements DocumentListInfo<LoLoTEInfo, LoTEInfo> {
+public class LoLoTEInfo extends LoTEInfo implements DocumentListInfo<LoTEInfo> {
 
     private static final long serialVersionUID = -1581874554370816691L;
 

@@ -36,7 +36,7 @@ import java.util.List;
  * @param <D> current {@link DocumentInfo}
  * @param <L> parent {@link DocumentListInfo}
  */
-public class ValidationJobAlerter<D extends DocumentInfo<L>, L extends DocumentListInfo<L, D>> {
+public class ValidationJobAlerter<D extends DocumentInfo, L extends DocumentListInfo<D>> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ValidationJobAlerter.class);
 
@@ -89,7 +89,7 @@ public class ValidationJobAlerter<D extends DocumentInfo<L>, L extends DocumentL
 		}
 	}
 	
-	private <T extends DocumentInfo<R>, R extends DocumentInfo<R>> void execute(Alert<T> alert, T info) {
+	private <T extends DocumentInfo> void execute(Alert<T> alert, T info) {
 		try {
 			alert.alert(info);
 		} catch (Exception e) {

@@ -32,7 +32,7 @@ import java.util.List;
  * Computes summary for a List of Trusted Lists processing result
  *
  */
-public class LOTLInfo extends TLInfo implements DocumentListInfo<LOTLInfo, TLInfo> {
+public class LOTLInfo extends TLInfo implements DocumentListInfo<TLInfo> {
 	
 	private static final long serialVersionUID = -8969562861281744320L;
 
