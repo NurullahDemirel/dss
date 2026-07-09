@@ -46,7 +46,7 @@ import java.util.function.Supplier;
  * Creates a payload for an RFC 9901 SD-JWT VC token based on the provided parameters
  *
  */
-public class SDJWTPayloadBuilder extends AbstractEAAPayloadBuilder<SDJWTEAAPayloadParameters, SDJWTEAADisclosure> {
+public class SDJWTEAAPayloadBuilder extends AbstractEAAPayloadBuilder<SDJWTEAAPayloadParameters, SDJWTEAADisclosure> {
 
     /** Builds disclosures */
     private SDJWTDisclosureBuilder disclosureBuilder = new DefaultSDJWTDisclosureBuilder();
@@ -57,7 +57,7 @@ public class SDJWTPayloadBuilder extends AbstractEAAPayloadBuilder<SDJWTEAAPaylo
     /**
      * Default constructor
      */
-    public SDJWTPayloadBuilder() {
+    public SDJWTEAAPayloadBuilder() {
         // empty
     }
 

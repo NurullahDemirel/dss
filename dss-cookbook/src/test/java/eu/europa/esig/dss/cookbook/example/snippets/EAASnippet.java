@@ -23,9 +23,9 @@ package eu.europa.esig.dss.cookbook.example.snippets;
 import eu.europa.esig.dss.eaa.common.validation.DefaultEAAPresentationValidator;
 import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAPayloadParameters;
 import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAClaim;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTPayloadBuilder;
+import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAPayloadBuilder;
 import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAService;
-import eu.europa.esig.dss.eaa.mdoc.creation.MdocPayloadBuilder;
+import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAPayloadBuilder;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAService;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAClaim;
 import eu.europa.esig.dss.eaa.mdoc.validation.MdocDeviceResponseEAAPresentationValidator;
@@ -59,7 +59,7 @@ public class EAASnippet {
 
         // tag::sdjwt-custom-secure-random[]
         // Replace the default deterministic SecureRandomProvider with a fully non-deterministic one
-        SDJWTPayloadBuilder payloadBuilder = new SDJWTPayloadBuilder();
+        SDJWTEAAPayloadBuilder payloadBuilder = new SDJWTEAAPayloadBuilder();
         payloadBuilder.setSecureRandomProvider(seed -> new SecureRandom());
 
         SDJWTEAAService service = new SDJWTEAAService(new CommonCertificateVerifier());
@@ -74,11 +74,11 @@ public class EAASnippet {
 
         // tag::mdoc-custom-secure-random[]
         // Replace the default deterministic SecureRandomProvider with a fully non-deterministic one
-        MdocPayloadBuilder mdocPayloadBuilder = new MdocPayloadBuilder();
-        mdocPayloadBuilder.setSecureRandomProvider(seed -> new SecureRandom());
+        MdocEAAPayloadBuilder mdocEAAPayloadBuilder = new MdocEAAPayloadBuilder();
+        mdocEAAPayloadBuilder.setSecureRandomProvider(seed -> new SecureRandom());
 
         MdocEAAService mdocService = new MdocEAAService(new CommonCertificateVerifier());
-        mdocService.setPayloadBuilder(mdocPayloadBuilder);
+        mdocService.setPayloadBuilder(mdocEAAPayloadBuilder);
         // end::mdoc-custom-secure-random[]
 
 

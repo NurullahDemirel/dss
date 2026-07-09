@@ -491,7 +491,7 @@ public class MdocEAAService extends AbstractEAAService<CBAdESSignatureParameters
 
     @Override
     protected EAAPayloadBuilder<MdocEAAPayloadParameters, MdocEAADisclosure> initDefaultPayloadBuilder() {
-        return new MdocPayloadBuilder();
+        return new MdocEAAPayloadBuilder();
     }
 
     @Override

@@ -293,7 +293,7 @@ public class SDJWTEAAService extends AbstractEAAService<JAdESSignatureParameters
 
     @Override
     protected EAAPayloadBuilder<SDJWTEAAPayloadParameters, SDJWTEAADisclosure> initDefaultPayloadBuilder() {
-        return new SDJWTPayloadBuilder();
+        return new SDJWTEAAPayloadBuilder();
     }
 
     @Override

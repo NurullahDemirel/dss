@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SDJWTPayloadBuilderTest {
+class SDJWTEAAPayloadBuilderTest {
 
     @Test
     void buildSDJWTEAAPayload() throws JoseException {
@@ -140,7 +140,7 @@ class SDJWTPayloadBuilderTest {
         assertEquals("FR", natArray.get(2));
         assertTrue(((Map<?, ?>) natArray.get(3)).containsKey(SDJWTConstants.HASH));
 
-        List<SDJWTEAADisclosure> disclosures = new SDJWTPayloadBuilder().buildDisclosures(parameters);
+        List<SDJWTEAADisclosure> disclosures = new SDJWTEAAPayloadBuilder().buildDisclosures(parameters);
         assertEquals(11, disclosures.size());
     }
     
@@ -359,7 +359,7 @@ class SDJWTPayloadBuilderTest {
         params.selectivelyDisclosable().setFamilyName("Doe");
         params.selectivelyDisclosable().setGivenName("John");
 
-        SDJWTPayloadBuilder builder = new SDJWTPayloadBuilder();
+        SDJWTEAAPayloadBuilder builder = new SDJWTEAAPayloadBuilder();
         byte[] first  = ((InMemoryDocument) builder.buildPayload(params)).getBytes();
         byte[] second = ((InMemoryDocument) builder.buildPayload(params)).getBytes();
 
@@ -380,7 +380,7 @@ class SDJWTPayloadBuilderTest {
         params2.setIssuanceDate(now);
         params2.selectivelyDisclosable().setFamilyName("Doe");
 
-        SDJWTPayloadBuilder builder = new SDJWTPayloadBuilder();
+        SDJWTEAAPayloadBuilder builder = new SDJWTEAAPayloadBuilder();
         byte[] payload1 = ((InMemoryDocument) builder.buildPayload(params1)).getBytes();
         byte[] payload2 = ((InMemoryDocument) builder.buildPayload(params2)).getBytes();
 
@@ -413,7 +413,7 @@ class SDJWTPayloadBuilderTest {
     }
 
     private Map<String, Object> parsePayload(SDJWTEAAPayloadParameters params) throws JoseException {
-        InMemoryDocument payload = (InMemoryDocument) new SDJWTPayloadBuilder().buildPayload(params);
+        InMemoryDocument payload = (InMemoryDocument) new SDJWTEAAPayloadBuilder().buildPayload(params);
         return JsonUtil.parseJson(new String(payload.getBytes()));
     }
 

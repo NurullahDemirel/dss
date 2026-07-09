@@ -65,7 +65,7 @@ Each selectively disclosable claim is committed to in the EAA payload as the has
 
 **Default salt generation**
 
-DSS automatically generates a 128-bit salt for every selectively disclosable claim during payload building. Internally, the `SDJWTPayloadBuilder` seeds a `SecureRandom` deterministically from a hash of `payloadParameters.toString()` (via `DSSSecureRandomProvider`). This means that the same payload parameters configuration will always produce the same salts.
+DSS automatically generates a 128-bit salt for every selectively disclosable claim during payload building. Internally, the `SDJWTEAAPayloadBuilder` seeds a `SecureRandom` deterministically from a hash of `payloadParameters.toString()` (via `DSSSecureRandomProvider`). This means that the same payload parameters configuration will always produce the same salts.
 
 **Custom salt per claim**
 
@@ -90,7 +90,7 @@ NOTE: For known claims (those set via helper methods such as `setGivenName()`, `
 
 **Custom SecureRandom provider**
 
-To override the `SecureRandom` used for automatic salt generation — for instance, to use a non-deterministic generation — configure a custom `SecureRandomProvider` on the `SDJWTPayloadBuilder` and set it on the service:
+To override the `SecureRandom` used for automatic salt generation — for instance, to use a non-deterministic generation — configure a custom `SecureRandomProvider` on the `SDJWTEAAPayloadBuilder` and set it on the service:
 
 [source,java,indent=0]
 .SD-JWT VC custom SecureRandom provider
@@ -220,7 +220,7 @@ NOTE: For known claims (those set via helper methods such as `setGivenName()`, `
 
 **Custom SecureRandom provider**
 
-To override the `SecureRandom` used for automatic salt generation — for instance, to use a fully non-deterministic RNG in production — configure a custom `SecureRandomProvider` on the `MdocPayloadBuilder` and set it on the service:
+To override the `SecureRandom` used for automatic salt generation — for instance, to use a fully non-deterministic RNG in production — configure a custom `SecureRandomProvider` on the `MdocEAAPayloadBuilder` and set it on the service:
 
 [source,java,indent=0]
 .mdoc custom SecureRandom provider
