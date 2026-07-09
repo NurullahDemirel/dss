@@ -30,7 +30,6 @@ import eu.europa.esig.dss.cbades.cbor.CBORMap;
 import eu.europa.esig.dss.cbades.cbor.CBORObject;
 import eu.europa.esig.dss.cbades.cbor.CBORObjectFactory;
 import eu.europa.esig.dss.cbades.cbor.CBORUtils;
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
 
 /**
  * Default implementation of {@link MdocEAADeviceNameSpacesBuilder}

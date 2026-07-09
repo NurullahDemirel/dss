@@ -3,7 +3,6 @@ package eu.europa.esig.dss.eaa.mdoc.creation;
 import eu.europa.esig.dss.cbades.cbor.CBORMap;
 import eu.europa.esig.dss.cbades.cbor.CBORObject;
 import eu.europa.esig.dss.eaa.common.creation.claim.EAAClaimObject;
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
 
 import java.util.ArrayList;
 import java.util.Collection;

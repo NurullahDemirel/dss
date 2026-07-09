@@ -28,7 +28,6 @@ import eu.europa.esig.dss.eaa.common.creation.AbstractEAAPayloadBuilder;
 import eu.europa.esig.dss.eaa.common.creation.EAAStatusList;
 import eu.europa.esig.dss.eaa.common.key.PublicKeyInfo;
 import eu.europa.esig.dss.eaa.mdoc.MdocConstants;
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
 import eu.europa.esig.dss.eaa.mdoc.key.COSEKeyBuilder;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.Digest;

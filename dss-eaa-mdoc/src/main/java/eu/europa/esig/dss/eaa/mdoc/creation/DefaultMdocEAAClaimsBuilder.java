@@ -28,7 +28,6 @@ import eu.europa.esig.dss.eaa.mdoc.EUDIPIDHeaders;
 import eu.europa.esig.dss.eaa.mdoc.ISO180135Headers;
 import eu.europa.esig.dss.eaa.mdoc.ISO232202Headers;
 import eu.europa.esig.dss.eaa.mdoc.MdocConstants;
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
 import eu.europa.esig.dss.eaa.mdoc.model.MdocDrivingPrivilege;
 import eu.europa.esig.dss.utils.Utils;
 

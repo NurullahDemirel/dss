@@ -21,7 +21,6 @@
 package eu.europa.esig.dss.eaa.mdoc.creation;
 
 import eu.europa.esig.dss.eaa.common.creation.AbstractEAAClaimParameters;
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
 import eu.europa.esig.dss.eaa.mdoc.model.MdocDrivingPrivilege;
 import eu.europa.esig.dss.utils.Utils;
 

@@ -18,13 +18,11 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package eu.europa.esig.dss.eaa.mdoc.creation.claim;
+package eu.europa.esig.dss.eaa.mdoc.creation;
 
 import eu.europa.esig.dss.cbades.cbor.CBORObject;
 import eu.europa.esig.dss.cbades.cbor.CBORObjectFactory;
 import eu.europa.esig.dss.eaa.common.creation.claim.AbstractEAAClaim;
-import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAClaimArray;
-import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAClaimObject;
 
 import java.util.Arrays;
 

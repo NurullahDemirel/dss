@@ -21,7 +21,6 @@
 package eu.europa.esig.dss.eaa.mdoc.creation;
 
 import eu.europa.esig.dss.eaa.common.creation.KeyBindingParameters;
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
 import eu.europa.esig.dss.model.DSSDocument;
 
 import java.util.ArrayList;

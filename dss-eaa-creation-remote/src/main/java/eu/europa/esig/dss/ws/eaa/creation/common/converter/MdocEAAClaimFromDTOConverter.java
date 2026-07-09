@@ -20,7 +20,7 @@
  */
 package eu.europa.esig.dss.ws.eaa.creation.common.converter;
 
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
+import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAClaim;
 import eu.europa.esig.dss.ws.eaa.creation.dto.parameters.ClaimDTO;
 import eu.europa.esig.dss.ws.eaa.creation.dto.parameters.ClaimValueDTO;
 

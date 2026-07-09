@@ -20,8 +20,6 @@
  */
 package eu.europa.esig.dss.eaa.mdoc.creation;
 
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
-
 import java.util.List;
 
 /**

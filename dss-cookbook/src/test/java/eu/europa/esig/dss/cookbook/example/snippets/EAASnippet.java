@@ -27,7 +27,7 @@ import eu.europa.esig.dss.eaa.jwt.creation.SDJWTPayloadBuilder;
 import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAService;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocPayloadBuilder;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAService;
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
+import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAClaim;
 import eu.europa.esig.dss.eaa.mdoc.validation.MdocDeviceResponseEAAPresentationValidator;
 import eu.europa.esig.dss.eaa.revocation.source.ExternalResourcesEAARevocationSource;
 import eu.europa.esig.dss.eaa.revocation.source.OnlineEAARevocationSource;

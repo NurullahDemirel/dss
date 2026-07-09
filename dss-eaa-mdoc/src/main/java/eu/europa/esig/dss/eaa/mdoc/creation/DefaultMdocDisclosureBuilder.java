@@ -23,7 +23,6 @@ package eu.europa.esig.dss.eaa.mdoc.creation;
 import eu.europa.esig.dss.cbades.cbor.CBORMap;
 import eu.europa.esig.dss.cbades.cbor.CBORUtils;
 import eu.europa.esig.dss.eaa.mdoc.MdocHeaderParameter;
-import eu.europa.esig.dss.eaa.mdoc.creation.claim.MdocEAAClaim;
 
 import java.util.Objects;
 
