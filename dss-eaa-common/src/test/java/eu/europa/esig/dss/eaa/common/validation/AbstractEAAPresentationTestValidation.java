@@ -279,6 +279,7 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
                     claimWrapper.isDateTime() || claimWrapper.isList() ||
                     claimWrapper.isNumber() || claimWrapper.isBoolean() || claimWrapper.isBinary() || claimWrapper.isMap());
 
+            assertTrue(claimWrapper.isNull() || !claimWrapper.isEmpty());
             assertTrue(Utils.isStringNotEmpty(claimWrapper.getDisplayValue()));
 
             if (claimWrapper.getList() != null) {

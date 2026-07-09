@@ -843,11 +843,15 @@ public class EAAPresentationDiagnosticDataBuilder extends SignedDocumentDiagnost
         }
         XmlDrivingPrivilegesClaim xmlDrivingPrivilegesClaim = new XmlDrivingPrivilegesClaim();
         appendGenericInfo(xmlDrivingPrivilegesClaim, claimDrivingPrivileges, supportedClaims);
-        if (Utils.isCollectionNotEmpty(claimDrivingPrivileges.getDrivingPrivileges())) {
-            for (ClaimDrivingPrivilege claimDrivingPrivilege : claimDrivingPrivileges.getDrivingPrivileges()) {
-                XmlDrivingPrivilegeClaim xmlDrivingPrivilegeClaim = getXmlDrivingPrivilegeClaim(claimDrivingPrivilege);
-                if (xmlDrivingPrivilegeClaim != null) {
-                    xmlDrivingPrivilegesClaim.getDrivingPrivilege().add(xmlDrivingPrivilegeClaim);
+        if (Utils.isCollectionNotEmpty(claimDrivingPrivileges.getListValue())) {
+            for (Claim claimDrivingPrivilege : claimDrivingPrivileges.getListValue()) {
+                if (claimDrivingPrivilege instanceof ClaimDrivingPrivilege) {
+                    XmlDrivingPrivilegeClaim xmlDrivingPrivilegeClaim = getXmlDrivingPrivilegeClaim((ClaimDrivingPrivilege) claimDrivingPrivilege);
+                    if (xmlDrivingPrivilegeClaim != null) {
+                        xmlDrivingPrivilegesClaim.getDrivingPrivilege().add(xmlDrivingPrivilegeClaim);
+                    }
+                } else {
+                    xmlDrivingPrivilegesClaim.getItem().add(getXmlClaim(claimDrivingPrivilege, supportedClaims));
                 }
             }
         }
@@ -882,17 +886,21 @@ public class EAAPresentationDiagnosticDataBuilder extends SignedDocumentDiagnost
         if (claimDrivingPrivilegeCodes == null) {
             return null;
         }
-        XmlDrivingPrivilegeCodesClaim XmlDrivingPrivilegeCodesClaim = new XmlDrivingPrivilegeCodesClaim();
-        appendGenericInfo(XmlDrivingPrivilegeCodesClaim, claimDrivingPrivilegeCodes, supportedClaims);
-        if (Utils.isCollectionNotEmpty(claimDrivingPrivilegeCodes.getCodes())) {
-            for (ClaimDrivingPrivilegeCode claimDrivingPrivilegeCode : claimDrivingPrivilegeCodes.getCodes()) {
-                XmlDrivingPrivilegeCodeClaim XmlDrivingPrivilegeCodeClaim = getXmlDrivingPrivilegeCodeClaim(claimDrivingPrivilegeCode);
-                if (XmlDrivingPrivilegeCodeClaim != null) {
-                    XmlDrivingPrivilegeCodesClaim.getCode().add(XmlDrivingPrivilegeCodeClaim);
+        XmlDrivingPrivilegeCodesClaim xmlDrivingPrivilegeCodesClaim = new XmlDrivingPrivilegeCodesClaim();
+        appendGenericInfo(xmlDrivingPrivilegeCodesClaim, claimDrivingPrivilegeCodes, supportedClaims);
+        if (Utils.isCollectionNotEmpty(claimDrivingPrivilegeCodes.getListValue())) {
+            for (Claim claimDrivingPrivilegeCode : claimDrivingPrivilegeCodes.getListValue()) {
+                if (claimDrivingPrivilegeCode instanceof ClaimDrivingPrivilegeCode) {
+                    XmlDrivingPrivilegeCodeClaim xmlDrivingPrivilegeCodeClaim = getXmlDrivingPrivilegeCodeClaim((ClaimDrivingPrivilegeCode) claimDrivingPrivilegeCode);
+                    if (xmlDrivingPrivilegeCodeClaim != null) {
+                        xmlDrivingPrivilegeCodesClaim.getCode().add(xmlDrivingPrivilegeCodeClaim);
+                    }
+                } else {
+                    xmlDrivingPrivilegeCodesClaim.getItem().add(getXmlClaim(claimDrivingPrivilegeCode, supportedClaims));
                 }
             }
         }
-        return XmlDrivingPrivilegeCodesClaim;
+        return xmlDrivingPrivilegeCodesClaim;
     }
 
     private XmlDrivingPrivilegeCodeClaim getXmlDrivingPrivilegeCodeClaim(ClaimDrivingPrivilegeCode claimDrivingPrivilegeCode) {

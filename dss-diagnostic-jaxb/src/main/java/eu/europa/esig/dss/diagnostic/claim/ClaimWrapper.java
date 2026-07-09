@@ -244,9 +244,9 @@ public class ClaimWrapper {
     }
 
     /**
-     * Gets whether the claim value is of a map type.
+     * Gets whether the claim value is of a null type.
      *
-     * @return TRUE if the value is of map type, FALSE otherwise
+     * @return TRUE if the value is of null type, FALSE otherwise
      */
     public boolean isNull() {
         return getText() == null
@@ -282,13 +282,13 @@ public class ClaimWrapper {
      * @return TRUE if the claim is empty, FALSE otherwise
      */
     public boolean isEmpty() {
-        // TODO : review
-        return isText()
-                || isNumber()
-                || isBoolean()
-                || isDateTime()
-                || isList()
-                || isMap();
+        return !isText()
+                && !isNumber()
+                && !isBoolean()
+                && !isBinary()
+                && !isDateTime()
+                && !isList()
+                && !isMap();
     }
 
     /**
@@ -413,7 +413,7 @@ public class ClaimWrapper {
         }
 
         // If types differ or both have no value
-        return isEmpty() && other.isEmpty();
+        return isEmpty() == other.isEmpty();
     }
 
     @Override

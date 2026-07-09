@@ -28,6 +28,7 @@ import eu.europa.esig.dss.model.eaa.claim.ClaimMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents an mdoc implementation of driving privileges, as defined in
@@ -49,10 +50,18 @@ public class MdocClaimDrivingPrivileges extends MdocClaimArray implements ClaimD
 
     @Override
     public List<ClaimDrivingPrivilege> getDrivingPrivileges() {
-        final List<ClaimDrivingPrivilege> result = new ArrayList<>();
-        for (Claim claim : getListValue()) {
+        return getListValue().stream().filter(c -> c instanceof MdocClaimDrivingPrivilege)
+                .map(c -> (MdocClaimDrivingPrivilege) c).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Claim> getListValue() {
+        final List<Claim> result = new ArrayList<>();
+        for (Claim claim : super.getListValue()) {
             if (claim.isMapValueType()) {
                 result.add(new MdocClaimDrivingPrivilege((ClaimMap) claim));
+            } else {
+                result.add(claim);
             }
         }
         return result;

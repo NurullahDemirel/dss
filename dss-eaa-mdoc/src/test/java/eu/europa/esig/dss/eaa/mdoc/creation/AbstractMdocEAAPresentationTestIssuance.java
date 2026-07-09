@@ -326,7 +326,7 @@ public abstract class AbstractMdocEAAPresentationTestIssuance extends AbstractEA
         }
     }
 
-    private void assertDrivingPrivilegesEquals(List<MdocDrivingPrivilege> drivingPrivileges, DrivingPrivilegesClaimWrapper drivingPrivilegesClaimWrapper) {
+    protected void assertDrivingPrivilegesEquals(List<MdocDrivingPrivilege> drivingPrivileges, DrivingPrivilegesClaimWrapper drivingPrivilegesClaimWrapper) {
         if (Utils.isCollectionNotEmpty(drivingPrivileges)) {
             assertNotNull(drivingPrivilegesClaimWrapper);
             assertEquals(drivingPrivileges.size(), drivingPrivilegesClaimWrapper.getDrivingPrivileges().size());
