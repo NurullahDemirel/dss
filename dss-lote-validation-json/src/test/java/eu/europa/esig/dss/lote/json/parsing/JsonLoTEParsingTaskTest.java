@@ -21,6 +21,7 @@
 package eu.europa.esig.dss.lote.json.parsing;
 
 import eu.europa.esig.dss.lote.parsing.AbstractLoTEParsingResult;
+import eu.europa.esig.dss.lote.parsing.LoTEParsingResult;
 import eu.europa.esig.dss.lote.source.LoTESource;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
@@ -37,15 +38,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class LoTEJWSCompactParsingTaskTest {
+class JsonLoTEParsingTaskTest {
 
     @Test
     void testValid() {
-        DSSDocument trustedList = new FileDocument("src/test/resources/pid-providers.json");
-        JsonLoTEParsingTask task = new JsonLoTEParsingTask(trustedList, new LoTESource());
+        DSSDocument lote = new FileDocument("src/test/resources/pid-providers.json");
+        JsonLoTEParsingTask task = new JsonLoTEParsingTask(lote, new LoTESource());
         AbstractLoTEParsingResult result = task.get();
         assertNotNull(result);
         assertEquals(1, result.getVersion());
@@ -73,17 +75,17 @@ class LoTEJWSCompactParsingTaskTest {
     }
 
     @Test
-    void testWrongPayload() {
-        DSSDocument trustedList = new FileDocument("src/test/resources/pid-providers-broken-json.json");
-        JsonLoTEParsingTask task = new JsonLoTEParsingTask(trustedList, new LoTESource());
+    void testBrokenStructure() {
+        DSSDocument lote = new FileDocument("src/test/resources/pid-providers-broken-json.json");
+        JsonLoTEParsingTask task = new JsonLoTEParsingTask(lote, new LoTESource());
         Exception exception = assertThrows(DSSException.class, task::get);
         assertTrue(exception.getMessage().contains("Unable to parse binaries."));
     }
 
     @Test
     void testStructureError() {
-        DSSDocument trustedList = new FileDocument("src/test/resources/pid-providers-structure-error.json");
-        JsonLoTEParsingTask task = new JsonLoTEParsingTask(trustedList, new LoTESource());
+        DSSDocument lote = new FileDocument("src/test/resources/pid-providers-structure-error.json");
+        JsonLoTEParsingTask task = new JsonLoTEParsingTask(lote, new LoTESource());
         AbstractLoTEParsingResult result = task.get();
         assertNotNull(result);
         assertEquals(1, result.getVersion());
@@ -93,10 +95,40 @@ class LoTEJWSCompactParsingTaskTest {
         assertEquals("EU", result.getTerritory());
         assertFalse(Utils.isCollectionNotEmpty(result.getDistributionPoints()));
         assertTrue(Utils.isCollectionNotEmpty(result.getStructureValidationMessages()));
+        assertTrue(result.getStructureValidationMessages().stream().anyMatch(m -> m.contains("SchemeOperatorElectronicAddress")));
 
         List<TrustedEntity> trustedEntities = result.getTrustedEntities();
         assertNotNull(trustedEntities);
         assertEquals(1, trustedEntities.size());
+    }
+
+    @Test
+    void testLoTEEmpty() {
+        DSSDocument lote = new FileDocument("src/test/resources/pid-providers-empty.json");
+        LoTESource loteSource = new LoTESource();
+        JsonLoTEParsingTask task = new JsonLoTEParsingTask(lote, loteSource);
+        LoTEParsingResult result = task.get();
+        assertNotNull(result);
+        assertNull(result.getVersion());
+        assertNull(result.getSequenceNumber());
+        assertNull(result.getIssueDate());
+        assertNull(result.getNextUpdateDate());
+        assertNull(result.getTerritory());
+        assertTrue(Utils.isCollectionEmpty(result.getDistributionPoints()));
+        assertFalse(Utils.isCollectionEmpty(result.getStructureValidationMessages()));
+
+        List<TrustedEntity> trustedEntities = result.getTrustedEntities();
+        assertNotNull(trustedEntities);
+        assertEquals(0, trustedEntities.size());
+    }
+
+    @Test
+    void testLoTEDetached() {
+        DSSDocument lote = new FileDocument("src/test/resources/pid-providers-detached.json");
+        JsonLoTEParsingTask task = new JsonLoTEParsingTask(lote, new LoTESource());
+        Exception exception = assertThrows(DSSException.class, task::get);
+        assertEquals("Unable to parse binaries. Reason : Payload is null. " +
+                        "The detached JWS are not accepted for a LoTE signature.", exception.getMessage());
     }
 
     private void checkTEs(List<TrustedEntity> trustedEntities) {

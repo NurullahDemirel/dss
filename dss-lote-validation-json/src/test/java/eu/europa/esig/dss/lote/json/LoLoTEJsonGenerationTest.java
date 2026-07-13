@@ -33,6 +33,7 @@ import eu.europa.esig.dss.enumerations.CertificateApprovalStatus;
 import eu.europa.esig.dss.enumerations.CertificateApprovalStatusEnum;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.JWSSerializationType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.i18n.MessageTag;
@@ -223,8 +224,8 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
         listAndSchemeInformation.put("LoTEType", EU_LIST_OF_LISTS_TYPE);
 
         List<JsonObject> schemeOperatorName = new ArrayList<>();
-        schemeOperatorName.add(getMultiLangString("fr", "Agence Nationale de la Confiance Numérique"));
-        schemeOperatorName.add(getMultiLangString("en", "National Agency for Digital Trust"));
+        schemeOperatorName.add(getMultiLangString("fr", "Commission Européenne"));
+        schemeOperatorName.add(getMultiLangString("en", "European Commission"));
         listAndSchemeInformation.put("SchemeOperatorName", schemeOperatorName);
 
         JsonObject schemeOperatorAddress = new JsonObject();
@@ -279,8 +280,15 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
         selfLoTEPointer.put("ServiceDigitalIdentities", serviceDigitalIdentities);
 
         List<JsonObject> loteQualifiers = new ArrayList<>();
-        loteQualifiers.add(getLoTEQualifier("LoTEType", EU_LIST_OF_LISTS_TYPE));
-        loteQualifiers.add(getLoTEQualifier("SchemeTerritory", "EU"));
+
+        JsonObject loteQualifier = new JsonObject();
+        loteQualifier.put("LoTEType", EU_LIST_OF_LISTS_TYPE);
+        loteQualifier.put("SchemeOperatorName", schemeOperatorName);
+        loteQualifier.put("SchemeTerritory", "EU");
+        loteQualifier.put("SchemeTypeCommunityRules",schemeTypeCommunityRules);
+        loteQualifier.put("MimeType", MimeTypeEnum.JSON.getMimeTypeString());
+        loteQualifiers.add(loteQualifier);
+
         selfLoTEPointer.put("LoTEQualifiers", loteQualifiers);
 
         pointersToOtherLOTE.add(selfLoTEPointer);
@@ -289,12 +297,27 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
         otherLoTEPointer.put("LoTELocation", LOTE_LOCATION_URL);
 
         serviceDigitalIdentities = new ArrayList<>();
-        serviceDigitalIdentities.add(getServiceDigitalIdentity(getCertificate(LOTE_SIGNER_CERTIFICATE)));
+//        serviceDigitalIdentities.add(getServiceDigitalIdentity(getCertificate(LOTE_SIGNER_CERTIFICATE)));
+        serviceDigitalIdentities.add(getServiceDigitalIdentity(DSSUtils.loadCertificateFromBase64EncodedString("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")));
         otherLoTEPointer.put("ServiceDigitalIdentities", serviceDigitalIdentities);
 
         loteQualifiers = new ArrayList<>();
-        loteQualifiers.add(getLoTEQualifier("LoTEType", PID_PROVIDERS_LIST_TYPE));
-        loteQualifiers.add(getLoTEQualifier("SchemeTerritory", "EU"));
+        loteQualifier = new JsonObject();
+        loteQualifier.put("LoTEType", PID_PROVIDERS_LIST_TYPE);
+
+        List<JsonObject> schemeOperatorNameLoTE = new ArrayList<>();
+        schemeOperatorNameLoTE.add(getMultiLangString("fr", "Agence Nationale de la Confiance Numérique"));
+        schemeOperatorNameLoTE.add(getMultiLangString("en", "National Agency for Digital Trust"));
+        loteQualifier.put("SchemeOperatorName", schemeOperatorNameLoTE);
+
+        schemeTypeCommunityRules = new ArrayList<>();
+        schemeTypeCommunityRules.add(getNonEmptyMultiLangURI("en", PID_LIST_SCHEME_TYPE_COMMUNITY_RULES));
+        loteQualifier.put("SchemeTypeCommunityRules", schemeTypeCommunityRules);
+
+        loteQualifier.put("SchemeTerritory", "EU");
+        loteQualifier.put("MimeType", MimeTypeEnum.JSON.getMimeTypeString());
+        loteQualifiers.add(loteQualifier);
+
         otherLoTEPointer.put("LoTEQualifiers", loteQualifiers);
 
         pointersToOtherLOTE.add(otherLoTEPointer);

@@ -44,6 +44,7 @@ import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.service.http.commons.FileCacheDataLoader;
 import eu.europa.esig.dss.simplecertificatereport.SimpleCertificateReport;
 import eu.europa.esig.dss.spi.DSSASN1Utils;
+import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.lote.TrustedEntitiesCertificateSource;
 import eu.europa.esig.dss.spi.validation.CertificateVerifier;
 import eu.europa.esig.dss.spi.x509.CertificateSource;
@@ -250,10 +251,11 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
         listAndSchemeInformation.setLoTESequenceNumber(BigInteger.ONE);
         listAndSchemeInformation.setLoTEType("http://uri.etsi.org/19602/LoTEType/EUlistofthelists");
 
-        listAndSchemeInformation.setSchemeOperatorName(getNamesType(
-                getLangString("fr", "Agence Nationale de la Confiance Numérique"),
-                getLangString("en", "National Agency for Digital Trust")
-        ));
+        InternationalNamesType schemeOperatorNames = getNamesType(
+                getLangString("fr", "Commission Européenne"),
+                getLangString("en", "European Commission")
+        );
+        listAndSchemeInformation.setSchemeOperatorName(schemeOperatorNames);
 
         listAndSchemeInformation.setSchemeOperatorAddress(getAddressType(Arrays.asList(
                 getPostalAddress("fr", "12 Boulevard Sécurité", "Paris", "Île-de-France","75015", "ZZ"),
@@ -267,7 +269,8 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
 
         listAndSchemeInformation.setSchemeInformationURI(getLangUriList(getLangURI("en", "https://example.org/scheme-info")));
         listAndSchemeInformation.setStatusDeterminationApproach("http://uri.etsi.org/19602/ListOfLists/StatusDetn/EU");
-        listAndSchemeInformation.setSchemeTypeCommunityRules(getLangUriList(getLangURI("en", "http://uri.etsi.org/19602/ListOfLists/schemerules/EU")));
+        NonEmptyMultiLangURIListType schemeTypeCommunityRules = getLangUriList(getLangURI("en", "http://uri.etsi.org/19602/ListOfLists/schemerules/EU"));
+        listAndSchemeInformation.setSchemeTypeCommunityRules(schemeTypeCommunityRules);
         listAndSchemeInformation.setSchemeTerritory("EU");
 
         listAndSchemeInformation.setHistoricalInformationPeriod(BigInteger.valueOf(65535));
@@ -305,6 +308,14 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
         otherInfoSchemeTerritory.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeTerritory"),
                 String.class, "EU"));
         additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTerritory);
+        AnyType otherInfoSchemeOperatorNames = new AnyType();
+        otherInfoSchemeOperatorNames.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeOperatorName"),
+                InternationalNamesType.class, schemeOperatorNames));
+        additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeOperatorNames);
+        AnyType otherInfoSchemeTypeCommunityRules = new AnyType();
+        otherInfoSchemeTypeCommunityRules.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeTypeCommunityRules"),
+                NonEmptyMultiLangURIListType.class, schemeTypeCommunityRules));
+        additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTypeCommunityRules);
         loloteSelfPointer.setAdditionalInformation(additionalInformationType);
 
         otherLoTEPointersType.getOtherLoTEPointer().add(loloteSelfPointer);
@@ -312,7 +323,8 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
         OtherLoTEPointerType lotePointer = new OtherLoTEPointerType();
 
         serviceDigitalIdentities = new ServiceDigitalIdentityListType();
-        digitalIdentityListType = getDigitalIdentitiesListType(getCertificate(LOTE_SIGNER_CERTIFICATE));
+//        digitalIdentityListType = getDigitalIdentitiesListType(getCertificate(LOTE_SIGNER_CERTIFICATE));
+        digitalIdentityListType = getDigitalIdentitiesListType(DSSUtils.loadCertificateFromBase64EncodedString("MIIFhjCCA26gAwIBAgIBCjANBgkqhkiG9w0BAQsFADBUMRQwEgYDVQQDDAtMb1RFLVNpZ25lcjEcMBoGA1UECgwTRVUgRGlnaXRhbCBNaW5pc3RyeTERMA8GA1UECwwIUEtJLVRFU1QxCzAJBgNVBAYTAkVVMB4XDTE2MDEzMDEwMDgxM1oXDTM2MDEzMDEwMDgxM1owVDEUMBIGA1UEAwwLTG9URS1TaWduZXIxHDAaBgNVBAoME0VVIERpZ2l0YWwgTWluaXN0cnkxETAPBgNVBAsMCFBLSS1URVNUMQswCQYDVQQGEwJFVTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAK5nEvkkCPKRg+ip1xX1B5HKjRYEtfflmCSUGAoSL3566u6dysdt3QWxwOkBhfMIVrGI6YxkHAiTp1mkk4WVMNdqUApeICOrpOEAC3kHWYStTrvHjuW+xyARUyzQMZ0GiQvPe5z+THL4jf94gfpGP146z6Mny9pJNJvAiGBLs1hBlW3PK6KLd0FSDp9pg/vcPtTDxh6F6d3tW2YeyJ9ZiBLx/PqYtCY5Ozzz9Md09dSiJq+xqxuFZi93QQKO0k10KrMnv0M3s7fL1Ijy9TV3tMtwhQd9lWeIRZOG+8tHSuP+bqDmnV9MDxRpZkGG9ilL4y6qa8f+64gn0MQ9r+vHlSPM5BLdHLn/JTjRrhLVIwcLahPVfGyTCi115EbVIoXZwJbsPppqnluKy0JtoUOOmonvh7GaAbAf7ouXibGDcMsorwt9lY6m6OU10v3OxZFFc6aBaIc9FNb4NgEg0meluOM7KU4Ta59bstEQCFxZR0XQzKUtEAHyC+Wyrzr0QmmwsGmXKSxQlPHNxmPFCCOc7X6+Ls37GAB0aEXddvULtLWNYqiIgwE5KgC0XnsG0do4QISrSIhoXfD8RL4LymcJCYPUHdSiiDxJGvMOGIDiOx+RUGqYLDY/mJWMH/KsgnR/M7Wm5QvtEqaFyRZOejDOFgDy8Xa+U7J8TDUDl/Jn7Tx/AgMBAAGjYzBhMA4GA1UdDwEB/wQEAwIGwDAfBgNVHSMEGDAWgBTEksriFHLiBJcVM+bFYRY4S5T+iDAdBgNVHQ4EFgQUxJLK4hRy4gSXFTPmxWEWOEuU/ogwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAgEAe/hSDMZIQKrENm0OeqOPDWtql5migl3XOqg3Ap9ArGxWgGIc1k3LjU62bB+M2Z1SLmQExVgX42ThMnDnH4BgsypxQEkc4ofZKJCmb+i0JBJi2hfMO96XC2S/ZJBKZuGhgxgZEkgQUtIROc8v2uS13MCVYPFmirxcS1HMF7JMC2XSEVPSh2oy7sCqtQWwkQwBfUvq/Ud1U4U50h5WpBG/bGhZ0qgRRDUzEzop2se+xqlpNql0Nf6o7TQ1zXt8oeutTGx/GZnUujuQEewEcbyQFKNh5iN/763J9PArl8uUk8kTJwRr1oxosD7w+SR8F/nuaO7XI0tB36dZm6G9+ZFaOr9vjqxYBH1D9KX6amZcAcc6LmP6jP1h0u4mVArx9vkHkwY4sffcxU8+AyoH7z3dZnbtryEyQM/0G/F1afSpZSLbEs3xaQweq1vqxjiYR5J+6mBrE9aYpZdu5qI7eFVf8UakkPPseam+quW79MzLNcpIu9eFKn0ROLzWAK6Pj/ySVo8HD76ASAX12VWtrIt8kPky8q5FYZ7VvwSerFiRUAYP11EU6hj+G3spPAxvjOY7vKDJtVrhUwH5NqRM2AABZWi5csDN05r/3bgICk1J478dZluQT7d4ExljkHlhLlI3ulVbpTyylXMJk7coENWyFL6dn+vNYdfoj3ue4mxImdM="));
         serviceDigitalIdentities.getServiceDigitalIdentity().add(digitalIdentityListType);
         lotePointer.setServiceDigitalIdentities(serviceDigitalIdentities);
 
@@ -327,6 +339,19 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
         otherInfoSchemeTerritory.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeTerritory"),
                 String.class, "EU"));
         additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTerritory);
+        otherInfoSchemeTypeCommunityRules = new AnyType();
+        schemeOperatorNames = getNamesType(
+                getLangString("fr", "Agence Nationale de la Confiance Numérique"),
+                getLangString("en", "National Agency for Digital Trust")
+        );
+        otherInfoSchemeTypeCommunityRules.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeOperatorName"),
+                InternationalNamesType.class, schemeOperatorNames));
+        additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTypeCommunityRules);
+        schemeTypeCommunityRules = getLangUriList(getLangURI("en", "http://uri.etsi.org/19602/PubEAAProvidersList/schemerules/EU"));
+        otherInfoSchemeTypeCommunityRules = new AnyType();
+        otherInfoSchemeTypeCommunityRules.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeTypeCommunityRules"),
+                NonEmptyMultiLangURIListType.class, schemeTypeCommunityRules));
+        additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTypeCommunityRules);
         lotePointer.setAdditionalInformation(additionalInformationType);
 
         otherLoTEPointersType.getOtherLoTEPointer().add(lotePointer);

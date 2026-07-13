@@ -55,7 +55,7 @@ import java.util.Objects;
  * This class is used to validate a TS 119 602 XML List of Trusted Entities
  *
  */
-public class LoTEXmlValidationTask implements ValidationTask {
+public class XmlLoTEValidationTask implements ValidationTask {
 
     /** The path for a LoTE validation policy */
     private static final String LoTE_VALIDATION_POLICY_LOCATION = "/policy/te-xml-constraint.xml";
@@ -72,7 +72,7 @@ public class LoTEXmlValidationTask implements ValidationTask {
      * @param loteDocument      the DSSDocument with a LoTE
      * @param signingCertificateSource a certificate source with the allowed certificates to sign this LoTE
      */
-    public LoTEXmlValidationTask(DSSDocument loteDocument, CertificateSource signingCertificateSource) {
+    public XmlLoTEValidationTask(DSSDocument loteDocument, CertificateSource signingCertificateSource) {
         Objects.requireNonNull(loteDocument, "The document is null");
         Objects.requireNonNull(signingCertificateSource, "The certificate source is null");
         this.loteDocument = loteDocument;
@@ -132,7 +132,7 @@ public class LoTEXmlValidationTask implements ValidationTask {
     private ValidationPolicy getValidationPolicy() {
         try {
             return ValidationPolicyLoader.fromValidationPolicy(
-                    LoTEXmlValidationTask.class.getResourceAsStream(LoTE_VALIDATION_POLICY_LOCATION)).create();
+                    XmlLoTEValidationTask.class.getResourceAsStream(LoTE_VALIDATION_POLICY_LOCATION)).create();
         } catch (Exception e) {
             throw new DSSException("Unable to load the validation policy for LoTE", e);
         }

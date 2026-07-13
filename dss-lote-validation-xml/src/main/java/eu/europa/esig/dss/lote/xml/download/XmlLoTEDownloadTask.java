@@ -36,7 +36,7 @@ import java.util.Objects;
  * This class is used to process the result of document download process for XML LoTE processing
  *
  */
-public class LoTEXmlDownloadTask implements DownloadTask {
+public class XmlLoTEDownloadTask implements DownloadTask {
 
     /** Default digest algorithm used for document integrity identification */
     private static final DigestAlgorithm DEFAULT_DIGEST_ALGORITHM = DigestAlgorithm.SHA256;
@@ -56,7 +56,7 @@ public class LoTEXmlDownloadTask implements DownloadTask {
      * @param document {@link DSSDocument} to verify
      * @param url {@link String} to download the document from
      */
-    public LoTEXmlDownloadTask(DSSDocument document, String url) {
+    public XmlLoTEDownloadTask(DSSDocument document, String url) {
         Objects.requireNonNull(url, "The url is null");
         this.document = document;
         this.url = url;

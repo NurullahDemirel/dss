@@ -78,14 +78,17 @@ public abstract class AbstractJsonLoTEParsingTask implements ParsingTask {
      * @return {@link Map}
      */
     protected Map<?, ?> getJsonLoTEPayload(String payloadString) {
-        try  {
+        try {
+            if (Utils.isStringEmpty(payloadString)) {
+                throw new NullPointerException("Payload is null. The detached JWS are not accepted for a LoTE signature.");
+            }
             Map<String, Object> jsonMap = DSSJsonUtils.parseJsonStringToMap(payloadString);
             Map<?, ?> lote = DSSJsonUtils.getAsMap(jsonMap, JsonLoTEHeaderParameterNames.LOTE);
             Objects.requireNonNull(lote, "Json LoTE shall have the header 'LoTE' as the root!");
             return lote;
 
         } catch (Exception e) {
-            String message = "Unable to parse binaries. Reason : '%s'";
+            String message = "Unable to parse binaries. Reason : %s";
             // get complete error message in case if the message string is not defined directly
             if (e.getMessage() == null && e.getCause() != null) {
                 throw new DSSException(String.format(message, e.getCause().getMessage()), e);
