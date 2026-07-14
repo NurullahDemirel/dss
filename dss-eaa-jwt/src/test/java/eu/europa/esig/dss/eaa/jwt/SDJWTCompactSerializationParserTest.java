@@ -22,6 +22,7 @@ package eu.europa.esig.dss.eaa.jwt;
 
 import eu.europa.esig.dss.jades.validation.JWS;
 import eu.europa.esig.dss.model.DSSDocument;
+import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.spi.DSSSecurityProvider;
 import eu.europa.esig.dss.utils.Utils;
@@ -36,10 +37,12 @@ import java.security.spec.ECGenParameterSpec;
 import java.security.spec.ECParameterSpec;
 import java.security.spec.ECPoint;
 import java.security.spec.ECPublicKeySpec;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SDJWTCompactSerializationParserTest {
@@ -202,6 +205,20 @@ class SDJWTCompactSerializationParserTest {
         // Generate the public key
         KeyFactory keyFactory = KeyFactory.getInstance("EC", DSSSecurityProvider.getSecurityProvider());
         return keyFactory.generatePublic(publicKeySpec);
+    }
+
+    // See DSS-3938
+    @Test
+    void performanceTest() {
+        DSSDocument document = new FileDocument("src/test/resources/validation/sdjwt-compact-valid-presentation.json");
+        SDJWTCompactSerializationParser parser = new SDJWTCompactSerializationParser(document);
+        assertTrue(parser.isSupported());
+
+        assertTimeout(Duration.ofMillis(500), () -> {
+            for (int i = 0; i < 100; i++) {
+                assertTrue(parser.isSupported());
+            }
+        });
     }
 
 }

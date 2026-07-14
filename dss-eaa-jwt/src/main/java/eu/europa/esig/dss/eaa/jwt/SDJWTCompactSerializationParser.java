@@ -35,6 +35,7 @@ import eu.europa.esig.dss.spi.exception.IllegalInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -91,9 +92,11 @@ public class SDJWTCompactSerializationParser {
         int dotCounter = 0;
         int tildeCounter = 0;
         boolean ending = false; // used to detect and "trim" line breaks in the end of JWS string
-        try (InputStream is = document.openStream()) {
+        try (InputStream is = document.openStream();
+             BufferedInputStream bis = new BufferedInputStream(is)) {
+
             int b;
-            while ((b = is.read()) != -1) {
+            while ((b = bis.read()) != -1) {
                 byte currentByte = (byte) b;
 
                 if (DSSUtils.isLineBreakByte(currentByte)) {
