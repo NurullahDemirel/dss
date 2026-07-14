@@ -77,7 +77,11 @@ public class SDJWTJsonSerializationParser {
      * @return {@link SDJWTSerializationObject}
      */
     public SDJWTSerializationObject parse() {
-        JWSJsonSerializationObject jwsJsonSerializationObject = new JWSJsonSerializationParser(document).parse();
+        JWSJsonSerializationParser jwsJsonSerializationParser = new JWSJsonSerializationParser(document);
+        if (!jwsJsonSerializationParser.isSupported()) {
+            throw new IllegalInputException("The given document is not supported by SDJWTJsonSerializationParser!");
+        }
+        JWSJsonSerializationObject jwsJsonSerializationObject = jwsJsonSerializationParser.parse();
 
         List<JWS> signatures = jwsJsonSerializationObject.getSignatures();
         if (Utils.collectionSize(signatures) == 0) {
