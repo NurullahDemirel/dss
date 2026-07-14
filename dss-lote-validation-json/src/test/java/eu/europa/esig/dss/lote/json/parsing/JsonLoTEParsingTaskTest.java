@@ -30,6 +30,7 @@ import eu.europa.esig.dss.model.lote.ServiceStatusAndInformationExtensions;
 import eu.europa.esig.dss.model.lote.TrustedEntity;
 import eu.europa.esig.dss.model.lote.TrustedEntityService;
 import eu.europa.esig.dss.model.timedependent.TimeDependentValues;
+import eu.europa.esig.dss.spi.exception.IllegalInputException;
 import eu.europa.esig.dss.utils.Utils;
 import org.junit.jupiter.api.Test;
 
@@ -129,6 +130,14 @@ class JsonLoTEParsingTaskTest {
         Exception exception = assertThrows(DSSException.class, task::get);
         assertEquals("Unable to parse binaries. Reason : Payload is null. " +
                         "The detached JWS are not accepted for a LoTE signature.", exception.getMessage());
+    }
+
+    @Test
+    void testLoTEJsonSerialization() {
+        DSSDocument lote = new FileDocument("src/test/resources/pid-providers-json-serialization.json");
+        JsonLoTEParsingTask task = new JsonLoTEParsingTask(lote, new LoTESource());
+        Exception exception = assertThrows(IllegalInputException.class, task::get);
+        assertEquals("Unable to instantiate a compact JWS", exception.getMessage());
     }
 
     private void checkTEs(List<TrustedEntity> trustedEntities) {

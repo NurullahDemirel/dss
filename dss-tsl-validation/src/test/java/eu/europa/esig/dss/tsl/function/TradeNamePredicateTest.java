@@ -20,29 +20,29 @@
  */
 package eu.europa.esig.dss.tsl.function;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
-
 class TradeNamePredicateTest {
 
-	private TradeNamePredicate predicate = new TradeNamePredicate();
+	private static final TradeNamePredicate PREDICATE = new TradeNamePredicate();
 
 	@Test
 	void testNull() {
-		assertFalse(predicate.test(null));
+		assertFalse(PREDICATE.test(null));
 	}
 
 	@Test
 	void testTrue() {
-		assertTrue(predicate.test("ABC12"));
+		assertTrue(PREDICATE.test("ABC12"));
 	}
 
 	@Test
 	void testFalse() {
-		assertFalse(predicate.test("VAT123"));
-		assertFalse(predicate.test("TIN123"));
+		assertFalse(PREDICATE.test("VAT123"));
+		assertFalse(PREDICATE.test("TIN123"));
 	}
 
 }

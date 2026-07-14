@@ -1,31 +1,11 @@
-/**
- * DSS - Digital Signature Services
- * Copyright (C) 2015 European Commission, provided under the CEF programme
- * <p>
- * This file is part of the "DSS - Digital Signature Services" project.
- * <p>
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * <p>
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * <p>
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
-package eu.europa.esig.dss.lote.json.job;
+package eu.europa.esig.dss.lote.xml.job;
 
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SubIndication;
 import eu.europa.esig.dss.lote.job.LoTEValidationJob;
-import eu.europa.esig.dss.lote.json.MockDataLoader;
 import eu.europa.esig.dss.lote.source.LoTESource;
 import eu.europa.esig.dss.lote.sync.LoTEExpirationAndSignatureCheckStrategy;
+import eu.europa.esig.dss.lote.xml.MockDataLoader;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
@@ -69,9 +49,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class JsonLoTEValidationJobTest {
+class XmlLoTEValidationJobTest {
 
-    private static final String PID_PROVIDERS_LOCATION = "http://dss.nowina.lu/pid-providers.json";
+    private static final String PUBEAA_LOCATION = "http://dss.nowina.lu/lote-pubeaa.xml";
 
     private static LoTEValidationJob loteValidationJob;
     private static CacheCleaner cacheCleaner;
@@ -80,7 +60,7 @@ class JsonLoTEValidationJobTest {
 
     private static Map<String, DSSDocument> urlMap;
 
-    private static CertificateToken pidProvidersSigner;
+    private static CertificateToken pubeaaSigner;
 
     private static TrustedEntitiesCertificateSource trustedEntitiesCertificateSource;
 
@@ -108,7 +88,7 @@ class JsonLoTEValidationJobTest {
         cacheCleaner.setDSSFileLoader(offlineFileLoader);
         cacheCleaner.setCleanFileSystem(true);
 
-        pidProvidersSigner = DSSUtils.loadCertificate(new File("src/test/resources/pid-providers-cert.cer"));
+        pubeaaSigner = DSSUtils.loadCertificate(new File("src/test/resources/lote-signer.cer"));
     }
 
     @BeforeEach
@@ -117,12 +97,11 @@ class JsonLoTEValidationJobTest {
     }
 
     private void populateMap() {
-        urlMap.put(PID_PROVIDERS_LOCATION, new FileDocument("src/test/resources/pid-providers.json"));
-        urlMap.put("http://dss.nowina.lu/registrar.json", new FileDocument("src/test/resources/registrar.jwt"));
+        urlMap.put(PUBEAA_LOCATION, new FileDocument("src/test/resources/lote-pubeaa.xml"));
     }
 
     @Test
-    void pidProviderListTest() {
+    void pubeaaListTest() {
         loteValidationJob = getValidationJob();
         loteValidationJob.offlineRefresh();
 
@@ -135,9 +114,9 @@ class JsonLoTEValidationJobTest {
         assertTrue(loteInfo.getParsingCacheInfo().isResultExist());
         assertFalse(loteInfo.getParsingCacheInfo().isError());
         assertFalse(Utils.isCollectionNotEmpty(loteInfo.getParsingCacheInfo().getStructureValidationMessages()));
-        assertEquals(15, loteInfo.getParsingCacheInfo().getTrustedEntitiesNumber());
-        assertEquals(17, loteInfo.getParsingCacheInfo().getTrustedServicesNumber());
-        assertEquals(17, loteInfo.getParsingCacheInfo().getCertNumber());
+        assertEquals(1, loteInfo.getParsingCacheInfo().getTrustedEntitiesNumber());
+        assertEquals(1, loteInfo.getParsingCacheInfo().getTrustedServicesNumber());
+        assertEquals(1, loteInfo.getParsingCacheInfo().getCertNumber());
         assertTrue(loteInfo.getValidationCacheInfo().isResultExist());
         assertFalse(loteInfo.getValidationCacheInfo().isError());
         assertEquals(Indication.TOTAL_PASSED, loteInfo.getValidationCacheInfo().getIndication());
@@ -149,7 +128,7 @@ class JsonLoTEValidationJobTest {
 
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
-        loteValidationJob.setLoTESources(getPIDProviderListSource());
+        loteValidationJob.setLoTESources(getPUBEAAProviderListSource());
         loteValidationJob.setTrustedEntitiesCertificateSource(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
@@ -189,11 +168,11 @@ class JsonLoTEValidationJobTest {
         List<String> czDistributionPoints = pidLoTE.getParsingCacheInfo().getDistributionPoints();
         assertThrows(UnsupportedOperationException.class, () -> czDistributionPoints.add("bla"));
         assertNotNull(pidLoTE.getParsingCacheInfo().getTrustedEntities());
-        assertEquals(15, pidLoTE.getParsingCacheInfo().getTrustedEntities().size());
+        assertEquals(1, pidLoTE.getParsingCacheInfo().getTrustedEntities().size());
         List<TrustedEntity> trustedEntities = pidLoTE.getParsingCacheInfo().getTrustedEntities();
         TrustedEntity emptyTrustedEntity = new TrustedEntity();
         assertThrows(UnsupportedOperationException.class, () -> trustedEntities.add(emptyTrustedEntity));
-        assertEquals(15, pidLoTE.getParsingCacheInfo().getTrustedEntities().size());
+        assertEquals(1, pidLoTE.getParsingCacheInfo().getTrustedEntities().size());
 
         TrustedEntity trustedEntity = pidLoTE.getParsingCacheInfo().getTrustedEntities().get(0);
         Map<String, List<String>> electronicAddresses = trustedEntity.getElectronicAddresses();
@@ -216,7 +195,7 @@ class JsonLoTEValidationJobTest {
 
         TrustedEntityService trustService = trustedEntity.getServices().get(0);
         List<CertificateToken> certificates = trustService.getCertificates();
-        assertThrows(UnsupportedOperationException.class, () -> certificates.add(pidProvidersSigner));
+        assertThrows(UnsupportedOperationException.class, () -> certificates.add(pubeaaSigner));
 
         TimeDependentValues<ServiceStatusAndInformationExtensions> timeDependentValues = trustService.getStatusAndInformationExtensions();
         ServiceStatusAndInformationExtensions latest = timeDependentValues.getLatest();
@@ -230,23 +209,23 @@ class JsonLoTEValidationJobTest {
         assertNull(pidLoTE.getValidationCacheInfo().getSubIndication());
         assertNotNull(pidLoTE.getValidationCacheInfo().getSigningTime());
         assertNotNull(pidLoTE.getValidationCacheInfo().getSigningCertificate());
-        assertEquals(pidProvidersSigner, pidLoTE.getValidationCacheInfo().getSigningCertificate());
+        assertEquals(pubeaaSigner, pidLoTE.getValidationCacheInfo().getSigningCertificate());
     }
 
     @Test
     void trustTimeExtractAllTest() {
-        LoTESource pidProvidersLoTESource = getPIDProviderListSource();
+        LoTESource pubeaaLoTESource = getPUBEAAProviderListSource();
 
         TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
 
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
-        loteValidationJob.setLoTESources(pidProvidersLoTESource);
+        loteValidationJob.setLoTESources(pubeaaLoTESource);
         loteValidationJob.setTrustedEntitiesCertificateSource(trustedEntitiesCertificateSource);
         loteValidationJob.setCacheCleaner(cacheCleaner);
         loteValidationJob.offlineRefresh();
 
-        assertEquals(17, trustedEntitiesCertificateSource.getCertificates().size());
+        assertEquals(1, trustedEntitiesCertificateSource.getCertificates().size());
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2026, Calendar.JULY, 1);
@@ -284,28 +263,28 @@ class JsonLoTEValidationJobTest {
             assertEquals(1, equivalentCerts.size());
 
         }
-        assertEquals(17, validCertsCounter);
+        assertEquals(1, validCertsCounter);
         assertEquals(0, invalidCertsCounter);
 
     }
 
     @Test
     void trustAnchorValidityPredicateTest() {
-        LoTESource pidProvidersLoTESource = getPIDProviderListSource();
-        pidProvidersLoTESource.setTrustAnchorValidityPredicate(serviceStatusAndInformationExtensions ->
+        LoTESource pubeaaLoTESource = getPUBEAAProviderListSource();
+        pubeaaLoTESource.setTrustAnchorValidityPredicate(serviceStatusAndInformationExtensions ->
                 serviceStatusAndInformationExtensions.getNames().values().stream()
                         .anyMatch(k -> k.stream()
-                                .anyMatch(v -> Utils.endsWithIgnoreCase(v, "_1"))));
+                                .anyMatch(v -> Utils.endsWithIgnoreCase(v, "Entity 1"))));
 
         TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
 
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
-        loteValidationJob.setLoTESources(pidProvidersLoTESource);
+        loteValidationJob.setLoTESources(pubeaaLoTESource);
         loteValidationJob.setTrustedEntitiesCertificateSource(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
-        assertEquals(17, trustedEntitiesCertificateSource.getCertificates().size());
+        assertEquals(1, trustedEntitiesCertificateSource.getCertificates().size());
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2026, Calendar.JANUARY, 1);
@@ -337,17 +316,61 @@ class JsonLoTEValidationJobTest {
             }
 
         }
-        assertEquals(5, validCertsCounter);
+        assertEquals(1, validCertsCounter);
         assertEquals(0, expiredCertsCounter);
-        assertEquals(12, invalidCertsCounter);
-        assertEquals(17, validCertsCounter + expiredCertsCounter + invalidCertsCounter);
+        assertEquals(0, invalidCertsCounter);
+        assertEquals(1, validCertsCounter + expiredCertsCounter + invalidCertsCounter);
+
+        pubeaaLoTESource.setTrustAnchorValidityPredicate(serviceStatusAndInformationExtensions ->
+                serviceStatusAndInformationExtensions.getNames().values().stream()
+                        .anyMatch(k -> k.stream()
+                                .anyMatch(v -> Utils.endsWithIgnoreCase(v, "Entity 2"))));
+
+        loteValidationJob = new LoTEValidationJob();
+        loteValidationJob.setOfflineDataLoader(offlineFileLoader);
+        loteValidationJob.setLoTESources(pubeaaLoTESource);
+        loteValidationJob.setTrustedEntitiesCertificateSource(trustedEntitiesCertificateSource);
+        loteValidationJob.offlineRefresh();
+
+        assertEquals(1, trustedEntitiesCertificateSource.getCertificates().size());
+
+        validCertsCounter = 0;
+        expiredCertsCounter = 0;
+        invalidCertsCounter = 0;
+        for (CertificateToken certificateToken : trustedEntitiesCertificateSource.getCertificates()) {
+            CertificateTrustTime trustTime = trustedEntitiesCertificateSource.getTrustTime(certificateToken);
+            assertNotNull(trustTime);
+
+            if (trustedEntitiesCertificateSource.isTrusted(certificateToken)) {
+                assertTrue(trustTime.isTrusted());
+
+                if (trustedEntitiesCertificateSource.isTrustedAtTime(certificateToken, controlTime)) {
+                    assertTrue(trustTime.isTrustedAtTime(controlTime));
+                    ++validCertsCounter;
+                } else {
+                    assertFalse(trustTime.isTrustedAtTime(controlTime));
+                    ++expiredCertsCounter;
+                }
+
+            } else {
+                assertFalse(trustTime.isTrusted());
+                assertFalse(trustTime.isTrustedAtTime(controlTime));
+                assertFalse(trustedEntitiesCertificateSource.isTrustedAtTime(certificateToken, controlTime));
+                ++invalidCertsCounter;
+            }
+
+        }
+        assertEquals(0, validCertsCounter);
+        assertEquals(0, expiredCertsCounter);
+        assertEquals(1, invalidCertsCounter);
+        assertEquals(1, validCertsCounter + expiredCertsCounter + invalidCertsCounter);
     }
 
     @Test
     void testNoSynchronization() {
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
-        loteValidationJob.setLoTESources(getPIDProviderListSource());
+        loteValidationJob.setLoTESources(getPUBEAAProviderListSource());
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = loteValidationJob.getSummary();
@@ -380,7 +403,7 @@ class JsonLoTEValidationJobTest {
 
     @Test
     void brokenSigTest() {
-        updateLoTELocation("src/test/resources/pid-providers-broken-sig.json");
+        updateLoTELocation("src/test/resources/lote-pubeaa-broken-sig.xml");
 
         loteValidationJob = getValidationJob();
         loteValidationJob.offlineRefresh();
@@ -406,13 +429,13 @@ class JsonLoTEValidationJobTest {
         assertEquals(SubIndication.HASH_FAILURE, pidLoTE.getValidationCacheInfo().getSubIndication());
         assertNotNull(pidLoTE.getValidationCacheInfo().getSigningTime());
         assertNotNull(pidLoTE.getValidationCacheInfo().getSigningCertificate());
-        assertEquals(pidProvidersSigner, pidLoTE.getValidationCacheInfo().getSigningCertificate());
+        assertEquals(pubeaaSigner, pidLoTE.getValidationCacheInfo().getSigningCertificate());
     }
 
     @Test
     void brokenSigWithSyncStrategyTest() {
-        updateLoTELocation("src/test/resources/pid-providers-broken-sig.json");
-        
+        updateLoTELocation("src/test/resources/lote-pubeaa-broken-sig.xml");
+
         TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
 
         FileCacheDataLoader fileCacheDataLoader = new FileCacheDataLoader();
@@ -427,7 +450,7 @@ class JsonLoTEValidationJobTest {
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
         loteValidationJob.setOnlineDataLoader(fileCacheDataLoader);
-        loteValidationJob.setLoTESources(getPIDProviderListSource());
+        loteValidationJob.setLoTESources(getPUBEAAProviderListSource());
         loteValidationJob.setTrustedEntitiesCertificateSource(trustedEntitiesCertificateSource);
         loteValidationJob.setSynchronizationStrategy(synchronizationStrategy);
         loteValidationJob.offlineRefresh();
@@ -453,11 +476,11 @@ class JsonLoTEValidationJobTest {
         assertEquals(SubIndication.HASH_FAILURE, pidLoTE.getValidationCacheInfo().getSubIndication());
         assertNotNull(pidLoTE.getValidationCacheInfo().getSigningTime());
         assertNotNull(pidLoTE.getValidationCacheInfo().getSigningCertificate());
-        assertEquals(pidProvidersSigner, pidLoTE.getValidationCacheInfo().getSigningCertificate());
+        assertEquals(pubeaaSigner, pidLoTE.getValidationCacheInfo().getSigningCertificate());
 
         assertFalse(Utils.isCollectionNotEmpty(trustedEntitiesCertificateSource.getCertificates()));
 
-        updateLoTELocation("src/test/resources/pid-providers.json");
+        updateLoTELocation("src/test/resources/lote-pubeaa.xml");
 
         loteValidationJob.onlineRefresh();
         summary = loteValidationJob.getSummary();
@@ -484,7 +507,7 @@ class JsonLoTEValidationJobTest {
 
     @Test
     void emptyContentTest() {
-        urlMap.put(PID_PROVIDERS_LOCATION, new InMemoryDocument(DSSUtils.EMPTY_BYTE_ARRAY));
+        urlMap.put(PUBEAA_LOCATION, new InMemoryDocument(DSSUtils.EMPTY_BYTE_ARRAY));
 
         loteValidationJob = getValidationJob();
         loteValidationJob.offlineRefresh();
@@ -513,7 +536,37 @@ class JsonLoTEValidationJobTest {
 
     @Test
     void notParsableTest() {
-        updateLoTELocation("src/test/resources/pid-providers-broken-json.json");
+        updateLoTELocation("src/test/resources/lote-pubeaa-not-parsable.xml");
+
+        loteValidationJob = getValidationJob();
+        loteValidationJob.offlineRefresh();
+
+        LoTEValidationJobSummary summary = loteValidationJob.getSummary();
+
+        assertEquals(0, summary.getNumberOfProcessedLoLoTEs());
+        assertEquals(1, summary.getNumberOfProcessedLoTEs());
+
+        List<LoTEInfo> loteInfos = summary.getOtherLoTEInfos();
+        assertEquals(1, loteInfos.size());
+
+        LoTEInfo pidLoTE = loteInfos.get(0);
+
+        assertFalse(pidLoTE.getDownloadCacheInfo().isResultExist());
+        assertTrue(pidLoTE.getDownloadCacheInfo().isError());
+        assertNotNull(pidLoTE.getDownloadCacheInfo().getExceptionMessage());
+        assertNotNull(pidLoTE.getDownloadCacheInfo().getExceptionStackTrace());
+        assertFalse(pidLoTE.getParsingCacheInfo().isResultExist());
+        assertFalse(pidLoTE.getParsingCacheInfo().isError());
+        assertNull(pidLoTE.getParsingCacheInfo().getExceptionMessage());
+        assertNull(pidLoTE.getParsingCacheInfo().getExceptionStackTrace());
+        assertFalse(pidLoTE.getValidationCacheInfo().isResultExist());
+        assertNull(pidLoTE.getValidationCacheInfo().getExceptionMessage());
+        assertNull(pidLoTE.getValidationCacheInfo().getExceptionStackTrace());
+    }
+
+    @Test
+    void noSignatureTest() {
+        updateLoTELocation("src/test/resources/lote-pubeaa-no-sig.xml");
 
         loteValidationJob = getValidationJob();
         loteValidationJob.offlineRefresh();
@@ -529,21 +582,55 @@ class JsonLoTEValidationJobTest {
         LoTEInfo pidLoTE = loteInfos.get(0);
 
         assertTrue(pidLoTE.getDownloadCacheInfo().isResultExist());
-        assertFalse(pidLoTE.getDownloadCacheInfo().isError());
         assertNull(pidLoTE.getDownloadCacheInfo().getExceptionMessage());
         assertNull(pidLoTE.getDownloadCacheInfo().getExceptionStackTrace());
-        assertFalse(pidLoTE.getParsingCacheInfo().isResultExist());
-        assertTrue(pidLoTE.getParsingCacheInfo().isError());
-        assertNotNull(pidLoTE.getParsingCacheInfo().getExceptionMessage());
-        assertNotNull(pidLoTE.getParsingCacheInfo().getExceptionStackTrace());
-        assertTrue(pidLoTE.getValidationCacheInfo().isResultExist());
-        assertNull(pidLoTE.getValidationCacheInfo().getExceptionMessage());
-        assertNull(pidLoTE.getValidationCacheInfo().getExceptionStackTrace());
+        assertTrue(pidLoTE.getParsingCacheInfo().isResultExist());
+        assertNull(pidLoTE.getParsingCacheInfo().getExceptionMessage());
+        assertNull(pidLoTE.getParsingCacheInfo().getExceptionStackTrace());
+        assertFalse(pidLoTE.getValidationCacheInfo().isResultExist());
+        assertNotNull(pidLoTE.getValidationCacheInfo().getExceptionMessage());
+        assertEquals("Number of signatures must be equal to 1 (currently : 0)", pidLoTE.getValidationCacheInfo().getExceptionMessage());
+        assertNotNull(pidLoTE.getValidationCacheInfo().getExceptionStackTrace());
+
+        assertNull(pidLoTE.getValidationCacheInfo().getIndication());
+        assertNull(pidLoTE.getValidationCacheInfo().getSubIndication());
     }
 
     @Test
-    void jsonSerializationTest() {
-        updateLoTELocation("src/test/resources/pid-providers-json-serialization.json");
+    void twoSignaturesTest() {
+        updateLoTELocation("src/test/resources/lote-pubeaa-two-sigs.xml");
+
+        loteValidationJob = getValidationJob();
+        loteValidationJob.offlineRefresh();
+
+        LoTEValidationJobSummary summary = loteValidationJob.getSummary();
+
+        assertEquals(0, summary.getNumberOfProcessedLoLoTEs());
+        assertEquals(1, summary.getNumberOfProcessedLoTEs());
+
+        List<LoTEInfo> loteInfos = summary.getOtherLoTEInfos();
+        assertEquals(1, loteInfos.size());
+
+        LoTEInfo pidLoTE = loteInfos.get(0);
+
+        assertTrue(pidLoTE.getDownloadCacheInfo().isResultExist());
+        assertNull(pidLoTE.getDownloadCacheInfo().getExceptionMessage());
+        assertNull(pidLoTE.getDownloadCacheInfo().getExceptionStackTrace());
+        assertTrue(pidLoTE.getParsingCacheInfo().isResultExist());
+        assertNull(pidLoTE.getParsingCacheInfo().getExceptionMessage());
+        assertNull(pidLoTE.getParsingCacheInfo().getExceptionStackTrace());
+        assertFalse(pidLoTE.getValidationCacheInfo().isResultExist());
+        assertNotNull(pidLoTE.getValidationCacheInfo().getExceptionMessage());
+        assertEquals("Number of signatures must be equal to 1 (currently : 2)", pidLoTE.getValidationCacheInfo().getExceptionMessage());
+        assertNotNull(pidLoTE.getValidationCacheInfo().getExceptionStackTrace());
+
+        assertNull(pidLoTE.getValidationCacheInfo().getIndication());
+        assertNull(pidLoTE.getValidationCacheInfo().getSubIndication());
+    }
+
+    @Test
+    void jsonTest() {
+        updateLoTELocation("src/test/resources/lote-pubeaa.json");
 
         loteValidationJob = getValidationJob();
         loteValidationJob.offlineRefresh();
@@ -573,7 +660,7 @@ class JsonLoTEValidationJobTest {
 
     @Test
     void structureErrorTest() {
-        updateLoTELocation("src/test/resources/pid-providers-structure-error.json");
+        updateLoTELocation("src/test/resources/lote-pubeaa-not-compliant.xml");
 
         loteValidationJob = getValidationJob();
         loteValidationJob.offlineRefresh();
@@ -596,47 +683,24 @@ class JsonLoTEValidationJobTest {
         assertNull(pidLoTE.getParsingCacheInfo().getExceptionMessage());
         assertNull(pidLoTE.getParsingCacheInfo().getExceptionStackTrace());
         assertTrue(Utils.isCollectionNotEmpty(pidLoTE.getParsingCacheInfo().getStructureValidationMessages()));
-        assertTrue(pidLoTE.getParsingCacheInfo().getStructureValidationMessages().stream().anyMatch(k -> k.contains("SchemeOperatorElectronicAddress")));
+        assertTrue(pidLoTE.getParsingCacheInfo().getStructureValidationMessages().stream().anyMatch(k -> k.contains("LoTEVersionIdentifier")));
         assertTrue(pidLoTE.getValidationCacheInfo().isResultExist());
         assertNull(pidLoTE.getValidationCacheInfo().getExceptionMessage());
         assertNull(pidLoTE.getValidationCacheInfo().getExceptionStackTrace());
     }
 
-    @Test
-    void twoListsTest() {
-        LoTESource registrarList = new LoTESource();
-        registrarList.setUrl("http://dss.nowina.lu/registrar.json");
-        CertificateSource trustedCertificateSource = new CommonTrustedCertificateSource();
-        trustedCertificateSource.addCertificate(DSSUtils.loadCertificateFromBase64EncodedString("MIICDDCCAbGgAwIBAgIUYUPFTqKy7+8FSzt9Yf0jMISRE7QwCgYIKoZIzj0EAwIwWzELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJlcmxpbjEPMA0GA1UEBwwGQmVybGluMRQwEgYDVQQKDAtUcnVzdCBMaXN0czEUMBIGA1UEAwwLTG9URSBTaWduZXIwHhcNMjYwMzIzMTAwNjM2WhcNMzYwMzIwMTAwNjM2WjBbMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmVybGluMQ8wDQYDVQQHDAZCZXJsaW4xFDASBgNVBAoMC1RydXN0IExpc3RzMRQwEgYDVQQDDAtMb1RFIFNpZ25lcjBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABNzQE+ajQQOr9P58E8Uz+3hkmgevbjPoBe8iVSyYeBBxePGqozPadw2PBp5l6g1lMyJVFdwA/AK4pTyBzrm9yhijUzBRMB0GA1UdDgQWBBQRD8DxrfaP2KSAIDrU8cPWS1Ul6jAfBgNVHSMEGDAWgBQRD8DxrfaP2KSAIDrU8cPWS1Ul6jAPBgNVHRMBAf8EBTADAQH/MAoGCCqGSM49BAMCA0kAMEYCIQCq3sEiM+xZO+a63p3zaR5dbS4XoR+blZX2ZKmCX3llbgIhANBGjCx5ApJnpXnNV9r0f3MTNtMG++8b+/59paf77BQb"));
-        registrarList.setCertificateSource(trustedCertificateSource);
-
-        loteValidationJob = getValidationJob();
-        loteValidationJob.setLoTESources(getPIDProviderListSource(), registrarList);
-        loteValidationJob.offlineRefresh();
-
-        LoTEValidationJobSummary summary = loteValidationJob.getSummary();
-
-        assertEquals(0, summary.getNumberOfProcessedLoLoTEs());
-        assertEquals(2, summary.getNumberOfProcessedLoTEs());
-
-        List<LoTEInfo> loteInfos = summary.getOtherLoTEInfos();
-        assertEquals(2, loteInfos.size());
-
-        assertEquals(18, Utils.collectionSize(trustedEntitiesCertificateSource.getCertificates()));
-    }
-
-    private LoTESource getPIDProviderListSource() {
+    private LoTESource getPUBEAAProviderListSource() {
         LoTESource pidProviderList = new LoTESource();
-        pidProviderList.setUrl(PID_PROVIDERS_LOCATION);
+        pidProviderList.setUrl(PUBEAA_LOCATION);
         CertificateSource trustedCertificateSource = new CommonTrustedCertificateSource();
-        trustedCertificateSource.addCertificate(pidProvidersSigner);
+        trustedCertificateSource.addCertificate(pubeaaSigner);
         pidProviderList.setCertificateSource(trustedCertificateSource);
         return pidProviderList;
     }
 
     private void updateLoTELocation(String fileLocation) {
         if (fileLocation != null) {
-            urlMap.put(PID_PROVIDERS_LOCATION, new FileDocument(fileLocation));
+            urlMap.put(PUBEAA_LOCATION, new FileDocument(fileLocation));
         }
     }
 
@@ -644,7 +708,7 @@ class JsonLoTEValidationJobTest {
         trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
-        loteValidationJob.setLoTESources(getPIDProviderListSource());
+        loteValidationJob.setLoTESources(getPUBEAAProviderListSource());
         loteValidationJob.setTrustedEntitiesCertificateSource(trustedEntitiesCertificateSource);
         loteValidationJob.setCacheCleaner(cacheCleaner);
         return loteValidationJob;

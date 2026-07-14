@@ -33,6 +33,7 @@ import java.util.Set;
  */
 public class JsonObject implements Map<String, Object> {
 	
+	/** Json map */
 	private Map<String, Object> map;
 	
 	/**

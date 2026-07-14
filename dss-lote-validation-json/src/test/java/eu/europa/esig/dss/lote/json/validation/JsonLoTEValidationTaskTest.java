@@ -48,7 +48,7 @@ class JsonLoTEValidationTaskTest {
 
     static {
         PID_PROVIDERS = new FileDocument("src/test/resources/pid-providers.json");
-        PID_PROVIDERS_SIGNER = DSSUtils.loadCertificate(new File("src/test/resources/pid-providers-cert.cer"));;
+        PID_PROVIDERS_SIGNER = DSSUtils.loadCertificate(new File("src/test/resources/pid-providers-cert.cer"));
     }
 
     @Test

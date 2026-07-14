@@ -41,6 +41,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -130,21 +131,21 @@ class DTOTest {
 		List<TrustService> trustServices = new ArrayList<>();
 		
 		TrustServiceBuilder trustServiceBuilder = new TrustService.TrustServiceBuilder();
-		trustServiceBuilder.setCertificates(Arrays.asList(cert));
+		trustServiceBuilder.setCertificates(Collections.singletonList(cert));
 		
 		TrustServiceStatusAndInformationExtensionsBuilder statusBuilder = new TrustServiceStatusAndInformationExtensions.TrustServiceStatusAndInformationExtensionsBuilder();
 		statusBuilder.setNames(names);
 		statusBuilder.setStartDate(new Date());
-		statusBuilder.setEndDate(new GregorianCalendar(2050, 1, 1).getTime());
+		statusBuilder.setEndDate(new GregorianCalendar(2050, Calendar.JANUARY, 1).getTime());
 		statusBuilder.setStatus("withdrawn");
 		statusBuilder.setType("sig");
-		statusBuilder.setConditionsForQualifiers(Arrays.asList(getConditionForQualifiers()));
-		statusBuilder.setAdditionalServiceInfoUris(Arrays.asList("http://site.cz.gov"));
-		statusBuilder.setServiceSupplyPoints(Arrays.asList("http://service-supply.cz.gov"));
-		statusBuilder.setExpiredCertsRevocationInfo(new GregorianCalendar(2030, 1, 1).getTime());
+		statusBuilder.setConditionsForQualifiers(Collections.singletonList(getConditionForQualifiers()));
+		statusBuilder.setAdditionalServiceInfoUris(Collections.singletonList("http://site.cz.gov"));
+		statusBuilder.setServiceSupplyPoints(Collections.singletonList("http://service-supply.cz.gov"));
+		statusBuilder.setExpiredCertsRevocationInfo(new GregorianCalendar(2030, Calendar.JANUARY, 1).getTime());
 		TrustServiceStatusAndInformationExtensions status = statusBuilder.build();
 		
-		TimeDependentValues<TrustServiceStatusAndInformationExtensions> timeDependentValues = new TimeDependentValues<>(Arrays.asList(status));
+		TimeDependentValues<TrustServiceStatusAndInformationExtensions> timeDependentValues = new TimeDependentValues<>(Collections.singletonList(status));
 		trustServiceBuilder.setStatusAndInformationExtensions(timeDependentValues);
 		
 		trustServices.add(trustServiceBuilder.build());
@@ -157,7 +158,7 @@ class DTOTest {
 		assertTrue(Utils.isCollectionNotEmpty(tspNames.get("CZ")));
 		List<String> czTspNames = tspNames.get("CZ");
 		assertThrows(UnsupportedOperationException.class, () -> czTspNames.add("name"));
-		List<String> list = Arrays.asList("Lux");
+		List<String> list = Collections.singletonList("Lux");
 		assertThrows(UnsupportedOperationException.class, () -> tspNames.put("LU", list));
 		
 		Map<String, List<String>> tspTradeNames = trustServiceProvider.getTradeNames();

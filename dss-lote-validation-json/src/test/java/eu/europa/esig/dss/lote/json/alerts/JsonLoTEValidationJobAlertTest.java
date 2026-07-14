@@ -41,7 +41,7 @@ class JsonLoTEValidationJobAlertTest {
     private static final DSSDocument PID_PROVIDERS = new FileDocument("src/test/resources/pid-providers.json");
     private static final DSSDocument PID_PROVIDERS_BROKEN_SIG = new FileDocument("src/test/resources/pid-providers-broken-sig.json");
     private static final DSSDocument PID_PROVIDERS_NOT_PARSABLE = new FileDocument("src/test/resources/pid-providers-broken-json.json");
-    private static final DSSDocument PID_PROVIDERS_NOT_COMPLIANT = new FileDocument("src/test/resources/pid-providers-non-compliant.json");
+    private static final DSSDocument PID_PROVIDERS_NOT_COMPLIANT = new FileDocument("src/test/resources/pid-providers-not-compliant.json");
     private static final DSSDocument PID_PROVIDERS_JSON_SERIALIZATION = new FileDocument("src/test/resources/pid-providers-json-serialization.json");
 
     private static CertificateToken loteSigningCertificate = DSSUtils.loadCertificateFromBase64EncodedString(
