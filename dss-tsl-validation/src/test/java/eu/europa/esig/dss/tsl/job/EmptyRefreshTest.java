@@ -33,12 +33,17 @@ class EmptyRefreshTest {
 		TLValidationJob job = new TLValidationJob();
 		NullPointerException exception = assertThrows(NullPointerException.class, job::offlineRefresh);
 		assertEquals("The offlineLoader must be defined!", exception.getMessage());
-		assertThrows(NullPointerException.class, job::onlineRefresh);
 
 		job.setOfflineDataLoader(new FileCacheDataLoader());
 		job.setDebug(true);
 
 		job.offlineRefresh();
+
+		exception = assertThrows(NullPointerException.class, job::onlineRefresh);
+		assertEquals("The onlineLoader must be defined!", exception.getMessage());
+
+		job.setOnlineDataLoader(new FileCacheDataLoader());
+		job.onlineRefresh();
 	}
 
 }
