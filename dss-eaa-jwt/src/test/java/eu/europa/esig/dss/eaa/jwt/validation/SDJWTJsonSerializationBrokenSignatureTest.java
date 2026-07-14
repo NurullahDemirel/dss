@@ -15,7 +15,7 @@ import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.simplereport.jaxb.XmlEAA;
 import eu.europa.esig.validationreport.jaxb.SignersDocumentType;
 
-public class SDJWTJsonSerializationBrokenSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
+class SDJWTJsonSerializationBrokenSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {

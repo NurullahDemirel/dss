@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
-import eu.europa.esig.dss.diagnostic.jaxb.XmlError;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SubIndication;
 import eu.europa.esig.dss.i18n.MessageTag;
@@ -14,10 +13,9 @@ import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.simplereport.jaxb.XmlEAA;
-import eu.europa.esig.dss.simplereport.jaxb.XmlMessage;
 import eu.europa.esig.validationreport.jaxb.SignersDocumentType;
 
-public class SDJWTCompactBrokenSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
+class SDJWTCompactBrokenSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
