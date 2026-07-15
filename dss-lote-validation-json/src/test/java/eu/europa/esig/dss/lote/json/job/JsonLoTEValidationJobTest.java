@@ -82,8 +82,6 @@ class JsonLoTEValidationJobTest {
 
     private static CertificateToken pidProvidersSigner;
 
-    private static TrustedEntitiesCertificateSource trustedEntitiesCertificateSource;
-
     private static File cacheDirectory;
 
     @BeforeAll
@@ -610,7 +608,8 @@ class JsonLoTEValidationJobTest {
         trustedCertificateSource.addCertificate(DSSUtils.loadCertificateFromBase64EncodedString("MIICDDCCAbGgAwIBAgIUYUPFTqKy7+8FSzt9Yf0jMISRE7QwCgYIKoZIzj0EAwIwWzELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJlcmxpbjEPMA0GA1UEBwwGQmVybGluMRQwEgYDVQQKDAtUcnVzdCBMaXN0czEUMBIGA1UEAwwLTG9URSBTaWduZXIwHhcNMjYwMzIzMTAwNjM2WhcNMzYwMzIwMTAwNjM2WjBbMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmVybGluMQ8wDQYDVQQHDAZCZXJsaW4xFDASBgNVBAoMC1RydXN0IExpc3RzMRQwEgYDVQQDDAtMb1RFIFNpZ25lcjBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABNzQE+ajQQOr9P58E8Uz+3hkmgevbjPoBe8iVSyYeBBxePGqozPadw2PBp5l6g1lMyJVFdwA/AK4pTyBzrm9yhijUzBRMB0GA1UdDgQWBBQRD8DxrfaP2KSAIDrU8cPWS1Ul6jAfBgNVHSMEGDAWgBQRD8DxrfaP2KSAIDrU8cPWS1Ul6jAPBgNVHRMBAf8EBTADAQH/MAoGCCqGSM49BAMCA0kAMEYCIQCq3sEiM+xZO+a63p3zaR5dbS4XoR+blZX2ZKmCX3llbgIhANBGjCx5ApJnpXnNV9r0f3MTNtMG++8b+/59paf77BQb"));
         registrarList.setCertificateSource(trustedCertificateSource);
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.setLoTESources(getPIDProviderListSource(), registrarList);
         loteValidationJob.offlineRefresh();
 
@@ -641,7 +640,10 @@ class JsonLoTEValidationJobTest {
     }
 
     private LoTEValidationJob getValidationJob() {
-        trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        return getValidationJob(new TrustedEntitiesCertificateSource());
+    }
+
+    private LoTEValidationJob getValidationJob(TrustedEntitiesCertificateSource trustedEntitiesCertificateSource) {
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
         loteValidationJob.setLoTESources(getPIDProviderListSource());

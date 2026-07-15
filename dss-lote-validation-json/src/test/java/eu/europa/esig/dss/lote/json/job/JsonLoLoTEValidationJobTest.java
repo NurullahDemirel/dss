@@ -58,8 +58,6 @@ class JsonLoLoTEValidationJobTest {
 
     private static CertificateToken loloteSigner;
 
-    private static TrustedEntitiesCertificateSource trustedEntitiesCertificateSource;
-
     private static File cacheDirectory;
 
     @BeforeAll
@@ -182,7 +180,8 @@ class JsonLoLoTEValidationJobTest {
 
     @Test
     void loloteGetSummaryFromCertificateSourceTest() {
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = trustedEntitiesCertificateSource.getSummary();
@@ -291,8 +290,9 @@ class JsonLoLoTEValidationJobTest {
         synchronizationStrategy.setAcceptInvalidList(false);
         synchronizationStrategy.setAcceptExpiredListOfLists(true);
         synchronizationStrategy.setAcceptExpiredList(true);
-        
-        loteValidationJob = getValidationJob();
+
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.setSynchronizationStrategy(synchronizationStrategy);
         loteValidationJob.offlineRefresh();
 
@@ -354,7 +354,8 @@ class JsonLoLoTEValidationJobTest {
         synchronizationStrategy.setAcceptExpiredListOfLists(true);
         synchronizationStrategy.setAcceptExpiredList(true);
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.setSynchronizationStrategy(synchronizationStrategy);
         loteValidationJob.offlineRefresh();
 
@@ -416,7 +417,8 @@ class JsonLoLoTEValidationJobTest {
         synchronizationStrategy.setAcceptExpiredListOfLists(true);
         synchronizationStrategy.setAcceptExpiredList(true);
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.setSynchronizationStrategy(synchronizationStrategy);
         loteValidationJob.offlineRefresh();
         
@@ -446,7 +448,8 @@ class JsonLoLoTEValidationJobTest {
     void loloteNotParsableTest() {
         updateLoLoTELocation("src/test/resources/eu-lolote-not-parsable.json");
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = loteValidationJob.getSummary();
@@ -475,7 +478,8 @@ class JsonLoLoTEValidationJobTest {
     void loloteNotCompliantTest() {
         updateLoLoTELocation("src/test/resources/eu-lolote-not-compliant.json");
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = loteValidationJob.getSummary();
@@ -505,7 +509,8 @@ class JsonLoLoTEValidationJobTest {
     void loloteUpdateTest() {
         updateLoLoTELocation("src/test/resources/eu-lolote-not-compliant.json");
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = loteValidationJob.getSummary();
@@ -567,7 +572,10 @@ class JsonLoLoTEValidationJobTest {
     }
 
     private LoTEValidationJob getValidationJob() {
-        trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        return getValidationJob(new TrustedEntitiesCertificateSource());
+    }
+
+    private LoTEValidationJob getValidationJob(TrustedEntitiesCertificateSource trustedEntitiesCertificateSource) {
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
         loteValidationJob.setOnlineDataLoader(onlineFileLoader);

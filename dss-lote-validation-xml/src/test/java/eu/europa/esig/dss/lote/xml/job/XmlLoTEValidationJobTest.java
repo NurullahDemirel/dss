@@ -62,8 +62,6 @@ class XmlLoTEValidationJobTest {
 
     private static CertificateToken pubeaaSigner;
 
-    private static TrustedEntitiesCertificateSource trustedEntitiesCertificateSource;
-
     private static File cacheDirectory;
 
     @BeforeAll
@@ -705,11 +703,10 @@ class XmlLoTEValidationJobTest {
     }
 
     private LoTEValidationJob getValidationJob() {
-        trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
         loteValidationJob.setLoTESources(getPUBEAAProviderListSource());
-        loteValidationJob.setTrustedEntitiesCertificateSource(trustedEntitiesCertificateSource);
+        loteValidationJob.setTrustedEntitiesCertificateSource(new TrustedEntitiesCertificateSource());
         loteValidationJob.setCacheCleaner(cacheCleaner);
         return loteValidationJob;
     }

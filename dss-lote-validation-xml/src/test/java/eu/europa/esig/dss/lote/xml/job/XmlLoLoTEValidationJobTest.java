@@ -58,8 +58,6 @@ class XmlLoLoTEValidationJobTest {
 
     private static CertificateToken loloteSigner;
 
-    private static TrustedEntitiesCertificateSource trustedEntitiesCertificateSource;
-
     private static File cacheDirectory;
 
     @BeforeAll
@@ -182,7 +180,8 @@ class XmlLoLoTEValidationJobTest {
 
     @Test
     void loloteGetSummaryFromCertificateSourceTest() {
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = trustedEntitiesCertificateSource.getSummary();
@@ -292,7 +291,8 @@ class XmlLoLoTEValidationJobTest {
         synchronizationStrategy.setAcceptExpiredListOfLists(true);
         synchronizationStrategy.setAcceptExpiredList(true);
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.setSynchronizationStrategy(synchronizationStrategy);
         loteValidationJob.offlineRefresh();
 
@@ -354,7 +354,8 @@ class XmlLoLoTEValidationJobTest {
         synchronizationStrategy.setAcceptExpiredListOfLists(true);
         synchronizationStrategy.setAcceptExpiredList(true);
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.setSynchronizationStrategy(synchronizationStrategy);
         loteValidationJob.offlineRefresh();
 
@@ -416,7 +417,8 @@ class XmlLoLoTEValidationJobTest {
         synchronizationStrategy.setAcceptExpiredListOfLists(true);
         synchronizationStrategy.setAcceptExpiredList(true);
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.setSynchronizationStrategy(synchronizationStrategy);
         loteValidationJob.offlineRefresh();
 
@@ -446,7 +448,8 @@ class XmlLoLoTEValidationJobTest {
     void loloteNotParsableTest() {
         updateLoLoTELocation("src/test/resources/lolote-not-parsable.xml");
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = loteValidationJob.getSummary();
@@ -475,7 +478,8 @@ class XmlLoLoTEValidationJobTest {
     void loloteNotCompliantTest() {
         updateLoLoTELocation("src/test/resources/lolote-not-compliant.xml");
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = loteValidationJob.getSummary();
@@ -505,7 +509,8 @@ class XmlLoLoTEValidationJobTest {
     void loloteUpdateTest() {
         updateLoLoTELocation("src/test/resources/lolote-not-compliant.xml");
 
-        loteValidationJob = getValidationJob();
+        TrustedEntitiesCertificateSource trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        loteValidationJob = getValidationJob(trustedEntitiesCertificateSource);
         loteValidationJob.offlineRefresh();
 
         LoTEValidationJobSummary summary = loteValidationJob.getSummary();
@@ -567,7 +572,10 @@ class XmlLoLoTEValidationJobTest {
     }
 
     private LoTEValidationJob getValidationJob() {
-        trustedEntitiesCertificateSource = new TrustedEntitiesCertificateSource();
+        return getValidationJob(new TrustedEntitiesCertificateSource());
+    }
+
+    private LoTEValidationJob getValidationJob(TrustedEntitiesCertificateSource trustedEntitiesCertificateSource) {
         loteValidationJob = new LoTEValidationJob();
         loteValidationJob.setOfflineDataLoader(offlineFileLoader);
         loteValidationJob.setOnlineDataLoader(onlineFileLoader);
