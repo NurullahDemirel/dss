@@ -15,11 +15,11 @@ import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.simplereport.jaxb.XmlEAA;
 import eu.europa.esig.validationreport.jaxb.SignersDocumentType;
 
-class SDJWTJsonSerializationInvalidSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
+class SDJWTJsonSerializationEAABrokenSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(this.getClass().getResourceAsStream("/validation/sdjwt-json-invalid-signature.json"));
+        return new InMemoryDocument(this.getClass().getResourceAsStream("/validation/sdjwt-json-broken-signature.json"));
     }
 
     @Override

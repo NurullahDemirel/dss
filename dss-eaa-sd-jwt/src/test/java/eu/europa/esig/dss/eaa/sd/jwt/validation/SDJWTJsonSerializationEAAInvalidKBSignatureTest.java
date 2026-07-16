@@ -16,11 +16,11 @@ import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.simplereport.jaxb.XmlSignature;
 import eu.europa.esig.validationreport.jaxb.SignersDocumentType;
 
-public class SDJWTCompactBrokenKBSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
+class SDJWTJsonSerializationEAAInvalidKBSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {
-        return new InMemoryDocument(this.getClass().getResourceAsStream("/validation/sdjwt-compact-broken-kb-signature.json"));
+        return new InMemoryDocument(this.getClass().getResourceAsStream("/validation/sdjwt-json-invalid-kb-signature.json"));
     }
 
     @Override
