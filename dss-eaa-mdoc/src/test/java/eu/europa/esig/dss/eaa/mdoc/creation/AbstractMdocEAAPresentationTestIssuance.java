@@ -47,12 +47,15 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.eaa.common.creation.EAAStatusList;
 import eu.europa.esig.dss.eaa.common.validation.AbstractEAAPresentationTestIssuance;
 import eu.europa.esig.dss.eaa.mdoc.model.MdocDrivingPrivilege;
+import eu.europa.esig.dss.eaa.mdoc.validation.MdocDeviceResponseEAAPresentationValidator;
+import eu.europa.esig.dss.eaa.mdoc.validation.MdocValidationParameters;
 import eu.europa.esig.dss.enumerations.COSESignatureType;
 import eu.europa.esig.dss.enumerations.COSEStructureType;
 import eu.europa.esig.dss.enumerations.CertificateOrigin;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.enumerations.EAAType;
+import eu.europa.esig.dss.enumerations.EllipticCurve;
 import eu.europa.esig.dss.enumerations.MimeType;
 import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -60,6 +63,7 @@ import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.signature.AdvancedSignature;
 import eu.europa.esig.dss.spi.x509.BaselineBCertificateSelector;
 import eu.europa.esig.dss.utils.Utils;
+import eu.europa.esig.dss.validation.SignedDocumentValidator;
 
 import java.util.List;
 import java.util.Map;
@@ -98,6 +102,18 @@ public abstract class AbstractMdocEAAPresentationTestIssuance extends AbstractEA
     @Override
     protected EAAType getEAAType() {
         return EAAType.ISO_IEC_MDOC;
+    }
+
+    @Override
+    protected SignedDocumentValidator getValidator(DSSDocument signedDocument) {
+        SignedDocumentValidator validator = super.getValidator(signedDocument);
+        if (keyBindingPresent()) {
+            MdocDeviceResponseEAAPresentationValidator mdocValidator = assertInstanceOf(MdocDeviceResponseEAAPresentationValidator.class, validator);
+            MdocValidationParameters mdocValidationParameters = new MdocValidationParameters();
+            mdocValidationParameters.setSessionTranscript(buildSessionTranscript());
+            mdocValidator.setEAAValidationParameters(mdocValidationParameters);
+        }
+        return validator;
     }
 
     @Override
@@ -520,6 +536,17 @@ public abstract class AbstractMdocEAAPresentationTestIssuance extends AbstractEA
                 assertFalse(signature.foundCertificates().getRelatedCertificatesByOrigin(CertificateOrigin.UNPROTECTED_HEADER).isEmpty());
             }
         }
+    }
+
+    protected DSSDocument buildSessionTranscript() {
+        byte[] select = new byte[]{0x01, 0x02};
+        byte[] request = new byte[]{0x03, 0x04};
+        SessionTranscriptBuilder builder =
+                SessionTranscriptBuilder.nfcHandover(select, request)
+                        .security(EllipticCurve.P_256, getSigningCert().getPublicKey())
+                        .eReaderKey(getSigningCert().getPublicKey());
+
+        return builder.build();
     }
 
 }

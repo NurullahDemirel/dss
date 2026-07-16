@@ -31,7 +31,9 @@ import eu.europa.esig.dss.enumerations.COSESignatureType;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.enumerations.EAAPresentationType;
 import eu.europa.esig.dss.enumerations.EAAType;
+import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.utils.Utils;
+import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.validation.reports.Reports;
 import eu.europa.esig.validationreport.jaxb.SignatureIdentifierType;
 import eu.europa.esig.validationreport.jaxb.SignatureValidationReportType;
@@ -39,6 +41,7 @@ import eu.europa.esig.validationreport.jaxb.ValidationReportType;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -49,6 +52,22 @@ public abstract class AbstractMdocEAAPresentationTestValidation extends Abstract
     @Override
     protected EAAType getEAAType() {
         return EAAType.ISO_IEC_MDOC;
+    }
+
+    @Override
+    protected SignedDocumentValidator getValidator(DSSDocument signedDocument) {
+        SignedDocumentValidator validator = super.getValidator(signedDocument);
+        if (keyBindingPresent()) {
+            MdocDeviceResponseEAAPresentationValidator mdocValidator = assertInstanceOf(MdocDeviceResponseEAAPresentationValidator.class, validator);
+            MdocValidationParameters mdocValidationParameters = new MdocValidationParameters();
+            mdocValidationParameters.setSessionTranscript(getSessionTranscript());
+            mdocValidator.setEAAValidationParameters(mdocValidationParameters);
+        }
+        return validator;
+    }
+
+    protected DSSDocument getSessionTranscript() {
+        throw new NullPointerException("SessionTranscript was not provided!");
     }
 
     @Override

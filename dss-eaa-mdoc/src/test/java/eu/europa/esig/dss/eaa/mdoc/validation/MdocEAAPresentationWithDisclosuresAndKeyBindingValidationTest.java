@@ -47,7 +47,6 @@ import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.utils.Utils;
-import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.validationreport.jaxb.SignerInformationType;
 
 import java.security.SecureRandom;
@@ -56,7 +55,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -177,15 +175,8 @@ class MdocEAAPresentationWithDisclosuresAndKeyBindingValidationTest extends Abst
     }
 
     @Override
-    protected SignedDocumentValidator getValidator(DSSDocument signedDocument) {
-        SignedDocumentValidator validator = super.getValidator(signedDocument);
-        validator.setCertificateVerifier(getCompleteCertificateVerifier());
-        MdocDeviceResponseEAAPresentationValidator mdocValidator = assertInstanceOf(MdocDeviceResponseEAAPresentationValidator.class, validator);
-        DSSDocument sessionTranscript = new InMemoryDocument(CBORUtils.serializeCborObject(buildSessionTranscript()));
-        MdocValidationParameters mdocValidationParameters = new MdocValidationParameters();
-        mdocValidationParameters.setSessionTranscript(sessionTranscript);
-        mdocValidator.setEAAValidationParameters(mdocValidationParameters);
-        return validator;
+    protected DSSDocument getSessionTranscript() {
+        return new InMemoryDocument(CBORUtils.serializeCborObject(buildSessionTranscript()));
     }
 
     @Override

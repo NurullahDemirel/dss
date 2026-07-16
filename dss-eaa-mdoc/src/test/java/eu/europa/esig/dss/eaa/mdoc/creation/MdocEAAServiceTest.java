@@ -210,7 +210,7 @@ class MdocEAAServiceTest extends PKIFactoryAccess {
         keyBindingParameters.setDocType(MdocConstants.ISO23220_1_MID_DOC_TYPE);
 
         exception = assertThrows(NullPointerException.class, () -> service.getDataToSignForKeyBindingSignature(signedEAA, keyBindingParameters, kbSignParams));
-        assertEquals("SessionTranscript() must not be null", exception.getMessage());
+        assertEquals("SessionTranscript must not be null", exception.getMessage());
         keyBindingParameters.setSessionTranscript(new InMemoryDocument("not-cbor".getBytes()));
 
         exception = assertThrows(DSSException.class, () -> service.getDataToSignForKeyBindingSignature(signedEAA, keyBindingParameters, kbSignParams));

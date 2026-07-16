@@ -24,7 +24,9 @@ import eu.europa.esig.dss.cbades.cbor.CBORArray;
 import eu.europa.esig.dss.cbades.cbor.CBORByteString;
 import eu.europa.esig.dss.cbades.cbor.CBORMap;
 import eu.europa.esig.dss.cbades.cbor.CBORObject;
+import eu.europa.esig.dss.cbades.cbor.CBORObjectFactory;
 import eu.europa.esig.dss.cbades.cbor.CBORUtils;
+import eu.europa.esig.dss.eaa.mdoc.IssuerSignedParser;
 import eu.europa.esig.dss.eaa.mdoc.MdocConstants;
 import eu.europa.esig.dss.eaa.mdoc.MdocHeaderParameter;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -118,6 +120,90 @@ public class MdocEAAPresentationBuilder {
                         Collectors.mapping(MdocEAADisclosure::getIssuerSignedItemBytes, Collectors.toList())));
         issuerSignedBytesByNamespace.forEach((k, v) -> issuerNameSpaces.put(k, new CBORArray(v)));
         return issuerNameSpaces;
+    }
+
+    /**
+     * Builds a DeviceResponse structure
+     *
+     * @param eaa {@link DSSDocument}
+     * @param disclosures a list of {@link MdocEAADisclosure}s
+     * @param keyBinding {@link DSSDocument}
+     * @param deviceSignedParameters {@link MdocEAADeviceSignedParameters}
+     */
+    public DSSDocument buildDeviceResponseDocument(DSSDocument eaa, List<MdocEAADisclosure> disclosures,
+                                                   DSSDocument keyBinding, MdocEAADeviceSignedParameters deviceSignedParameters) {
+        try {
+            CBORMap issuerSigned = buildIssuerSigned(eaa, disclosures);
+            CBORObject deviceSignature = CBORUtils.parseCbor(keyBinding);
+
+            CBORMap deviceAuth = new CBORMap();
+            deviceAuth.put(MdocHeaderParameter.DEVICE_SIGNATURE.toString(), deviceSignature);
+
+            CBORMap deviceSigned = new CBORMap();
+
+            deviceSigned.put(MdocHeaderParameter.NAMESPACES.toString(), getDeviceNameSpacesBuilder().buildDeviceNameSpacesBytes(deviceSignedParameters));
+            deviceSigned.put(MdocHeaderParameter.DEVICE_AUTH.toString(), deviceAuth);
+
+            CBORMap document = new CBORMap();
+            document.put(MdocHeaderParameter.DOC_TYPE.toString(), extractDocTypeFromIssuerSigned(issuerSigned));
+            document.put(MdocHeaderParameter.ISSUER_SIGNED.toString(), issuerSigned);
+            document.put(MdocHeaderParameter.DEVICE_SIGNED.toString(), deviceSigned);
+
+            CBORArray documents =  new CBORArray();
+            documents.add(document);
+
+            CBORMap deviceResponse = new CBORMap();
+            deviceResponse.put(MdocHeaderParameter.VERSION.toString(), CBORObjectFactory.toCBORObject("1.0"));
+            deviceResponse.put(MdocHeaderParameter.DOCUMENTS.toString(), documents);
+            deviceResponse.put(MdocHeaderParameter.STATUS.toString(), CBORObjectFactory.toCBORObject(0));
+
+            return new InMemoryDocument(CBORUtils.serializeCborObject(deviceResponse));
+
+        } catch (Exception e) {
+            throw new DSSException(String.format("Unable to issue presentation. Reason : %s", e.getMessage()), e);
+        }
+    }
+
+    /**
+     * Builds a DeviceAuthentication structure, representing a payload of a key binding signature
+     *
+     * @param keyBindingParameters {@link MdocKeyBindingParameters}
+     * @return {@link DSSDocument}
+     */
+    public DSSDocument buildDeviceAuthentication(final MdocKeyBindingParameters keyBindingParameters) {
+        return getDeviceAuthenticationBuilder().build(keyBindingParameters);
+    }
+
+    /**
+     * Gets the builder to use to build the DeviceAuthentication structure
+     *
+     * @return {@link MdocEAADeviceAuthenticationBuilder}
+     */
+    protected MdocEAADeviceAuthenticationBuilder getDeviceAuthenticationBuilder() {
+        return new DefaultMdocEAADeviceAuthenticationBuilder();
+    }
+
+    /**
+     * Gets the builder to use to build the DeviceNameSpacesBytes
+     *
+     * @return {@link MdocEAADeviceNameSpacesBuilder}
+     */
+    protected MdocEAADeviceNameSpacesBuilder getDeviceNameSpacesBuilder() {
+        return new DefaultMdocEAADeviceNameSpacesBuilder();
+    }
+
+    /**
+     * Extract the value of the docType from the issuerSigned to use it in the DeviceResponse
+     *
+     * @param issuerSigned the issuerSigned
+     * @return {@link String} the value of the docType
+     */
+    protected String extractDocTypeFromIssuerSigned(final CBORMap issuerSigned) {
+        IssuerSignedParser parser = new IssuerSignedParser(issuerSigned);
+        CBORByteString encodedPayload = (CBORByteString) parser.parse().getIssuerAuth().getPayload();
+        CBORByteString decodedPayload = (CBORByteString) CBORUtils.parseCbor(encodedPayload.getValueAsBytes());
+        CBORMap mso = new CBORMap(decodedPayload);
+        return mso.getAsString(MdocConstants.DOC_TYPE);
     }
 
 }

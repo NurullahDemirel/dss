@@ -43,6 +43,11 @@ class MdocRefImplValidationTest extends AbstractMdocEAAPresentationTestValidatio
     }
 
     @Override
+    protected DSSDocument getSessionTranscript() {
+        return null;
+    }
+
+    @Override
     protected boolean orphanSelectivelyDisclosableClaimsPresent() {
         return true;
     }

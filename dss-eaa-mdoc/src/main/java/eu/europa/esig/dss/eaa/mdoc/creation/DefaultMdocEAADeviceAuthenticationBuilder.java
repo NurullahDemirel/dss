@@ -68,7 +68,7 @@ public class DefaultMdocEAADeviceAuthenticationBuilder implements MdocEAADeviceA
     protected void ensureKeyBindingParameters(final MdocKeyBindingParameters keyBindingParameters) {
         Objects.requireNonNull(keyBindingParameters, "keyBindingParameters must not be null");
         Objects.requireNonNull(keyBindingParameters.getDocType(), "DocType must not be null");
-        Objects.requireNonNull(keyBindingParameters.getSessionTranscript(), "SessionTranscript() must not be null");
+        Objects.requireNonNull(keyBindingParameters.getSessionTranscript(), "SessionTranscript must not be null");
 
         if (!CBORUtils.isCbor(keyBindingParameters.getSessionTranscript())) {
             throw new DSSException("Session transcript must be a CBOR object");

@@ -20,20 +20,13 @@
  */
 package eu.europa.esig.dss.eaa.mdoc.creation;
 
-import eu.europa.esig.dss.cbades.cbor.CBORArray;
-import eu.europa.esig.dss.cbades.cbor.CBORByteString;
-import eu.europa.esig.dss.cbades.cbor.CBORMap;
-import eu.europa.esig.dss.cbades.cbor.CBORObject;
-import eu.europa.esig.dss.cbades.cbor.CBORObjectFactory;
 import eu.europa.esig.dss.cbades.cbor.CBORUtils;
 import eu.europa.esig.dss.cbades.signature.CBAdESService;
 import eu.europa.esig.dss.cbades.signature.CBAdESSignatureParameters;
 import eu.europa.esig.dss.eaa.common.creation.AbstractEAAService;
 import eu.europa.esig.dss.eaa.common.creation.EAADisclosure;
 import eu.europa.esig.dss.eaa.common.creation.EAAPayloadBuilder;
-import eu.europa.esig.dss.eaa.mdoc.IssuerSignedParser;
 import eu.europa.esig.dss.eaa.mdoc.MdocConstants;
-import eu.europa.esig.dss.eaa.mdoc.MdocHeaderParameter;
 import eu.europa.esig.dss.enumerations.COSEStructureType;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
@@ -44,7 +37,6 @@ import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.DSSException;
-import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.exception.IllegalInputException;
@@ -279,7 +271,7 @@ public class MdocEAAService extends AbstractEAAService<CBAdESSignatureParameters
     public ToBeSigned getDataToSignForKeyBindingSignature(final DSSDocument eaa, final List<MdocEAADisclosure> disclosures, final MdocKeyBindingParameters keyBindingParameters,
                                                           final CBAdESSignatureParameters signatureParameters) {
         ensureKeyBindingSignatureParameters(signatureParameters);
-        DSSDocument deviceAuthentication = getDeviceAuthenticationBuilder().build(keyBindingParameters);
+        DSSDocument deviceAuthentication = getMdocEAAPresentationBuilder().buildDeviceAuthentication(keyBindingParameters);
         return dataToBeSigned(deviceAuthentication, signatureParameters);
     }
 
@@ -293,7 +285,7 @@ public class MdocEAAService extends AbstractEAAService<CBAdESSignatureParameters
     public DSSDocument createKeyBindingSignature(final DSSDocument eaa, final List<MdocEAADisclosure> disclosures, final MdocKeyBindingParameters keyBindingParameters,
                                                  final CBAdESSignatureParameters signatureParameters, final SignatureValue signatureValue) {
         ensureKeyBindingSignatureParameters(signatureParameters);
-        DSSDocument deviceAuthentication = getDeviceAuthenticationBuilder().build(keyBindingParameters);
+        DSSDocument deviceAuthentication = getMdocEAAPresentationBuilder().buildDeviceAuthentication(keyBindingParameters);
         return getCBAdESService().signDocument(deviceAuthentication, signatureParameters, signatureValue);
     }
 
@@ -370,7 +362,7 @@ public class MdocEAAService extends AbstractEAAService<CBAdESSignatureParameters
      * @return {@link DSSDocument}
      */
     public DSSDocument createIssuerSigned(DSSDocument eaa, List<MdocEAADisclosure> disclosures) {
-        DSSDocument issuerSigned = new MdocEAAPresentationBuilder().buildIssuerSignedDocument(eaa, disclosures);
+        DSSDocument issuerSigned = getMdocEAAPresentationBuilder().buildIssuerSignedDocument(eaa, disclosures);
         issuerSigned.setName(getFinalDocumentName(eaa));
         issuerSigned.setMimeType(getEAAPresentationMimeType());
         return issuerSigned;
@@ -414,70 +406,16 @@ public class MdocEAAService extends AbstractEAAService<CBAdESSignatureParameters
         if (!CBORUtils.isCbor(keyBinding)) {
             throw new DSSException("The keyBinding should be a cbor document!");
         }
-        try {
-            CBORMap issuerSigned = (CBORMap) CBORUtils.parseCbor(createIssuerSigned(eaa, disclosures));
-            CBORObject deviceSignature = CBORUtils.parseCbor(keyBinding);
 
-            CBORMap deviceAuth = new CBORMap();
-            deviceAuth.put(MdocHeaderParameter.DEVICE_SIGNATURE.toString(), deviceSignature);
-
-            CBORMap deviceSigned = new CBORMap();
-
-            deviceSigned.put(MdocHeaderParameter.NAMESPACES.toString(), getDeviceNameSpacesBuilder().buildDeviceNameSpacesBytes(deviceSignedParameters));
-            deviceSigned.put(MdocHeaderParameter.DEVICE_AUTH.toString(), deviceAuth);
-
-            CBORMap document = new CBORMap();
-            document.put(MdocHeaderParameter.DOC_TYPE.toString(), extractDocTypeFromIssuerSigned(issuerSigned));
-            document.put(MdocHeaderParameter.ISSUER_SIGNED.toString(), issuerSigned);
-            document.put(MdocHeaderParameter.DEVICE_SIGNED.toString(), deviceSigned);
-
-            CBORArray documents =  new CBORArray();
-            documents.add(document);
-
-            CBORMap deviceResponse = new CBORMap();
-            deviceResponse.put(MdocHeaderParameter.VERSION.toString(), CBORObjectFactory.toCBORObject("1.0"));
-            deviceResponse.put(MdocHeaderParameter.DOCUMENTS.toString(), documents);
-            deviceResponse.put(MdocHeaderParameter.STATUS.toString(), CBORObjectFactory.toCBORObject(0));
-
-            DSSDocument result = new InMemoryDocument(CBORUtils.serializeCborObject(deviceResponse));
-            result.setName(getFinalDocumentName(eaa));
-            result.setMimeType(getEAAPresentationMimeType());
-            return result;
-        } catch (Exception e) {
-            throw new DSSException(String.format("Unable to issue presentation. Reason : %s", e.getMessage()), e);
-        }
+        DSSDocument deviceResponseDocument = getMdocEAAPresentationBuilder()
+                .buildDeviceResponseDocument(eaa, disclosures, keyBinding, deviceSignedParameters);
+        deviceResponseDocument.setName(getFinalDocumentName(eaa));
+        deviceResponseDocument.setMimeType(getEAAPresentationMimeType());
+        return deviceResponseDocument;
     }
 
-    /**
-     * Extract the value of the docType from the issuerSigned to use it in the DeviceResponse
-     *
-     * @param issuerSigned the issuerSigned
-     * @return {@link String} the value of the docType
-     */
-    protected String extractDocTypeFromIssuerSigned(final CBORMap issuerSigned) {
-        IssuerSignedParser parser = new IssuerSignedParser(issuerSigned);
-        CBORByteString encodedPayload = (CBORByteString) parser.parse().getIssuerAuth().getPayload();
-        CBORByteString decodedPayload = (CBORByteString) CBORUtils.parseCbor(encodedPayload.getValueAsBytes());
-        CBORMap mso = new CBORMap(decodedPayload);
-        return mso.getAsString(MdocConstants.DOC_TYPE);
-    }
-
-    /**
-     * Gets the builder to use to build the DeviceAuthentication structure
-     *
-     * @return {@link MdocEAADeviceAuthenticationBuilder}
-     */
-    protected MdocEAADeviceAuthenticationBuilder getDeviceAuthenticationBuilder() {
-        return new DefaultMdocEAADeviceAuthenticationBuilder();
-    }
-
-    /**
-     * Gets the builder to use to build the DeviceNameSpacesBytes
-     *
-     * @return {@link MdocEAADeviceNameSpacesBuilder}
-     */
-    protected MdocEAADeviceNameSpacesBuilder getDeviceNameSpacesBuilder() {
-        return new DefaultMdocEAADeviceNameSpacesBuilder();
+    protected MdocEAAPresentationBuilder getMdocEAAPresentationBuilder() {
+        return new MdocEAAPresentationBuilder();
     }
 
     /**
