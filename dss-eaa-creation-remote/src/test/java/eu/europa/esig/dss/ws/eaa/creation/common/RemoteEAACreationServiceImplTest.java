@@ -28,7 +28,7 @@ import eu.europa.esig.dss.diagnostic.claim.DrivingPrivilegeClaimWrapper;
 import eu.europa.esig.dss.diagnostic.claim.DrivingPrivilegesClaimWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.eaa.common.validation.DefaultEAAPresentationValidator;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAService;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAService;
 import eu.europa.esig.dss.eaa.mdoc.MdocConstants;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAService;
 import eu.europa.esig.dss.eaa.mdoc.validation.MdocValidationParameters;

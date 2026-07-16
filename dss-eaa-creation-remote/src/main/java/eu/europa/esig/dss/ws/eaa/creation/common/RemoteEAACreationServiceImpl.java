@@ -24,7 +24,7 @@ import eu.europa.esig.dss.eaa.common.creation.EAADisclosure;
 import eu.europa.esig.dss.eaa.common.creation.EAAPayloadParameters;
 import eu.europa.esig.dss.eaa.common.creation.EAAService;
 import eu.europa.esig.dss.eaa.common.creation.KeyBindingParameters;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAService;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAService;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAADeviceSignedParameters;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAADisclosure;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAService;

@@ -22,7 +22,7 @@ package eu.europa.esig.dss.ws.eaa.creation.common.converter;
 
 import eu.europa.esig.dss.cbades.cbor.CBORUtils;
 import eu.europa.esig.dss.eaa.common.creation.EAADisclosure;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAADisclosure;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAADisclosure;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAADisclosure;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.ws.eaa.creation.dto.parameters.DisclosureDTO;

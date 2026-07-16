@@ -20,9 +20,9 @@
  */
 package eu.europa.esig.dss.ws.eaa.creation.common.converter;
 
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAClaim;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAClaimArray;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAClaimObject;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAClaim;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAClaimArray;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAClaimObject;
 import eu.europa.esig.dss.ws.eaa.creation.dto.parameters.ClaimDTO;
 import eu.europa.esig.dss.ws.eaa.creation.dto.parameters.ClaimValueDTO;
 

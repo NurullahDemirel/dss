@@ -160,7 +160,7 @@
 		<module>dss-eaa-revocation-jwt</module>
 		<module>dss-eaa-revocation-cwt</module>
 		<module>dss-eaa-common</module>
-		<module>dss-eaa-jwt</module>
+		<module>dss-eaa-sd-jwt</module>
 		<module>dss-eaa-mdoc</module>
 		<module>dss-common-remote-dto</module>
 		<module>dss-common-remote-converter</module>
@@ -713,7 +713,7 @@
 			</dependency>
 			<dependency>
 				<groupId>eu.europa.ec.joinup.sd-dss</groupId>
-				<artifactId>dss-eaa-jwt</artifactId>
+				<artifactId>dss-eaa-sd-jwt</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

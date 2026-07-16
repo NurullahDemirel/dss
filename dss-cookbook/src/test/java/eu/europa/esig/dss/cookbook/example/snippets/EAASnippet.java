@@ -21,10 +21,10 @@
 package eu.europa.esig.dss.cookbook.example.snippets;
 
 import eu.europa.esig.dss.eaa.common.validation.DefaultEAAPresentationValidator;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAPayloadParameters;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAClaim;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAPayloadBuilder;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTEAAService;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAPayloadParameters;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAClaim;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAPayloadBuilder;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTEAAService;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAPayloadBuilder;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAService;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocEAAClaim;

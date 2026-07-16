@@ -21,7 +21,7 @@
 package eu.europa.esig.dss.ws.eaa.creation.common.builder;
 
 import eu.europa.esig.dss.eaa.common.creation.KeyBindingParameters;
-import eu.europa.esig.dss.eaa.jwt.creation.SDJWTKeyBindingParameters;
+import eu.europa.esig.dss.eaa.sd.jwt.creation.SDJWTKeyBindingParameters;
 import eu.europa.esig.dss.eaa.mdoc.creation.MdocKeyBindingParameters;
 import eu.europa.esig.dss.ws.converter.RemoteDocumentConverter;
 import eu.europa.esig.dss.ws.eaa.creation.common.converter.MdocEAAClaimFromDTOConverter;
