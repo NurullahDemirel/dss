@@ -195,7 +195,11 @@ public abstract class AbstractEAAPresentationTestIssuance<SP extends Serializabl
 
         List<D> disclosures = getDisclosures();
         assertEquals(disclosures.size(), eaa.getDigestMatchers().stream().filter(d-> DigestMatcherType.EAA_DISCLOSURE == d.getType()).count());
-        assertEquals(getPayloadParameters().getDecoyDigestNumber(), eaa.getDigestMatchers().stream().filter(d-> DigestMatcherType.EAA_ORPHAN_SELECTIVELY_DISCLOSABLE_CLAIM == d.getType()).count());
+        assertEquals(getNumberOfOrphanSDClaims(), eaa.getDigestMatchers().stream().filter(d-> DigestMatcherType.EAA_ORPHAN_SELECTIVELY_DISCLOSABLE_CLAIM == d.getType()).count());
+    }
+
+    protected int getNumberOfOrphanSDClaims() {
+        return getPayloadParameters().getDecoyDigestNumber();
     }
 
     @Override
