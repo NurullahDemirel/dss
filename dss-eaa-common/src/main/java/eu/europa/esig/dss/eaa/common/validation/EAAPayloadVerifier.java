@@ -23,8 +23,8 @@ package eu.europa.esig.dss.eaa.common.validation;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
 import eu.europa.esig.dss.model.Digest;
-import eu.europa.esig.dss.model.eaa.ValidationDisclosure;
 import eu.europa.esig.dss.model.eaa.DisclosureValidation;
+import eu.europa.esig.dss.model.eaa.ValidationDisclosure;
 import eu.europa.esig.dss.model.eaa.claim.Claim;
 import eu.europa.esig.dss.model.eaa.claim.ClaimArray;
 import eu.europa.esig.dss.model.eaa.claim.ClaimMap;
@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Abstract implementation of EAA Payload Verifier
@@ -330,20 +331,46 @@ public abstract class EAAPayloadVerifier {
         if (disclosureValidations == null) {
             throw new IllegalStateException("Disclosure validations have not yet been build! The method #verify shall be called first!");
         }
-        for (ValidationDisclosure disclosure : disclosures) {
+        List<ValidationDisclosure> notFoundDisclosures = disclosures.stream()
+                .filter(d -> disclosureValidations.stream().noneMatch(
+                        v -> d.equals(v.getDisclosure()))).collect(Collectors.toList());
+
+        cleanOrphanReferences(disclosureValidations, notFoundDisclosures);
+
+        for (ValidationDisclosure disclosure : notFoundDisclosures) {
             if (disclosure == null) {
                 continue;
             }
-            boolean disclosureFound = disclosureValidations.stream().anyMatch(v -> disclosure.equals(v.getDisclosure()));
-            if (!disclosureFound) {
-                DisclosureValidation disclosureValidation = new DisclosureValidation(disclosure);
-                disclosureValidation.setType(DigestMatcherType.EAA_DISCLOSURE);
-                disclosureValidation.setDigest(disclosure.getDigest(digestAlgorithm));
-                disclosureValidation.setFound(true);
-                disclosureValidation.setIntact(false);
-                disclosureValidations.add(disclosureValidation);
-            }
+            DisclosureValidation disclosureValidation = new DisclosureValidation(disclosure);
+            disclosureValidation.setType(DigestMatcherType.EAA_DISCLOSURE);
+            disclosureValidation.setDigest(disclosure.getDigest(digestAlgorithm));
+            disclosureValidation.setFound(true);
+            disclosureValidation.setIntact(false);
+            disclosureValidations.add(disclosureValidation);
         }
+    }
+
+    /**
+     * This method removes orphan references for other disclosures that were provided but not matching
+     *
+     * @param disclosureValidations a list of {@link DisclosureValidation}s
+     * @param notFoundDisclosures a list od {@link ValidationDisclosure}s
+     */
+    protected void cleanOrphanReferences(List<DisclosureValidation> disclosureValidations, List<ValidationDisclosure> notFoundDisclosures) {
+        List<DisclosureValidation> orphanRefs = getOrphanDisclosureValidations();
+        if (Utils.collectionSize(orphanRefs) == 1 && Utils.collectionSize(notFoundDisclosures) == 1) {
+            disclosureValidations.remove(orphanRefs.iterator().next());
+        }
+    }
+
+    /**
+     * Gets a list of orphan disclosure validations
+     *
+     * @return a list of {@link DisclosureValidation}s
+     */
+    protected List<DisclosureValidation> getOrphanDisclosureValidations() {
+        return disclosureValidations.stream().filter(
+                r -> DigestMatcherType.EAA_ORPHAN_SELECTIVELY_DISCLOSABLE_CLAIM == r.getType()).collect(Collectors.toList());
     }
 
     /**

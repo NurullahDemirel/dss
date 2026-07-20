@@ -54,6 +54,7 @@ import eu.europa.esig.dss.enumerations.COSEStructureType;
 import eu.europa.esig.dss.enumerations.CertificateOrigin;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
+import eu.europa.esig.dss.enumerations.EAAPresentationType;
 import eu.europa.esig.dss.enumerations.EAAType;
 import eu.europa.esig.dss.enumerations.EllipticCurve;
 import eu.europa.esig.dss.enumerations.MimeType;
@@ -102,6 +103,15 @@ public abstract class AbstractMdocEAAPresentationTestIssuance extends AbstractEA
     @Override
     protected EAAType getEAAType() {
         return EAAType.ISO_IEC_MDOC;
+    }
+
+    @Override
+    protected EAAPresentationType getEAAPresentationType() {
+        if (keyBindingPresent()) {
+            return EAAPresentationType.MDOC_DEVICE_RESPONSE;
+        } else {
+            return EAAPresentationType.MDOC_ISSUER_SIGNED;
+        }
     }
 
     @Override

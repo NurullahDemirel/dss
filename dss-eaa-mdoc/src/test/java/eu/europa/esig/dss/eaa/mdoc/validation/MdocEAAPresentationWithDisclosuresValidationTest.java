@@ -33,6 +33,7 @@ import eu.europa.esig.dss.diagnostic.EAAWrapper;
 import eu.europa.esig.dss.diagnostic.claim.ClaimWrapper;
 import eu.europa.esig.dss.enumerations.COSEStructureType;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.EAAPresentationType;
 import eu.europa.esig.dss.enumerations.EllipticCurve;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
@@ -233,6 +234,11 @@ class MdocEAAPresentationWithDisclosuresValidationTest extends AbstractMdocEAAPr
         assertTrue(givenNameClaimFound);
         assertTrue(secondNameClaimFound);
         assertTrue(birthdayClaimFound);
+    }
+
+    @Override
+    protected EAAPresentationType getEAAPresentationType() {
+        return EAAPresentationType.MDOC_DEVICE_RESPONSE;
     }
 
     @Override

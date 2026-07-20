@@ -23,7 +23,7 @@ import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.validationreport.jaxb.SignerInformationType;
 import eu.europa.esig.validationreport.jaxb.SignersDocumentType;
 
-public class SDJWTCompactEAAWithKBSignatureNoCNFTest extends AbstractSDJWTEAAPresentationTestValidation {
+class SDJWTCompactEAAWithKBSignatureNoCNFTest extends AbstractSDJWTEAAPresentationTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {

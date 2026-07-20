@@ -55,6 +55,15 @@ public abstract class AbstractMdocEAAPresentationTestValidation extends Abstract
     }
 
     @Override
+    protected EAAPresentationType getEAAPresentationType() {
+        if (keyBindingPresent()) {
+            return EAAPresentationType.MDOC_DEVICE_RESPONSE;
+        } else {
+            return EAAPresentationType.MDOC_ISSUER_SIGNED;
+        }
+    }
+
+    @Override
     protected SignedDocumentValidator getValidator(DSSDocument signedDocument) {
         SignedDocumentValidator validator = super.getValidator(signedDocument);
         if (keyBindingPresent()) {

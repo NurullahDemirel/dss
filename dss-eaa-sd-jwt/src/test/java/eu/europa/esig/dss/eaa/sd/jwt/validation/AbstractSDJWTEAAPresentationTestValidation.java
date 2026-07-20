@@ -45,6 +45,11 @@ public abstract class AbstractSDJWTEAAPresentationTestValidation extends Abstrac
     }
 
     @Override
+    protected EAAPresentationType getEAAPresentationType() {
+        return EAAPresentationType.SD_JWT;
+    }
+
+    @Override
     protected void checkEAAPresentationInfo(DiagnosticData diagnosticData) {
         super.checkEAAPresentationInfo(diagnosticData);
 

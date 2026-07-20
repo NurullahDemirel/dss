@@ -179,7 +179,7 @@ public class EAAValidationContext extends SignatureValidationContext {
 
         if (isEAAStatusCheckRequired(eaa)) {
             if (EAARevocationSource == null) {
-                LOG.info("No EAAStatusSource has been provided. EAAPresentation status check is skipped.");
+                LOG.info("No EAAStatusSource has been provided. EAA status check is skipped.");
                 return;
             }
             if (LOG.isTraceEnabled()) {

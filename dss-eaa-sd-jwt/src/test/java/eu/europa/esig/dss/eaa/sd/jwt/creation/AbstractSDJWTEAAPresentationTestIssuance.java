@@ -33,6 +33,7 @@ import eu.europa.esig.dss.eaa.common.validation.AbstractEAAPresentationTestIssua
 import eu.europa.esig.dss.eaa.sd.jwt.SDJWTConstants;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
+import eu.europa.esig.dss.enumerations.EAAPresentationType;
 import eu.europa.esig.dss.enumerations.EAAType;
 import eu.europa.esig.dss.enumerations.MimeType;
 import eu.europa.esig.dss.enumerations.MimeTypeEnum;
@@ -77,6 +78,11 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
     @Override
     protected EAAType getEAAType() {
         return EAAType.SD_JWT_VC;
+    }
+
+    @Override
+    protected EAAPresentationType getEAAPresentationType() {
+        return EAAPresentationType.SD_JWT;
     }
 
     @Override

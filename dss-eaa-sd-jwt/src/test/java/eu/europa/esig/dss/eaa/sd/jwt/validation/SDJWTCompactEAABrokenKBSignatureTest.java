@@ -1,10 +1,5 @@
 package eu.europa.esig.dss.eaa.sd.jwt.validation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.enumerations.Indication;
@@ -16,7 +11,12 @@ import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.simplereport.jaxb.XmlSignature;
 import eu.europa.esig.validationreport.jaxb.SignersDocumentType;
 
-public class SDJWTCompactEAABrokenKBSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class SDJWTCompactEAABrokenKBSignatureTest extends AbstractSDJWTEAAPresentationTestValidation {
 
     @Override
     protected DSSDocument getSignedDocument() {

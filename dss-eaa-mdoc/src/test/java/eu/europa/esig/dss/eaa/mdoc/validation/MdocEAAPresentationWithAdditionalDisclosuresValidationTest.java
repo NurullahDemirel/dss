@@ -34,6 +34,7 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
 import eu.europa.esig.dss.enumerations.COSEStructureType;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
+import eu.europa.esig.dss.enumerations.EAAPresentationType;
 import eu.europa.esig.dss.enumerations.EllipticCurve;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -193,6 +194,10 @@ class MdocEAAPresentationWithAdditionalDisclosuresValidationTest extends Abstrac
         assertEquals(SubIndication.HASH_FAILURE, simpleReport.getSubIndication(eaaIdList.get(0)));
     }
 
+    @Override
+    protected EAAPresentationType getEAAPresentationType() {
+        return EAAPresentationType.MDOC_DEVICE_RESPONSE;
+    }
 
     @Override
     protected boolean keyBindingPresent() {

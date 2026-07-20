@@ -212,8 +212,13 @@ class MdocResponseSampleValidationTest extends AbstractMdocEAAPresentationTestVa
         super.checkEAAPresentationInfo(diagnosticData);
 
         XmlEAAPresentationInfo eaaPresentationInfo = diagnosticData.getEAAPresentationInfo();
-        assertEquals(EAAPresentationType.MDOC_DEVICE_RESPONSE, eaaPresentationInfo.getEAAPresentationType());
-        assertEquals(EAAPresentationType.MDOC_DEVICE_RESPONSE, diagnosticData.getEAAPresentationType());
+        assertEquals(getEAAPresentationType(), eaaPresentationInfo.getEAAPresentationType());
+        assertEquals(getEAAPresentationType(), diagnosticData.getEAAPresentationType());
+    }
+
+    @Override
+    protected EAAPresentationType getEAAPresentationType() {
+        return EAAPresentationType.MDOC_DEVICE_RESPONSE;
     }
 
     @Override

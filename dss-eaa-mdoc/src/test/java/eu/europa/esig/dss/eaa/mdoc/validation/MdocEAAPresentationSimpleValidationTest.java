@@ -29,6 +29,7 @@ import eu.europa.esig.dss.cbades.signature.CBAdESService;
 import eu.europa.esig.dss.cbades.signature.CBAdESSignatureParameters;
 import eu.europa.esig.dss.enumerations.COSEStructureType;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.EAAPresentationType;
 import eu.europa.esig.dss.enumerations.EllipticCurve;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
@@ -133,6 +134,11 @@ class MdocEAAPresentationSimpleValidationTest extends AbstractMdocEAAPresentatio
     @Override
     protected boolean disclosuresPresent() {
         return false;
+    }
+
+    @Override
+    protected EAAPresentationType getEAAPresentationType() {
+        return EAAPresentationType.MDOC_DEVICE_RESPONSE;
     }
 
     @Override

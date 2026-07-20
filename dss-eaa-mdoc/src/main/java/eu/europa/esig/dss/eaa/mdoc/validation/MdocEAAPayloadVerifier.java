@@ -196,6 +196,21 @@ public class MdocEAAPayloadVerifier extends EAAPayloadVerifier {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    protected void cleanOrphanReferences(List<DisclosureValidation> disclosureValidations, List<ValidationDisclosure> notFoundDisclosures) {
+        List<DisclosureValidation> orphanDisclosureValidations = getOrphanDisclosureValidations();
+        for (ValidationDisclosure disclosure : notFoundDisclosures) {
+            if (disclosure.getNamespace() != null && disclosure.getDigestId() != null) {
+                List<DisclosureValidation> matchingValidations = orphanDisclosureValidations.stream().filter(
+                                v -> disclosure.getNamespace().equals(v.getNamespace()) && disclosure.getDigestId().equals(v.getDigestId()))
+                        .collect(Collectors.toList());
+                if (Utils.collectionSize(matchingValidations) == 1) {
+                    disclosureValidations.remove(matchingValidations.iterator().next());
+                }
+            }
+        }
+    }
+
     /**
      * Validates the disclosure and returns the extracted value
      *

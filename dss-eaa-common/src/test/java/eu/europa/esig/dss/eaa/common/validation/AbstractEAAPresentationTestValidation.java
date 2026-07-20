@@ -36,6 +36,7 @@ import eu.europa.esig.dss.diagnostic.jaxb.XmlEAAPresentationInfo;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlSignatureScope;
 import eu.europa.esig.dss.enumerations.CertificateRefOrigin;
 import eu.europa.esig.dss.enumerations.DigestMatcherType;
+import eu.europa.esig.dss.enumerations.EAAPresentationType;
 import eu.europa.esig.dss.enumerations.EAAType;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.SignatureScopeType;
@@ -139,6 +140,7 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
         assertEquals(disclosuresPresent() || orphanSelectivelyDisclosableClaimsPresent(), Utils.isCollectionNotEmpty(eaaWrappper.getDigestMatchers()));
         assertEquals(keyBindingPresent(), eaaWrappper.getKeyBindingSignature() != null);
         assertEquals(getEAAType(), eaaWrappper.getEAAType());
+        assertEquals(getEAAPresentationType(), diagnosticData.getEAAPresentationType());
 
         checkEAADigestMatchers(diagnosticData);
         checkClaims(diagnosticData);
@@ -354,6 +356,8 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
     }
 
     protected abstract EAAType getEAAType();
+
+    protected abstract EAAPresentationType getEAAPresentationType();
 
     @Override
     protected void checkSigningCertificateValue(DiagnosticData diagnosticData) {
