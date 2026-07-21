@@ -154,9 +154,11 @@ public class MdocEAAService extends AbstractEAAService<CBAdESSignatureParameters
             LOG.debug("COSEStructureType was set to '{}'", COSEStructureType.COSE_SIGN1);
         }
 
-        if (signatureParameters.isTagged()) {
+        if (signatureParameters.isTagged() == null) {
             signatureParameters.setTagged(false);
-            LOG.debug("COSE_Sign1 structure shall be untagged. The value was set to 'false'.");
+            LOG.debug("COSE_Sign1 structure shall be untagged for mdoc signature. The value was set to 'false'.");
+        } else if (Utils.isTrue(signatureParameters.isTagged())) {
+            throw new IllegalArgumentException("COSE_Sign1 structure shall be untagged!");
         }
 
         if (!signatureParameters.isIncludeCertificateChain()) {
@@ -326,9 +328,11 @@ public class MdocEAAService extends AbstractEAAService<CBAdESSignatureParameters
             LOG.debug("COSEStructureType was set to '{}'", COSEStructureType.COSE_SIGN1);
         }
 
-        if (signatureParameters.isTagged()) {
+        if (signatureParameters.isTagged() == null) {
             signatureParameters.setTagged(false);
-            LOG.debug("COSE_Sign1 structure shall be untagged. The value was set to 'false'.");
+            LOG.debug("COSE_Sign1 structure shall be untagged for mdoc signature. The value was set to 'false'.");
+        } else if (Utils.isTrue(signatureParameters.isTagged())) {
+            throw new IllegalArgumentException("COSE_Sign1 structure shall be untagged!");
         }
 
         if (signatureParameters.isIncludeCertificateChain()) {

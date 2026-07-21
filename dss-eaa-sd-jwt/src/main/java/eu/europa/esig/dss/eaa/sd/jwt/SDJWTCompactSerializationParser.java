@@ -147,12 +147,12 @@ public class SDJWTCompactSerializationParser {
         try (Scanner scanner = new Scanner(document.openStream(), StandardCharsets.UTF_8.name())) {
             String compactSerialization = scanner.nextLine();
             if (!compactSerialization.contains(TILDE_STR)) {
-                throw new IllegalInputException("The document is not a valid SD-JWT VC. No tilde `~` character has been found.");
+                throw new IllegalInputException("The document is not a valid SD-JWT. No tilde `~` character has been found.");
             }
 
             String[] parts = compactSerialization.split(TILDE_STR);
             if (parts.length == 0) {
-                throw new IllegalInputException("The document is not a valid SD-JWT VC. No parts have been found.");
+                throw new IllegalInputException("The document is not a valid SD-JWT. No parts have been found.");
             }
 
             final SDJWTSerializationObject sdJwt = new SDJWTSerializationObject();
@@ -187,7 +187,7 @@ public class SDJWTCompactSerializationParser {
             jwsJsonSerializationObject.setJWSSerializationType(JWSSerializationType.COMPACT_SERIALIZATION);
             return jwsJsonSerializationObject;
         }
-        throw new IllegalInputException("The document is not a valid SD-JWT VC. The provided part is not a valid JWS!");
+        throw new IllegalInputException("The document is not a valid SD-JWT. The provided part is not a valid JWS!");
     }
 
     private JWSJsonSerializationObject getKeyBinding(String[] parts) {

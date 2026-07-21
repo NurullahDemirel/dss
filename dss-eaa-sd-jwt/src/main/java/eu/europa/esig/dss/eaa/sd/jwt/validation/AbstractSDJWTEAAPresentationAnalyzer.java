@@ -122,7 +122,7 @@ public abstract class AbstractSDJWTEAAPresentationAnalyzer extends DefaultEAAPre
             // should not happen
             return null;
         } else if (Utils.collectionSize(jwsKeyBindingList) != 1) {
-            throw new IllegalStateException("Only one Key Binding signature is expected within SD-JWT VC token!");
+            throw new IllegalStateException("Only one Key Binding signature is expected within an SD-JWT token!");
         }
         JAdESSignature keyBindingSignature = buildSignature(jwsKeyBindingList.get(0));
         keyBindingSignature.setSigningCertificateSource(signingCertificateSource);

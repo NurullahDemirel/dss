@@ -115,6 +115,7 @@ class MdocEAAPresentationWithDisclosuresValidationTest extends AbstractMdocEAAPr
         signatureParameters.setSignatureLevel(SignatureLevel.CB_AdES_BASELINE_B);
         signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPING);
         signatureParameters.setCoseStructureType(COSEStructureType.COSE_SIGN1);
+        signatureParameters.setTagged(false);
 
         CBAdESService service = new CBAdESService(getOfflineCertificateVerifier());
         ToBeSigned dataToSign = service.getDataToSign(originalDocument, signatureParameters);

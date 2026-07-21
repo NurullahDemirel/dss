@@ -42,7 +42,7 @@ import java.util.Map;
 
 /**
  * This class is used to parse SD-JWT token created using either a Flattened JSON Serialization or
- * General JSON Serialization as defined in draft-ietf-oauth-selective-disclosure-jwt-22
+ * General JSON Serialization as defined in RFC 9901 "Selective Disclosure for JSON Web Tokens"
  *
  */
 public class SDJWTJsonSerializationParser {
@@ -63,9 +63,9 @@ public class SDJWTJsonSerializationParser {
     }
 
     /**
-     * Verifies if the provided file is an SD-JWT VC in a form of JSON Serialization
+     * Verifies if the provided file is an SD-JWT in a form of JSON Serialization
      *
-     * @return TRUE if the document is an SD-JWT VC in a JSON Serialization form and supported by the parser, FALSE otherwise
+     * @return TRUE if the document is an SD-JWT in a JSON Serialization form and supported by the parser, FALSE otherwise
      */
     public boolean isSupported() {
         return new JWSJsonSerializationParser(document).isSupported();
@@ -85,7 +85,7 @@ public class SDJWTJsonSerializationParser {
 
         List<JWS> signatures = jwsJsonSerializationObject.getSignatures();
         if (Utils.collectionSize(signatures) == 0) {
-            throw new IllegalInputException("The provided SD-JWT VC token does not contain any signatures!");
+            throw new IllegalInputException("The provided SD-JWT token does not contain any signature!");
         }
 
         final SDJWTSerializationObject sdjwtSerializationObject = new SDJWTSerializationObject();
@@ -93,7 +93,7 @@ public class SDJWTJsonSerializationParser {
 
         JWS signature = signatures.get(0);
         if (Utils.collectionSize(signatures) > 1) {
-            LOG.info("More than one signature found used to create the SD-JWT VC token. " +
+            LOG.info("More than one signature found used to create the SD-JWT token. " +
                     "The disclosures and key binding signature from the first entry will be extracted only, if any.");
         }
         sdjwtSerializationObject.setDisclosures(getDisclosures(signature));

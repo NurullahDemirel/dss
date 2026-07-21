@@ -117,6 +117,7 @@ class MdocEAAPresentationWithDisclosuresAndKeyBindingValidationTest extends Abst
         signatureParameters.setSignatureLevel(SignatureLevel.CB_AdES_BASELINE_B);
         signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPING);
         signatureParameters.setCoseStructureType(COSEStructureType.COSE_SIGN1);
+        signatureParameters.setTagged(false);
 
         CBAdESService service = new CBAdESService(getOfflineCertificateVerifier());
         ToBeSigned dataToSign = service.getDataToSign(originalDocument, signatureParameters);
@@ -149,6 +150,7 @@ class MdocEAAPresentationWithDisclosuresAndKeyBindingValidationTest extends Abst
         signatureParameters.setSignaturePackaging(SignaturePackaging.DETACHED);
         signatureParameters.setSigDMechanism(SigDMechanism.NO_SIG_D);
         signatureParameters.setCoseStructureType(COSEStructureType.COSE_SIGN1);
+        signatureParameters.setTagged(false);
         signatureParameters.setDigestAlgorithm(DigestAlgorithm.SHA512);
         signatureParameters.setIncludeKeyIdentifier(false);
 

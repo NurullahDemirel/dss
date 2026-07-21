@@ -1,15 +1,5 @@
 package eu.europa.esig.dss.eaa.sd.jwt.validation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-
 import eu.europa.esig.dss.eaa.common.validation.DefaultEAAPresentationValidator;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.FileDocument;
@@ -20,6 +10,15 @@ import eu.europa.esig.dss.test.validation.AbstractTestDocumentValidator;
 import eu.europa.esig.dss.validation.DocumentValidator;
 import eu.europa.esig.dss.validation.SignedDocumentValidator;
 import eu.europa.esig.dss.validation.reports.Reports;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SDJWTJsonSerializationEAAPresentationValidatorTest extends AbstractTestDocumentValidator {
 
@@ -92,8 +91,7 @@ class SDJWTJsonSerializationEAAPresentationValidatorTest extends AbstractTestDoc
 
     @Override
     protected DSSDocument getNoSignatureDocument() {
-        // not applicable
-        return null;
+        return new FileDocument("src/test/resources/validation/sdjwt-json-no-signatures.json");
     }
 
     @Override

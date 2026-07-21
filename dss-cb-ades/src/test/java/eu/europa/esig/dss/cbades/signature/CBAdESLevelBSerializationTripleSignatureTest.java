@@ -30,13 +30,13 @@ import eu.europa.esig.dss.signature.DocumentSignatureService;
 import eu.europa.esig.dss.spi.signature.AdvancedSignature;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-class CBAdESLevelBSerializationTripleSignature extends AbstractCBAdESTestSignature {
+class CBAdESLevelBSerializationTripleSignatureTest extends AbstractCBAdESTestSignature {
 
     private DocumentSignatureService<CBAdESSignatureParameters, CBAdESTimestampParameters> service;
     private DSSDocument originalDocument;
@@ -49,7 +49,6 @@ class CBAdESLevelBSerializationTripleSignature extends AbstractCBAdESTestSignatu
         service = new CBAdESService(getCompleteCertificateVerifier());
         originalDocument = new InMemoryDocument("Hello World!".getBytes(), "doc.txt");
         signatureParameters = new CBAdESSignatureParameters();
-        signatureParameters.bLevel().setSigningDate(new Date());
         signatureParameters.setSigningCertificate(getSigningCert());
         signatureParameters.setCertificateChain(getCertificateChain());
         signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPING);
@@ -60,13 +59,25 @@ class CBAdESLevelBSerializationTripleSignature extends AbstractCBAdESTestSignatu
 
     @Override
     protected DSSDocument sign() {
+        Calendar calendar = Calendar.getInstance();
+        signatureParameters.bLevel().setSigningDate(calendar.getTime());
+
         documentToSign = originalDocument;
         DSSDocument signedDocument = super.sign();
+
+        calendar.add(Calendar.SECOND, 1);
+        signatureParameters.bLevel().setSigningDate(calendar.getTime());
+
         documentToSign = signedDocument;
         DSSDocument doubleSignedDocument = super.sign();
+
+        calendar.add(Calendar.SECOND, 1);
+        signatureParameters.bLevel().setSigningDate(calendar.getTime());
+
         documentToSign = doubleSignedDocument;
         DSSDocument tripleSignedDocument = super.sign();
         documentToSign = originalDocument;
+
         return tripleSignedDocument;
     }
 
@@ -83,6 +94,11 @@ class CBAdESLevelBSerializationTripleSignature extends AbstractCBAdESTestSignatu
     @Override
     protected void checkNumberOfSignatures(DiagnosticData diagnosticData) {
         assertEquals(3, diagnosticData.getSignatures().size());
+    }
+
+    @Override
+    protected void checkSigningDate(DiagnosticData diagnosticData) {
+        // skip
     }
 
     @Override

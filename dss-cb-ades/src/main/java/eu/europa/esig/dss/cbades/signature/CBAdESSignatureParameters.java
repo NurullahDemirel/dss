@@ -130,7 +130,7 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      * <p>
      * Default: TRUE (tagged signature structure is used, i.e. COSE_Sign_Tagged or COSE_Sign1_Tagged)
      */
-    private boolean tagged = true;
+    private Boolean tagged;
 
     /**
      * Externally supplied data from the application, carried outside the COSE signature structure,
@@ -382,7 +382,7 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      *
      * @return TRUE if a tagged signature structure is used, FALSE for untagged
      */
-    public boolean isTagged() {
+    public Boolean isTagged() {
         return tagged;
     }
 
@@ -397,7 +397,7 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      *
      * @param tagged whether the tagged signature structure shall be used
      */
-    public void setTagged(boolean tagged) {
+    public void setTagged(Boolean tagged) {
         this.tagged = tagged;
     }
 

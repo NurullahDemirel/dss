@@ -83,7 +83,7 @@ public class SDJWTEAA extends DefaultEAA {
     protected EAAPayloadVerifier initEAAPayloadVerifier() {
         List<AdvancedSignature> signatures = getSignatures();
         if (Utils.isCollectionEmpty(signatures)) {
-            throw new IllegalStateException("SD-JWT VC signatures cannot be empty!");
+            throw new IllegalStateException("SD-JWT signatures cannot be empty!");
         }
         JAdESSignature signature = (JAdESSignature) signatures.get(0); // payload is the same for EAA signatures
         try {

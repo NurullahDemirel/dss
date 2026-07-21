@@ -94,16 +94,19 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
         assertNotNull(eaaPresentation.getEAAPresentationType());
 
         List<EAA> eaas = eaaPresentation.getElectronicAttestationsOfAttributes();
-        assertEquals(1, Utils.collectionSize(eaas));
+        assertEquals(expectedEAAsCount(), Utils.collectionSize(eaas));
 
-        EAA eaa = eaas.get(0);
-        assertNotNull(eaa.getId());
-        assertNotNull(eaa.getDSSId());
+        if (expectedEAAsCount() > 0) {
+            for (EAA eaa : eaas) {
+                assertNotNull(eaa.getId());
+                assertNotNull(eaa.getDSSId());
 
-        assertEquals(expectedSignaturesCount(), eaa.getSignatures().size());
-        assertEquals(disclosuresPresent() || orphanSelectivelyDisclosableClaimsPresent(), Utils.isCollectionNotEmpty(eaa.getDisclosureValidations()));
-        assertEquals(keyBindingPresent(), eaa.getKeyBindingSignature() != null);
-        assertEquals(getEAAType(), eaa.getEAAType());
+                assertEquals(expectedSignaturesCount(), eaa.getSignatures().size());
+                assertEquals(disclosuresPresent() || orphanSelectivelyDisclosableClaimsPresent(), Utils.isCollectionNotEmpty(eaa.getDisclosureValidations()));
+                assertEquals(keyBindingPresent(), eaa.getKeyBindingSignature() != null);
+                assertEquals(getEAAType(), eaa.getEAAType());
+            }
+        }
     }
 
     @Override
@@ -126,21 +129,22 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
         assertNotNull(eaaPresentationInfo.getEAAPresentationType());
         assertEquals(eaaPresentationInfo.getEAAPresentationType(), diagnosticData.getEAAPresentationType());
         List<XmlEAADocument> documents = eaaPresentationInfo.getDocuments();
-        assertTrue(Utils.isCollectionNotEmpty(documents));
+        assertEquals(expectedEAAsCount(), Utils.collectionSize(documents));
         assertEquals(documents.size(), diagnosticData.getEAAs().size());
     }
 
     protected void checkEAAs(DiagnosticData diagnosticData) {
         List<EAAWrapper> eaas = diagnosticData.getEAAs();
-        assertEquals(1, eaas.size());
+        assertEquals(expectedEAAsCount(), eaas.size());
 
-        EAAWrapper eaaWrappper = eaas.get(0);
-        assertNotNull(eaaWrappper.getId());
-        assertEquals(expectedSignaturesCount(), eaaWrappper.getEAASignatures().size());
-        assertEquals(disclosuresPresent() || orphanSelectivelyDisclosableClaimsPresent(), Utils.isCollectionNotEmpty(eaaWrappper.getDigestMatchers()));
-        assertEquals(keyBindingPresent(), eaaWrappper.getKeyBindingSignature() != null);
-        assertEquals(getEAAType(), eaaWrappper.getEAAType());
-        assertEquals(getEAAPresentationType(), diagnosticData.getEAAPresentationType());
+        for (EAAWrapper eaaWrappper : eaas) {
+            assertNotNull(eaaWrappper.getId());
+            assertEquals(expectedSignaturesCount(), eaaWrappper.getEAASignatures().size());
+            assertEquals(disclosuresPresent() || orphanSelectivelyDisclosableClaimsPresent(), Utils.isCollectionNotEmpty(eaaWrappper.getDigestMatchers()));
+            assertEquals(keyBindingPresent(), eaaWrappper.getKeyBindingSignature() != null);
+            assertEquals(getEAAType(), eaaWrappper.getEAAType());
+            assertEquals(getEAAPresentationType(), diagnosticData.getEAAPresentationType());
+        }
 
         checkEAADigestMatchers(diagnosticData);
         checkClaims(diagnosticData);
@@ -339,6 +343,10 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
         }
     }
 
+    protected int expectedEAAsCount() {
+        return 1;
+    }
+
     protected int expectedSignaturesCount() {
         return 1;
     }
@@ -471,38 +479,40 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
         assertNotNull(simpleReport);
 
         List<String> eaaPresentationIdList = simpleReport.getEAAIdList();
-        assertEquals(1, eaaPresentationIdList.size());
+        assertEquals(expectedEAAsCount(), eaaPresentationIdList.size());
 
-        assertEquals(eaaPresentationIdList.get(0), simpleReport.getFirstEAAId());
-
-        String eaaPresentationId = simpleReport.getFirstEAAId();
-
-        Indication indication = simpleReport.getIndication(eaaPresentationId);
-        assertNotNull(indication);
-        assertTrue(Indication.PASSED.equals(indication) || Indication.INDETERMINATE.equals(indication)
-                || Indication.FAILED.equals(indication));
-        if (Indication.PASSED.equals(indication)) {
-
-            assertNull(simpleReport.getSubIndication(eaaPresentationId));
-            assertTrue(Utils.isCollectionEmpty(simpleReport.getAdESValidationErrors(eaaPresentationId)));
-
-        } else {
-            SubIndication subIndication = simpleReport.getSubIndication(eaaPresentationId);
-            assertNotNull(subIndication);
-            assertFalse(Utils.isCollectionEmpty(simpleReport.getAdESValidationErrors(eaaPresentationId)));
-        }
-        assertNotNull(simpleReport.getEAAQualification(eaaPresentationId));
-
-        List<XmlSignature> eaaSignatures = simpleReport.getEAASignatures(eaaPresentationId);
-        assertEquals(expectedSignaturesCount(), eaaSignatures.size());
-        for (XmlSignature xmlSignature : eaaSignatures) {
-            verifySimpleReportSignature(simpleReport, xmlSignature);
+        if (expectedEAAsCount() > 0) {
+            assertEquals(eaaPresentationIdList.get(0), simpleReport.getFirstEAAId());
         }
 
-        XmlSignature keyBindingSignature = simpleReport.getEAAKeyBindingSignature(eaaPresentationId);
-        assertEquals(keyBindingPresent(), keyBindingSignature != null);
-        if (keyBindingSignature != null) {
-            verifySimpleReportSignature(simpleReport, keyBindingSignature);
+        for (String eaaPresentationId :  eaaPresentationIdList) {
+            Indication indication = simpleReport.getIndication(eaaPresentationId);
+            assertNotNull(indication);
+            assertTrue(Indication.PASSED.equals(indication) || Indication.INDETERMINATE.equals(indication)
+                    || Indication.FAILED.equals(indication));
+            if (Indication.PASSED.equals(indication)) {
+
+                assertNull(simpleReport.getSubIndication(eaaPresentationId));
+                assertTrue(Utils.isCollectionEmpty(simpleReport.getAdESValidationErrors(eaaPresentationId)));
+
+            } else {
+                SubIndication subIndication = simpleReport.getSubIndication(eaaPresentationId);
+                assertNotNull(subIndication);
+                assertFalse(Utils.isCollectionEmpty(simpleReport.getAdESValidationErrors(eaaPresentationId)));
+            }
+            assertNotNull(simpleReport.getEAAQualification(eaaPresentationId));
+
+            List<XmlSignature> eaaSignatures = simpleReport.getEAASignatures(eaaPresentationId);
+            assertEquals(expectedSignaturesCount(), eaaSignatures.size());
+            for (XmlSignature xmlSignature : eaaSignatures) {
+                verifySimpleReportSignature(simpleReport, xmlSignature);
+            }
+
+            XmlSignature keyBindingSignature = simpleReport.getEAAKeyBindingSignature(eaaPresentationId);
+            assertEquals(keyBindingPresent(), keyBindingSignature != null);
+            if (keyBindingSignature != null) {
+                verifySimpleReportSignature(simpleReport, keyBindingSignature);
+            }
         }
     }
 

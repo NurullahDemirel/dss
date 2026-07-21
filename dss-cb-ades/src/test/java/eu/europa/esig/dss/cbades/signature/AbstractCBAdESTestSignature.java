@@ -105,7 +105,8 @@ public abstract class AbstractCBAdESTestSignature
         assertEquals(COSEStructureType.COSE_SIGN1 == getSignatureParameters().getCoseStructureType(),
                 coseSignStructure instanceof COSESign1);
 
-        assertEquals(getSignatureParameters().isTagged(), coseSignStructure.isTagged());
+        boolean isTagged = Utils.isTrue(getSignatureParameters().isTagged()) || getSignatureParameters().isTagged() == null;
+        assertEquals(isTagged, coseSignStructure.isTagged());
 
         assertNotNull(coseSignStructure.getPayload());
         assertEquals(SignaturePackaging.DETACHED == getSignatureParameters().getSignaturePackaging(), coseSignStructure.getPayload().isNull());
@@ -153,7 +154,8 @@ public abstract class AbstractCBAdESTestSignature
             assertEquals(COSEStructureType.COSE_SIGN1 == getSignatureParameters().getCoseStructureType(),
                     cose.getCoseSignStructure() instanceof COSESign1);
 
-            assertEquals(getSignatureParameters().isTagged(), cose.isTagged());
+            boolean isTagged = Utils.isTrue(getSignatureParameters().isTagged()) || getSignatureParameters().isTagged() == null;
+            assertEquals(isTagged, cose.isTagged());
 
             COSEProtectedHeader bodyProtectedHeader = cose.getBodyProtectedHeader();
             COSEProtectedHeader signerProtectedHeader = cose.getSignerProtectedHeader();
@@ -338,7 +340,8 @@ public abstract class AbstractCBAdESTestSignature
             } else {
                 fail("COSE structure type is not defined!");
             }
-            assertEquals(getSignatureParameters().isTagged(), signature.isCOSETagged());
+            boolean isTagged = Utils.isTrue(getSignatureParameters().isTagged()) || getSignatureParameters().isTagged() == null;
+            assertEquals(isTagged, signature.isCOSETagged());
         }
     }
 

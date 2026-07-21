@@ -192,7 +192,7 @@ public class CBAdESBuilder {
                     coseSign = this.coseSign;
                 } else {
                     coseSign = new COSESign();
-                    coseSign.setTagged(parameters.isTagged());
+                    coseSign.setTagged(Utils.isTrue(parameters.isTagged()));
                     coseSign.setPayload(getPayload(isDataToSignComputation));
                 }
                 coseSignature.setParent(coseSign);
@@ -203,7 +203,7 @@ public class CBAdESBuilder {
 
             case COSE_SIGN1:
                 COSESign1 coseSign1 = new COSESign1();
-                coseSign1.setTagged(parameters.isTagged());
+                coseSign1.setTagged(Utils.isTrue(parameters.isTagged()));
                 coseSign1.setProtectedHeader(getProtectedHeader());
                 coseSign1.setUnprotectedHeader(getUnprotectedHeader());
                 coseSign1.setPayload(getPayload(isDataToSignComputation));

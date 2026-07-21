@@ -161,12 +161,11 @@ public abstract class AbstractMdocEAAPresentationTestValidation extends Abstract
         DiagnosticData diagnosticData = reports.getDiagnosticData();
         ValidationReportType etsiValidationReport = reports.getEtsiValidationReportJaxb();
         for (SignatureValidationReportType signatureValidationReport : etsiValidationReport.getSignatureValidationReport()) {
-            SignatureWrapper signature = diagnosticData.getSignatureById(signatureValidationReport.getSignatureIdentifier().getId());
-
             SignatureIdentifierType signatureIdentifier = signatureValidationReport.getSignatureIdentifier();
             assertNotNull(signatureIdentifier);
-
             assertNotNull(signatureIdentifier.getSignatureValue());
+
+            SignatureWrapper signature = diagnosticData.getSignatureById(signatureIdentifier.getId());
             assertArrayEquals(signature.getSignatureValue(), signatureIdentifier.getSignatureValue().getValue());
         }
     }

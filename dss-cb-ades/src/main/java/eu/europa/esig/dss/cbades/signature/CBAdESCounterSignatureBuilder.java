@@ -226,7 +226,7 @@ public class CBAdESCounterSignatureBuilder extends CBAdESBuilder {
         final COSECounterSignature coseCounterSignature = new COSECounterSignature();
         coseCounterSignature.setContext(COSESignatureType.COSE_COUNTER_SIGNATURE_V2); // the only supported counter signature type
         coseCounterSignature.setMasterSignature(getMasterSignatureStructure());
-        coseCounterSignature.setTagged(parameters.isTagged());
+        coseCounterSignature.setTagged(Utils.isTrue(parameters.isTagged()));
         coseCounterSignature.setProtectedHeader(getProtectedHeader());
         coseCounterSignature.setSignature(getSignature(signatureValue));
         return coseCounterSignature;

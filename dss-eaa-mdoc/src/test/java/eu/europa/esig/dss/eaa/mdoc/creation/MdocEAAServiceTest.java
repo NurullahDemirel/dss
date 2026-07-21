@@ -85,12 +85,19 @@ class MdocEAAServiceTest extends PKIFactoryAccess {
         params.setX5ChainHeaderPlacement(CBAdESSignatureParameters.X5ChainHeaderPlacement.protectedHeader);
         exception = assertThrows(IllegalArgumentException.class, () -> service.getDataToBeSigned(cborPayload, params));
         assertEquals("'x5chain' shall be placed within the unsigned header map! Obtained value : 'protectedHeader'", exception.getMessage());
-        params.setX5ChainHeaderPlacement(null);
 
+        params.setX5ChainHeaderPlacement(null);
         exception = assertThrows(IllegalArgumentException.class, () -> service.getDataToBeSigned(cborPayload, params));
         assertEquals("MSO shall be signed by ECDSA or EDDSA algortihm! Obtained value : 'RSASSA_PSS'", exception.getMessage());
+
         params.setSigningCertificate(getSigningCert());
         params.setCertificateChain(getCertificateChain());
+
+        params.setTagged(true);
+        exception = assertThrows(IllegalArgumentException.class, () -> service.getDataToBeSigned(cborPayload, params));
+        assertEquals("COSE_Sign1 structure shall be untagged!", exception.getMessage());
+
+        params.setTagged(false);
 
         ToBeSigned dataToSign = service.getDataToBeSigned(cborPayload, params);
         assertNotNull(dataToSign);
@@ -199,8 +206,15 @@ class MdocEAAServiceTest extends PKIFactoryAccess {
 
         exception = assertThrows(IllegalArgumentException.class, () -> service.getDataToSignForKeyBindingSignature(signedEAA, keyBindingParameters, kbSignParams));
         assertEquals("DeviceAuthentication shall be signed by ECDSA or EDDSA algortihm! Obtained value : 'RSASSA_PSS'", exception.getMessage());
+
         kbSignParams.setSigningCertificate(getSigningCert());
         kbSignParams.setDigestAlgorithm(DigestAlgorithm.SHA256);
+
+        kbSignParams.setTagged(true);
+        exception = assertThrows(IllegalArgumentException.class, () -> service.getDataToSignForKeyBindingSignature(signedEAA, keyBindingParameters, kbSignParams));
+        assertEquals("COSE_Sign1 structure shall be untagged!", exception.getMessage());
+
+        kbSignParams.setTagged(false);
 
         exception = assertThrows(NullPointerException.class, () -> service.getDataToSignForKeyBindingSignature(signedEAA, null, kbSignParams));
         assertEquals("keyBindingParameters must not be null", exception.getMessage());

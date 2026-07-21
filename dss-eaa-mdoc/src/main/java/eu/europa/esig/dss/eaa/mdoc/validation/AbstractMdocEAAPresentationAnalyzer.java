@@ -30,6 +30,7 @@ import eu.europa.esig.dss.spi.eaa.EAAValidationParameters;
 import eu.europa.esig.dss.spi.exception.IllegalInputException;
 import eu.europa.esig.dss.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,13 +90,41 @@ public abstract class AbstractMdocEAAPresentationAnalyzer extends DefaultEAAPres
             throw new IllegalInputException(String.format("1 signature is expected. Obtained : '%s'", Utils.collectionSize(cborSignatures)));
         }
         CBORSignature cose = cborSignatures.get(0);
-        CBAdESSignature cbadesSignature = new CBAdESSignature(cose);
+        CBAdESSignature cbadesSignature = new MdocCBAdESSignature(cose);
         cbadesSignature.setFilename(document.getName());
         cbadesSignature.setSigningCertificateSource(signingCertificateSource);
         cbadesSignature.setDetachedContents(detachedContents);
         cbadesSignature.initBaselineRequirementsChecker(certificateVerifier);
         validateSignaturePolicy(cbadesSignature);
         return cbadesSignature;
+    }
+
+    /**
+     * CBAdESSignature for ISO/IEC mdoc document
+     */
+    private static class MdocCBAdESSignature extends CBAdESSignature {
+
+        private static final long serialVersionUID = -3472806679784132688L;
+
+        /**
+         * Default constructor
+         *
+         * @param cose {@link CBORSignature}
+         */
+        public MdocCBAdESSignature(CBORSignature cose) {
+            super(cose);
+        }
+
+        @Override
+        protected List<String> validateStructure() {
+            List<String> structureValidation = super.validateStructure();
+            if (isTagged()) {
+                structureValidation = new ArrayList<>(structureValidation);
+                structureValidation.add("Signature is a tagged COSE_Sign1! Shall be untagged COSE_Sign1.");
+            }
+            return structureValidation;
+        }
+
     }
 
 }
