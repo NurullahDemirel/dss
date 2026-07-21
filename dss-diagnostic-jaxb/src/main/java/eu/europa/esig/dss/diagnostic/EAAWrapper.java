@@ -20,15 +20,6 @@
  */
 package eu.europa.esig.dss.diagnostic;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import eu.europa.esig.dss.diagnostic.claim.AddressClaimWrapper;
 import eu.europa.esig.dss.diagnostic.claim.AgeEqualOrOverClaimWrapper;
 import eu.europa.esig.dss.diagnostic.claim.AgeOverNNClaimWrapper;
@@ -54,6 +45,15 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EAACategory;
 import eu.europa.esig.dss.enumerations.EAAQualification;
 import eu.europa.esig.dss.enumerations.EAAType;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Provides a user-friendly interface for information extraction from a {@code eu.europa.esig.dss.diagnostic.jaxb.XmlEAA} JAXB object
@@ -721,8 +721,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderFullName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderFullName());
+    public String getFullName() {
+        return getPayloadClaimTextValue(getEAAPayload().getFullName());
     }
 
     /**
@@ -730,8 +730,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderGivenName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderGivenName());
+    public String getGivenName() {
+        return getPayloadClaimTextValue(getEAAPayload().getGivenName());
     }
 
     /**
@@ -739,8 +739,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderFamilyName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderFamilyName());
+    public String getFamilyName() {
+        return getPayloadClaimTextValue(getEAAPayload().getFamilyName());
     }
 
     /**
@@ -748,8 +748,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderMiddleName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderMiddleName());
+    public String getMiddleName() {
+        return getPayloadClaimTextValue(getEAAPayload().getMiddleName());
     }
 
     /**
@@ -757,8 +757,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderNickname() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderNickname());
+    public String getNickname() {
+        return getPayloadClaimTextValue(getEAAPayload().getNickname());
     }
 
     /**
@@ -766,8 +766,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderShortName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderShortName());
+    public String getShortName() {
+        return getPayloadClaimTextValue(getEAAPayload().getShortName());
     }
 
     /**
@@ -775,8 +775,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderProfileUrl() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderProfileUrl());
+    public String getProfileUrl() {
+        return getPayloadClaimTextValue(getEAAPayload().getProfileUrl());
     }
 
     /**
@@ -784,8 +784,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderPictureUrl() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderPictureUrl());
+    public String getPictureUrl() {
+        return getPayloadClaimTextValue(getEAAPayload().getPictureUrl());
     }
 
     /**
@@ -793,8 +793,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderWebsiteUrl() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderWebsiteUrl());
+    public String getWebsiteUrl() {
+        return getPayloadClaimTextValue(getEAAPayload().getWebsiteUrl());
     }
 
     /**
@@ -802,8 +802,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderEmail() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderEmail());
+    public String getEmail() {
+        return getPayloadClaimTextValue(getEAAPayload().getEmail());
     }
 
     /**
@@ -811,8 +811,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Boolean}
      */
-    public Boolean getHolderEmailVerified() {
-        return getPayloadClaimBooleanValue(getEAAPayload().getHolderEmailVerified());
+    public Boolean getEmailVerified() {
+        return getPayloadClaimBooleanValue(getEAAPayload().getEmailVerified());
     }
 
     /**
@@ -820,8 +820,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Integer}
      */
-    public Integer getHolderGender() {
-        return getPayloadClaimIntegerValue(getEAAPayload().getHolderGender());
+    public Integer getGender() {
+        return getPayloadClaimIntegerValue(getEAAPayload().getGender());
     }
 
     /**
@@ -829,9 +829,9 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Date}
      */
-    public Date getHolderBirthdate() {
-        if (getEAAPayload().getHolderBirthdate() != null) {
-            return getPayloadClaimDateValue(getEAAPayload().getHolderBirthdate().getBirthdate());
+    public Date getBirthdate() {
+        if (getEAAPayload().getBirthdate() != null) {
+            return getPayloadClaimDateValue(getEAAPayload().getBirthdate().getBirthdate());
         }
         return null;
     }
@@ -841,9 +841,9 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderBirthdateApproximateMask() {
-        if (getEAAPayload().getHolderBirthdate() != null) {
-            return getPayloadClaimTextValue(getEAAPayload().getHolderBirthdate().getApproximateMask());
+    public String getBirthdateApproximateMask() {
+        if (getEAAPayload().getBirthdate() != null) {
+            return getPayloadClaimTextValue(getEAAPayload().getBirthdate().getApproximateMask());
         }
         return null;
     }
@@ -853,8 +853,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderTimezone() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderTimezone());
+    public String getTimezone() {
+        return getPayloadClaimTextValue(getEAAPayload().getTimezone());
     }
 
     /**
@@ -862,8 +862,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderLocale() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderLocale());
+    public String getLocale() {
+        return getPayloadClaimTextValue(getEAAPayload().getLocale());
     }
 
     /**
@@ -871,8 +871,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderPostalAddress() {
-        AddressClaimWrapper userAddress = getEAAPayload().getHolderAddress();
+    public String getPostalAddress() {
+        AddressClaimWrapper userAddress = getEAAPayload().getAddress();
         if (userAddress != null) {
             return getPayloadClaimTextValue(userAddress.getPostalAddress());
         }
@@ -884,12 +884,12 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderAddressCity() {
-        AddressClaimWrapper userAddress = getEAAPayload().getHolderAddress();
+    public String getAddressCity() {
+        AddressClaimWrapper userAddress = getEAAPayload().getAddress();
         if (userAddress != null) {
             return getPayloadClaimTextValue(userAddress.getCity());
         }
-        ClaimWrapper residentAddressCity = getEAAPayload().getHolderResidentAddressCity();
+        ClaimWrapper residentAddressCity = getEAAPayload().getResidentAddressCity();
         if (residentAddressCity != null) {
             return getPayloadClaimTextValue(residentAddressCity);
         }
@@ -901,12 +901,12 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderAddressStateOrProvince() {
-        AddressClaimWrapper userAddress = getEAAPayload().getHolderAddress();
+    public String getAddressStateOrProvince() {
+        AddressClaimWrapper userAddress = getEAAPayload().getAddress();
         if (userAddress != null) {
             return getPayloadClaimTextValue(userAddress.getStateOrProvince());
         }
-        ClaimWrapper residentAddressState = getEAAPayload().getHolderResidentAddressState();
+        ClaimWrapper residentAddressState = getEAAPayload().getResidentAddressState();
         if (residentAddressState != null) {
             return getPayloadClaimTextValue(residentAddressState);
         }
@@ -918,12 +918,12 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderAddressPostalCode() {
-        AddressClaimWrapper userAddress = getEAAPayload().getHolderAddress();
+    public String getAddressPostalCode() {
+        AddressClaimWrapper userAddress = getEAAPayload().getAddress();
         if (userAddress != null) {
             return getPayloadClaimTextValue(userAddress.getPostalCode());
         }
-        ClaimWrapper residentAddressPostalCode = getEAAPayload().getHolderResidentAddressPostalCode();
+        ClaimWrapper residentAddressPostalCode = getEAAPayload().getResidentAddressPostalCode();
         if (residentAddressPostalCode != null) {
             return getPayloadClaimTextValue(residentAddressPostalCode);
         }
@@ -936,12 +936,12 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderAddressCountry() {
-        AddressClaimWrapper userAddress = getEAAPayload().getHolderAddress();
+    public String getAddressCountry() {
+        AddressClaimWrapper userAddress = getEAAPayload().getAddress();
         if (userAddress != null) {
             return getPayloadClaimTextValue(userAddress.getCountry());
         }
-        ClaimWrapper residentAddressCountry = getEAAPayload().getHolderResidentAddressCountry();
+        ClaimWrapper residentAddressCountry = getEAAPayload().getResidentAddressCountry();
         if (residentAddressCountry != null) {
             return getPayloadClaimTextValue(residentAddressCountry);
         }
@@ -953,8 +953,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderStreetAddress() {
-        AddressClaimWrapper userAddress = getEAAPayload().getHolderAddress();
+    public String getStreetAddress() {
+        AddressClaimWrapper userAddress = getEAAPayload().getAddress();
         if (userAddress != null) {
             return getPayloadClaimTextValue(userAddress.getStreetAddress());
         }
@@ -970,8 +970,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderPhoneNumber() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderPhoneNumber());
+    public String getPhoneNumber() {
+        return getPayloadClaimTextValue(getEAAPayload().getPhoneNumber());
     }
 
     /**
@@ -979,8 +979,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Boolean}
      */
-    public Boolean getHolderPhoneNumberVerified() {
-        return getPayloadClaimBooleanValue(getEAAPayload().getHolderPhoneNumberVerified());
+    public Boolean getPhoneNumberVerified() {
+        return getPayloadClaimBooleanValue(getEAAPayload().getPhoneNumberVerified());
     }
 
     /**
@@ -988,8 +988,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderPlaceOfBirth() {
-        PlaceOfBirthClaimWrapper userPlaceOfBirth = getEAAPayload().getHolderPlaceOfBirth();
+    public String getPlaceOfBirth() {
+        PlaceOfBirthClaimWrapper userPlaceOfBirth = getEAAPayload().getPlaceOfBirth();
         if (userPlaceOfBirth != null && userPlaceOfBirth.isText()) {
             return getPayloadClaimTextValue(userPlaceOfBirth);
         }
@@ -1001,8 +1001,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderPlaceOfBirthCountry() {
-        PlaceOfBirthClaimWrapper userPlaceOfBirth = getEAAPayload().getHolderPlaceOfBirth();
+    public String getPlaceOfBirthCountry() {
+        PlaceOfBirthClaimWrapper userPlaceOfBirth = getEAAPayload().getPlaceOfBirth();
         if (userPlaceOfBirth != null) {
             return getPayloadClaimTextValue(userPlaceOfBirth.getCountry());
         }
@@ -1014,8 +1014,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderPlaceOfBirthRegion() {
-        PlaceOfBirthClaimWrapper userPlaceOfBirth = getEAAPayload().getHolderPlaceOfBirth();
+    public String getPlaceOfBirthRegion() {
+        PlaceOfBirthClaimWrapper userPlaceOfBirth = getEAAPayload().getPlaceOfBirth();
         if (userPlaceOfBirth != null) {
             return getPayloadClaimTextValue(userPlaceOfBirth.getRegion());
         }
@@ -1027,8 +1027,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderPlaceOfBirthCity() {
-        PlaceOfBirthClaimWrapper userPlaceOfBirth = getEAAPayload().getHolderPlaceOfBirth();
+    public String getPlaceOfBirthCity() {
+        PlaceOfBirthClaimWrapper userPlaceOfBirth = getEAAPayload().getPlaceOfBirth();
         if (userPlaceOfBirth != null) {
             return getPayloadClaimTextValue(userPlaceOfBirth.getCity());
         }
@@ -1041,8 +1041,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return a list of {@link String}s
      */
-    public List<String> getHolderNationalities() {
-        return getPayloadClaimArrayAsStringsValue(getEAAPayload().getHolderNationalities());
+    public List<String> getNationalities() {
+        return getPayloadClaimArrayAsStringsValue(getEAAPayload().getNationalities());
     }
 
     /**
@@ -1050,8 +1050,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderBirthFamilyName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderBirthFamilyName());
+    public String getBirthFamilyName() {
+        return getPayloadClaimTextValue(getEAAPayload().getBirthFamilyName());
     }
 
     /**
@@ -1059,8 +1059,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderBirthGivenName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderBirthGivenName());
+    public String getBirthGivenName() {
+        return getPayloadClaimTextValue(getEAAPayload().getBirthGivenName());
     }
 
     /**
@@ -1068,8 +1068,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderBirthMiddleName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderBirthMiddleName());
+    public String getBirthMiddleName() {
+        return getPayloadClaimTextValue(getEAAPayload().getBirthMiddleName());
     }
 
     /**
@@ -1077,8 +1077,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderSalutation() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderSalutation());
+    public String getSalutation() {
+        return getPayloadClaimTextValue(getEAAPayload().getSalutation());
     }
 
     /**
@@ -1086,8 +1086,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderBirthFullName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderBirthFullName());
+    public String getBirthFullName() {
+        return getPayloadClaimTextValue(getEAAPayload().getBirthFullName());
     }
 
     /**
@@ -1095,8 +1095,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderTitle() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderTitle());
+    public String getTitle() {
+        return getPayloadClaimTextValue(getEAAPayload().getTitle());
     }
 
     /**
@@ -1104,8 +1104,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderMobilePhoneNumber() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderMobilePhoneNumber());
+    public String getMobilePhoneNumber() {
+        return getPayloadClaimTextValue(getEAAPayload().getMobilePhoneNumber());
     }
 
     /**
@@ -1113,8 +1113,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderPseudonym() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderPseudonym());
+    public String getPseudonym() {
+        return getPayloadClaimTextValue(getEAAPayload().getPseudonym());
     }
 
     /* mdoc claims */
@@ -1194,8 +1194,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return byte array
      */
-    public byte[] getHolderPortrait() {
-        return getPayloadClaimByteValue(getEAAPayload().getHolderPortrait());
+    public byte[] getPortrait() {
+        return getPayloadClaimByteValue(getEAAPayload().getPortrait());
     }
 
     /**
@@ -1204,8 +1204,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link DrivingPrivilegesClaimWrapper}
      */
-    public DrivingPrivilegesClaimWrapper getHolderDrivingPrivileges() {
-        return getEAAPayload().getHolderDrivingPrivileges();
+    public DrivingPrivilegesClaimWrapper getDrivingPrivileges() {
+        return getEAAPayload().getDrivingPrivileges();
     }
 
     /**
@@ -1213,8 +1213,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Integer}
      */
-    public Integer getHolderHeight() {
-        return getPayloadClaimIntegerValue(getEAAPayload().getHolderHeight());
+    public Integer getHeight() {
+        return getPayloadClaimIntegerValue(getEAAPayload().getHeight());
     }
 
     /**
@@ -1222,8 +1222,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Integer}
      */
-    public Integer getHolderWeight() {
-        return getPayloadClaimIntegerValue(getEAAPayload().getHolderWeight());
+    public Integer getWeight() {
+        return getPayloadClaimIntegerValue(getEAAPayload().getWeight());
     }
 
     /**
@@ -1232,8 +1232,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderEyeColour() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderEyeColour());
+    public String getEyeColour() {
+        return getPayloadClaimTextValue(getEAAPayload().getEyeColour());
     }
 
     /**
@@ -1242,8 +1242,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderHairColour() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderHairColour());
+    public String getHairColour() {
+        return getPayloadClaimTextValue(getEAAPayload().getHairColour());
     }
 
     /**
@@ -1251,8 +1251,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Date}
      */
-    public Date getHolderPortraitCaptureDate() {
-        return getPayloadClaimDateValue(getEAAPayload().getHolderPortraitCaptureDate());
+    public Date getPortraitCaptureDate() {
+        return getPayloadClaimDateValue(getEAAPayload().getPortraitCaptureDate());
     }
 
     /**
@@ -1260,8 +1260,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Integer}
      */
-    public Integer getHolderAgeInYears() {
-        return getPayloadClaimIntegerValue(getEAAPayload().getHolderAgeInYears());
+    public Integer getAgeInYears() {
+        return getPayloadClaimIntegerValue(getEAAPayload().getAgeInYears());
     }
 
     /**
@@ -1269,8 +1269,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link Integer}
      */
-    public Integer getHolderAgeBirthYear() {
-        return getPayloadClaimIntegerValue(getEAAPayload().getHolderAgeBirthYear());
+    public Integer getAgeBirthYear() {
+        return getPayloadClaimIntegerValue(getEAAPayload().getAgeBirthYear());
     }
 
     /**
@@ -1280,18 +1280,18 @@ public class EAAWrapper extends AbstractTokenProxy {
      * @param age integer age to verify against
      * @return {@link Boolean}
      */
-    public Boolean isHolderAgeOver(int age) {
-        AgeEqualOrOverClaimWrapper holderAgeEqualOrOver = getEAAPayload().getHolderAgeEqualOrOver();
+    public Boolean isAgeOver(int age) {
+        AgeEqualOrOverClaimWrapper holderAgeEqualOrOver = getEAAPayload().getAgeEqualOrOver();
         if (holderAgeEqualOrOver != null) {
-            Boolean result = isHolderAgeOver(holderAgeEqualOrOver.getAgeEqualOrOverList(), age);
+            Boolean result = isAgeOver(holderAgeEqualOrOver.getAgeEqualOrOverList(), age);
             if (result != null) {
                 return result;
             }
         }
-        return isHolderAgeOver(getEAAPayload().getHolderAgeOverList(), age);
+        return isAgeOver(getEAAPayload().getAgeOverList(), age);
     }
 
-    private Boolean isHolderAgeOver(List<AgeOverNNClaimWrapper> ageOverClaimsList, int age) {
+    private Boolean isAgeOver(List<AgeOverNNClaimWrapper> ageOverClaimsList, int age) {
         if (ageOverClaimsList != null && !ageOverClaimsList.isEmpty()) {
             for (AgeOverNNClaimWrapper ageOverNNClaim : ageOverClaimsList) {
                 if (age == ageOverNNClaim.getAge()) {
@@ -1310,7 +1310,7 @@ public class EAAWrapper extends AbstractTokenProxy {
      * @param type {@link String} type to get biometric template for
      * @return byte array
      */
-    public byte[] getHolderBiometricTemplate(String type) {
+    public byte[] getBiometricTemplate(String type) {
         if (type == null) {
             return null;
         }
@@ -1321,7 +1321,7 @@ public class EAAWrapper extends AbstractTokenProxy {
          * lowercase equivalent and spaces or non-alphanumeric characters are replaced by underscores (_).
          */
         type = normalizeType(type);
-        List<BiometricTemplateXXClaimWrapper> biometricTemplateList = getEAAPayload().getHolderBiometricTemplateList();
+        List<BiometricTemplateXXClaimWrapper> biometricTemplateList = getEAAPayload().getBiometricTemplateList();
         if (biometricTemplateList != null && !biometricTemplateList.isEmpty()) {
             for (BiometricTemplateXXClaimWrapper biometricTemplate : biometricTemplateList) {
                 if (type.equals(normalizeType(biometricTemplate.getType()))) {
@@ -1345,8 +1345,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return byte array
      */
-    public byte[] getHolderSignatureUsualMark() {
-        return getPayloadClaimByteValue(getEAAPayload().getHolderSignatureUsualMark());
+    public byte[] getSignatureUsualMark() {
+        return getPayloadClaimByteValue(getEAAPayload().getSignatureUsualMark());
     }
 
     /**
@@ -1354,8 +1354,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return byte array
      */
-    public byte[] getHolderFingerprint() {
-        return getPayloadClaimByteValue(getEAAPayload().getHolderFingerprint());
+    public byte[] getFingerprint() {
+        return getPayloadClaimByteValue(getEAAPayload().getFingerprint());
     }
 
     /**
@@ -1363,8 +1363,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderBusinessName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderBusinessName());
+    public String getBusinessName() {
+        return getPayloadClaimTextValue(getEAAPayload().getBusinessName());
     }
 
     /**
@@ -1372,8 +1372,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderOrganizationName() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderOrganizationName());
+    public String getOrganizationName() {
+        return getPayloadClaimTextValue(getEAAPayload().getOrganizationName());
     }
 
     /**
@@ -1381,8 +1381,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderProfession() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderProfession());
+    public String getProfession() {
+        return getPayloadClaimTextValue(getEAAPayload().getProfession());
     }
 
     /**
@@ -1390,8 +1390,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipFather() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipFather());
+    public String getRelationshipFather() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipFather());
     }
 
     /**
@@ -1399,8 +1399,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipMother() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipMother());
+    public String getRelationshipMother() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipMother());
     }
 
     /**
@@ -1408,8 +1408,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipParent() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipParent());
+    public String getRelationshipParent() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipParent());
     }
 
     /**
@@ -1417,8 +1417,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipSon() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipSon());
+    public String getRelationshipSon() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipSon());
     }
 
     /**
@@ -1426,8 +1426,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipDaughter() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipDaughter());
+    public String getRelationshipDaughter() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipDaughter());
     }
 
     /**
@@ -1435,8 +1435,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipBrother() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipBrother());
+    public String getRelationshipBrother() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipBrother());
     }
 
     /**
@@ -1444,8 +1444,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipSister() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipSister());
+    public String getRelationshipSister() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipSister());
     }
 
     /**
@@ -1453,8 +1453,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipSibling() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipSibling());
+    public String getRelationshipSibling() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipSibling());
     }
 
     /**
@@ -1462,8 +1462,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipSpouse() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipSpouse());
+    public String getRelationshipSpouse() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipSpouse());
     }
 
     /**
@@ -1471,8 +1471,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipFatherInLaw() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipFatherInLaw());
+    public String getRelationshipFatherInLaw() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipFatherInLaw());
     }
 
     /**
@@ -1480,8 +1480,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipMotherInLaw() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipMotherInLaw());
+    public String getRelationshipMotherInLaw() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipMotherInLaw());
     }
 
     /**
@@ -1489,8 +1489,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipParentInLaw() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipParentInLaw());
+    public String getRelationshipParentInLaw() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipParentInLaw());
     }
 
     /**
@@ -1498,8 +1498,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipSonInLaw() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipSonInLaw());
+    public String getRelationshipSonInLaw() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipSonInLaw());
     }
 
     /**
@@ -1507,8 +1507,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipDaughterInLaw() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipDaughterInLaw());
+    public String getRelationshipDaughterInLaw() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipDaughterInLaw());
     }
 
     /**
@@ -1516,8 +1516,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipChildInLaw() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipChildInLaw());
+    public String getRelationshipChildInLaw() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipChildInLaw());
     }
 
     /**
@@ -1525,8 +1525,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipParentalAuthority() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipParentalAuthority());
+    public String getRelationshipParentalAuthority() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipParentalAuthority());
     }
 
     /**
@@ -1534,8 +1534,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipLegalRepresentative() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipLegalRepresentative());
+    public String getRelationshipLegalRepresentative() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipLegalRepresentative());
     }
 
     /**
@@ -1543,8 +1543,8 @@ public class EAAWrapper extends AbstractTokenProxy {
      *
      * @return {@link String}
      */
-    public String getHolderRelationshipAgent() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderRelationshipAgent());
+    public String getRelationshipAgent() {
+        return getPayloadClaimTextValue(getEAAPayload().getRelationshipAgent());
     }
 
     /**
@@ -1600,7 +1600,7 @@ public class EAAWrapper extends AbstractTokenProxy {
      * @return {@link String}
      */
     public String getResidentAddressCity() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderResidentAddressCity());
+        return getPayloadClaimTextValue(getEAAPayload().getResidentAddressCity());
     }
 
     /**
@@ -1609,7 +1609,7 @@ public class EAAWrapper extends AbstractTokenProxy {
      * @return {@link String}
      */
     public String getResidentAddressState() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderResidentAddressState());
+        return getPayloadClaimTextValue(getEAAPayload().getResidentAddressState());
     }
 
     /**
@@ -1618,7 +1618,7 @@ public class EAAWrapper extends AbstractTokenProxy {
      * @return {@link String}
      */
     public String getResidentAddressPostalCode() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderResidentAddressPostalCode());
+        return getPayloadClaimTextValue(getEAAPayload().getResidentAddressPostalCode());
     }
 
     /**
@@ -1627,7 +1627,7 @@ public class EAAWrapper extends AbstractTokenProxy {
      * @return {@link String}
      */
     public String getResidentAddressCountry() {
-        return getPayloadClaimTextValue(getEAAPayload().getHolderResidentAddressCountry());
+        return getPayloadClaimTextValue(getEAAPayload().getResidentAddressCountry());
     }
 
     /**

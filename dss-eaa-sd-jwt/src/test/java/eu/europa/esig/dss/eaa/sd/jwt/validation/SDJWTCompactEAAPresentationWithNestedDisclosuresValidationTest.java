@@ -126,7 +126,7 @@ class SDJWTCompactEAAPresentationWithNestedDisclosuresValidationTest extends Abs
         assertEquals("user_42", eaa.getEAASubject());
         assertEquals(DSSUtils.parseRFCDate("2029-09-01T23:33:20Z"), eaa.getEAAExpiration());
         assertEquals(DSSUtils.parseRFCDate("2023-05-02T04:00:00Z"), eaa.getEAAIssuedAt());
-        assertEquals(Arrays.asList("DE", "FR", "UK"), eaa.getHolderNationalities());
+        assertEquals(Arrays.asList("DE", "FR", "UK"), eaa.getNationalities());
 
         List<ClaimWrapper> selectivelyDisclosableClaims = eaa.getSelectivelyDisclosableClaims();
         assertEquals(4, selectivelyDisclosableClaims.size());

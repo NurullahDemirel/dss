@@ -69,11 +69,11 @@ class MdocResponseSampleValidationTest extends AbstractMdocEAAPresentationTestVa
         assertEquals(DSSUtils.parseRFCDate("2020-10-01T13:30:02Z"), eaa.getEAANotBefore());
         assertEquals(DSSUtils.parseRFCDate("2021-10-01T13:30:02Z"), eaa.getEAAExpiration());
         assertNull(eaa.getEAANextUpdate());
-        assertEquals("Doe", eaa.getHolderFamilyName());
+        assertEquals("Doe", eaa.getFamilyName());
         assertEquals("123456789", eaa.getDocumentNumber());
-        assertTrue(Utils.isArrayNotEmpty(eaa.getHolderPortrait()));
-        assertNotNull(eaa.getHolderDrivingPrivileges());
-        assertEquals(2, eaa.getHolderDrivingPrivileges().getDrivingPrivileges().size());
+        assertTrue(Utils.isArrayNotEmpty(eaa.getPortrait()));
+        assertNotNull(eaa.getDrivingPrivileges());
+        assertEquals(2, eaa.getDrivingPrivileges().getDrivingPrivileges().size());
 
         List<ClaimWrapper> selectivelyDisclosableClaims = eaa.getSelectivelyDisclosableClaims();
         assertEquals(6, selectivelyDisclosableClaims.size());

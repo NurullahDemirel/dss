@@ -72,8 +72,8 @@ class SDJWTCompactEAAPresentationOnlyDecoyDigestsTest extends AbstractSDJWTEAAPr
         assertEquals(DSSUtils.formatDateToRFC(getSigningCert().getNotAfter()), DSSUtils.formatDateToRFC(eaa.getEAAExpiration()));
         assertEquals("EAA provider", eaa.getEAAIssuer());
         assertEquals("TEST Authority", eaa.getDocumentIssuingAuthority());
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
 
         assertEquals(2, eaa.getDigestMatchers().size());
 

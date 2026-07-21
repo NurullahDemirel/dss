@@ -121,7 +121,7 @@ class SDJWTCompactStatusAndAttestedAttributesCreationTest extends AbstractSDJWTE
         assertNull(eaa.getAttestedAttributesSubjectPseudonym());
         assertEquals(Arrays.asList("given_name", "family_name"), eaa.getAttestedAttributes());
 
-        assertEquals("LU", eaa.getHolderPlaceOfBirthCountry());
+        assertEquals("LU", eaa.getPlaceOfBirthCountry());
     }
 
     @Override

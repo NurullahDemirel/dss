@@ -94,7 +94,7 @@ class SDJWTCompactEAAPresentationNoSDWithPseudonymTest extends AbstractSDJWTEAAP
         assertEquals("TEST Authority", eaa.getDocumentIssuingAuthority());
         assertEquals("LU", eaa.getDocumentIssuingAuthorityCountry());
         assertEquals("VATLU-123456", eaa.getIssuingRegistrationIdentifier());
-        assertEquals("X Man", eaa.getHolderPseudonym());
+        assertEquals("X Man", eaa.getPseudonym());
         assertArrayEquals(getSigningCert().getPublicKey().getEncoded(), eaa.getEAADevicePublicKey());
     }
 

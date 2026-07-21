@@ -91,8 +91,8 @@ class SDJWTCompactEAAPresentationNoSDWithCnfTest extends AbstractSDJWTEAAPresent
         assertEquals("EAA provider", eaa.getEAAIssuer());
         assertEquals(DSSASN1Utils.getSubjectCommonName(getSigningCert()), eaa.getEAASubject());
         assertEquals("TEST Authority", eaa.getDocumentIssuingAuthority());
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
         assertArrayEquals(getSigningCert().getPublicKey().getEncoded(), eaa.getEAADevicePublicKey());
     }
 

@@ -113,19 +113,19 @@ class SDJWTFlattenedEAAPresentationWithDisclosuresTest extends AbstractSDJWTEAAP
         assertEquals(DSSUtils.parseRFCDate("2029-09-01T23:33:20Z"), eaa.getEAAExpiration());
         assertEquals(DSSUtils.parseRFCDate("2023-05-02T04:00:00Z"), eaa.getEAAIssuedAt());
 
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
-        assertEquals(DSSUtils.parseRFCDate("1940-01-01T00:00:00Z"), eaa.getHolderBirthdate());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
+        assertEquals(DSSUtils.parseRFCDate("1940-01-01T00:00:00Z"), eaa.getBirthdate());
 
-        assertNull(eaa.getHolderEmail());
-        assertNull(eaa.getHolderEmailVerified());
-        assertNull(eaa.getHolderAddressCity());
-        assertNull(eaa.getHolderAddressStateOrProvince());
-        assertNull(eaa.getHolderAddressCountry());
-        assertNull(eaa.getHolderStreetAddress());
-        assertNull(eaa.getHolderPhoneNumber());
-        assertNull(eaa.getHolderPhoneNumberVerified());
-        assertFalse(Utils.isCollectionNotEmpty(eaa.getHolderNationalities()));
+        assertNull(eaa.getEmail());
+        assertNull(eaa.getEmailVerified());
+        assertNull(eaa.getAddressCity());
+        assertNull(eaa.getAddressStateOrProvince());
+        assertNull(eaa.getAddressCountry());
+        assertNull(eaa.getStreetAddress());
+        assertNull(eaa.getPhoneNumber());
+        assertNull(eaa.getPhoneNumberVerified());
+        assertFalse(Utils.isCollectionNotEmpty(eaa.getNationalities()));
 
         List<ClaimWrapper> selectivelyDisclosableClaims = eaa.getSelectivelyDisclosableClaims();
         assertEquals(4, selectivelyDisclosableClaims.size());

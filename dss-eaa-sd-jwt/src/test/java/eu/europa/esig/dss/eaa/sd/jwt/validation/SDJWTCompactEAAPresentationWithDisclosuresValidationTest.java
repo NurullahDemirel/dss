@@ -153,18 +153,18 @@ class SDJWTCompactEAAPresentationWithDisclosuresValidationTest extends AbstractS
         assertEquals(DSSUtils.parseRFCDate("2023-05-02T04:00:00Z"), eaa.getEAAIssuedAt());
         assertEquals(DSSUtils.parseRFCDate("2019-10-02T07:06:40Z"), eaa.getEAAUpdatedAt());
 
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
-        assertEquals("johndoe@example.com", eaa.getHolderEmail());
-        assertNull(eaa.getHolderEmailVerified());
-        assertEquals(DSSUtils.parseRFCDate("1940-01-01T00:00:00Z"), eaa.getHolderBirthdate());
-        assertEquals("Anytown", eaa.getHolderAddressCity());
-        assertEquals("Anystate", eaa.getHolderAddressStateOrProvince());
-        assertEquals("US", eaa.getHolderAddressCountry());
-        assertEquals("123 Main St", eaa.getHolderStreetAddress());
-        assertEquals("+1-202-555-0101", eaa.getHolderPhoneNumber());
-        assertTrue(eaa.getHolderPhoneNumberVerified());
-        assertEquals(Arrays.asList("US", "DE"), eaa.getHolderNationalities());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
+        assertEquals("johndoe@example.com", eaa.getEmail());
+        assertNull(eaa.getEmailVerified());
+        assertEquals(DSSUtils.parseRFCDate("1940-01-01T00:00:00Z"), eaa.getBirthdate());
+        assertEquals("Anytown", eaa.getAddressCity());
+        assertEquals("Anystate", eaa.getAddressStateOrProvince());
+        assertEquals("US", eaa.getAddressCountry());
+        assertEquals("123 Main St", eaa.getStreetAddress());
+        assertEquals("+1-202-555-0101", eaa.getPhoneNumber());
+        assertTrue(eaa.getPhoneNumberVerified());
+        assertEquals(Arrays.asList("US", "DE"), eaa.getNationalities());
 
         assertEquals("urn:eudi:eaa:1", eaa.getEAAVerifiableCredentialsTypeUri());
         assertEquals(DigestAlgorithm.SHA256, eaa.getEAAVerifiableCredentialsTypeIntegrityDigestAlgorithm());

@@ -57,14 +57,14 @@ class MdocEAAISOMdLInvalidDrivingPrivilegeTest extends AbstractMdocEAAPresentati
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
         EAAPayloadProxy eaaPayload = eaa.getEAAPayload();
 
-        DrivingPrivilegesClaimWrapper holderDrivingPrivileges = eaaPayload.getHolderDrivingPrivileges();
-        assertNotNull(holderDrivingPrivileges);
+        DrivingPrivilegesClaimWrapper drivingPrivilegesClaimWrapper = eaaPayload.getDrivingPrivileges();
+        assertNotNull(drivingPrivilegesClaimWrapper);
 
-        List<DrivingPrivilegeClaimWrapper> drivingPrivileges = holderDrivingPrivileges.getDrivingPrivileges();
+        List<DrivingPrivilegeClaimWrapper> drivingPrivileges = drivingPrivilegesClaimWrapper.getDrivingPrivileges();
         assertEquals(1, drivingPrivileges.size());
         assertEquals("B", drivingPrivileges.get(0).getVehicleCategoryCode().getText());
 
-        List<ClaimWrapper> list = holderDrivingPrivileges.getList();
+        List<ClaimWrapper> list = drivingPrivilegesClaimWrapper.getList();
         assertEquals(2, list.size());
 
         boolean aFound = false;

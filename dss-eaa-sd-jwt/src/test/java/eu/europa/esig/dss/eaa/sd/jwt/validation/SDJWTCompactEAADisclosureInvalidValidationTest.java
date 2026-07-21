@@ -55,8 +55,8 @@ class SDJWTCompactEAADisclosureInvalidValidationTest extends AbstractSDJWTEAAPre
 
         EAAWrapper eaaWrapper = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
         EAAPayloadProxy eaaPayload = eaaWrapper.getEAAPayload();
-        assertNull(eaaPayload.getHolderGivenName());
-        assertEquals("Doe", eaaPayload.getHolderFamilyName().getText());
+        assertNull(eaaPayload.getGivenName());
+        assertEquals("Doe", eaaPayload.getFamilyName().getText());
     }
 
     @Override

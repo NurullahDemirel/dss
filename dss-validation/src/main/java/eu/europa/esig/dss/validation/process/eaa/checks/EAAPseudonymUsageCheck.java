@@ -55,13 +55,13 @@ public class EAAPseudonymUsageCheck extends ChainItem<XmlSAV> {
 
     @Override
     protected boolean process() {
-        return eaa.getHolderPseudonym() == null;
+        return eaa.getPseudonym() == null;
     }
 
     @Override
     protected String buildAdditionalInfo() {
-        if (eaa.getHolderPseudonym() != null) {
-            return i18nProvider.getMessage(MessageTag.PSEUDO, eaa.getHolderPseudonym());
+        if (eaa.getPseudonym() != null) {
+            return i18nProvider.getMessage(MessageTag.PSEUDO, eaa.getPseudonym());
         }
         return null;
     }

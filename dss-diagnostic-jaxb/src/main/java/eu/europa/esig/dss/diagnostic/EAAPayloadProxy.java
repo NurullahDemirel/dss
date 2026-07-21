@@ -281,7 +281,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderFullName() {
+    public ClaimWrapper getFullName() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getFullName()), getCredentialSubject().getFullName());
         }
@@ -293,7 +293,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderGivenName() {
+    public ClaimWrapper getGivenName() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getGivenName()), getCredentialSubject().getGivenName());
         }
@@ -305,7 +305,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderFamilyName() {
+    public ClaimWrapper getFamilyName() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getFamilyName()), getCredentialSubject().getFamilyName());
         }
@@ -317,7 +317,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderMiddleName() {
+    public ClaimWrapper getMiddleName() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getMiddleName()), getCredentialSubject().getMiddleName());
         }
@@ -329,7 +329,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderNickname() {
+    public ClaimWrapper getNickname() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getNickname()), getCredentialSubject().getNickname());
         }
@@ -341,7 +341,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderShortName() {
+    public ClaimWrapper getShortName() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getShortName()), getCredentialSubject().getShortName());
         }
@@ -353,7 +353,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderProfileUrl() {
+    public ClaimWrapper getProfileUrl() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getProfileUrl()), getCredentialSubject().getProfileUrl());
         }
@@ -365,7 +365,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderPictureUrl() {
+    public ClaimWrapper getPictureUrl() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getPictureUrl()), getCredentialSubject().getPictureUrl());
         }
@@ -377,7 +377,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderWebsiteUrl() {
+    public ClaimWrapper getWebsiteUrl() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getWebsiteUrl()), getCredentialSubject().getWebsiteUrl());
         }
@@ -389,7 +389,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderEmail() {
+    public ClaimWrapper getEmail() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getEmail()), getCredentialSubject().getEmail());
         }
@@ -401,7 +401,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderEmailVerified() {
+    public ClaimWrapper getEmailVerified() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getEmailVerified()), getCredentialSubject().getEmailVerified());
         }
@@ -413,7 +413,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderGender() {
+    public ClaimWrapper getGender() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getGender()), getCredentialSubject().getGender());
         }
@@ -425,7 +425,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link BirthdateClaimWrapper}
      */
-    public BirthdateClaimWrapper getHolderBirthdate() {
+    public BirthdateClaimWrapper getBirthdate() {
         if (xmlEAAPayload != null) {
             return get(getBirthdateClaim(xmlEAAPayload.getBirthdate()), getCredentialSubject().getBirthdate());
         }
@@ -437,7 +437,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderTimezone() {
+    public ClaimWrapper getTimezone() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getTimezone()), getCredentialSubject().getTimezone());
         }
@@ -449,7 +449,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderLocale() {
+    public ClaimWrapper getLocale() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getLocale()), getCredentialSubject().getLocale());
         }
@@ -461,7 +461,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link AddressClaimWrapper}
      */
-    public AddressClaimWrapper getHolderAddress() {
+    public AddressClaimWrapper getAddress() {
         if (xmlEAAPayload != null) {
             return get(getAddressClaim(xmlEAAPayload.getAddress()), getCredentialSubject().getAddress());
         }
@@ -473,7 +473,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderPhoneNumber() {
+    public ClaimWrapper getPhoneNumber() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getPhoneNumber()), getCredentialSubject().getPhoneNumber());
         }
@@ -485,7 +485,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderPhoneNumberVerified() {
+    public ClaimWrapper getPhoneNumberVerified() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getPhoneNumberVerified()), getCredentialSubject().getPhoneNumberVerified());
         }
@@ -497,7 +497,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link PlaceOfBirthClaimWrapper}
      */
-    public PlaceOfBirthClaimWrapper getHolderPlaceOfBirth() {
+    public PlaceOfBirthClaimWrapper getPlaceOfBirth() {
         if (xmlEAAPayload != null) {
             return get(getPlaceOfBirthClaim(xmlEAAPayload.getPlaceOfBirth()), getCredentialSubject().getPlaceOfBirth());
         }
@@ -510,7 +510,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderNationalities() {
+    public ClaimWrapper getNationalities() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getNationalities()), getCredentialSubject().getNationalities());
         }
@@ -522,7 +522,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderBirthFamilyName() {
+    public ClaimWrapper getBirthFamilyName() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getBirthFamilyName()), getCredentialSubject().getBirthFamilyName());
         }
@@ -534,7 +534,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderBirthGivenName() {
+    public ClaimWrapper getBirthGivenName() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getBirthGivenName()), getCredentialSubject().getBirthGivenName());
         }
@@ -546,7 +546,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderBirthMiddleName() {
+    public ClaimWrapper getBirthMiddleName() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getBirthMiddleName()), getCredentialSubject().getBirthMiddleName());
         }
@@ -558,7 +558,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderBirthFullName() {
+    public ClaimWrapper getBirthFullName() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getBirthFullName());
         }
@@ -570,7 +570,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderSalutation() {
+    public ClaimWrapper getSalutation() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getSalutation()), getCredentialSubject().getSalutation());
         }
@@ -582,7 +582,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderTitle() {
+    public ClaimWrapper getTitle() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getTitle()), getCredentialSubject().getTitle());
         }
@@ -594,7 +594,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderMobilePhoneNumber() {
+    public ClaimWrapper getMobilePhoneNumber() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getMobilePhoneNumber()), getCredentialSubject().getMobilePhoneNumber());
         }
@@ -606,7 +606,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderPseudonym() {
+    public ClaimWrapper getPseudonym() {
         if (xmlEAAPayload != null) {
             return get(getClaim(xmlEAAPayload.getPseudonym()), getCredentialSubject().getPseudonym());
         }
@@ -699,7 +699,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderPortrait() {
+    public ClaimWrapper getPortrait() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getPortrait());
         }
@@ -712,7 +712,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link DrivingPrivilegesClaimWrapper}
      */
-    public DrivingPrivilegesClaimWrapper getHolderDrivingPrivileges() {
+    public DrivingPrivilegesClaimWrapper getDrivingPrivileges() {
         if (xmlEAAPayload != null) {
             return getDrivingPrivilegesClaim(xmlEAAPayload.getDrivingPrivileges());
         }
@@ -724,7 +724,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderHeight() {
+    public ClaimWrapper getHeight() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getHeight());
         }
@@ -736,7 +736,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderWeight() {
+    public ClaimWrapper getWeight() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getWeight());
         }
@@ -749,7 +749,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderEyeColour() {
+    public ClaimWrapper getEyeColour() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getEyeColour());
         }
@@ -762,7 +762,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderHairColour() {
+    public ClaimWrapper getHairColour() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getHairColour());
         }
@@ -787,7 +787,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderPortraitCaptureDate() {
+    public ClaimWrapper getPortraitCaptureDate() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getPortraitCaptureDate());
         }
@@ -799,7 +799,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderAgeInYears() {
+    public ClaimWrapper getAgeInYears() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getAgeInYears());
         }
@@ -811,7 +811,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderAgeBirthYear() {
+    public ClaimWrapper getAgeBirthYear() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getAgeBirthYear());
         }
@@ -826,7 +826,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public AgeEqualOrOverClaimWrapper getHolderAgeEqualOrOver() {
+    public AgeEqualOrOverClaimWrapper getAgeEqualOrOver() {
         if (xmlEAAPayload != null) {
             return getAgeEqualOrOverClaim(xmlEAAPayload.getAgeEqualOrOver());
         }
@@ -841,7 +841,7 @@ public class EAAPayloadProxy {
      *
      * @return a list of {@link AgeOverNNClaimWrapper}s
      */
-    public List<AgeOverNNClaimWrapper> getHolderAgeOverList() {
+    public List<AgeOverNNClaimWrapper> getAgeOverList() {
         if (xmlEAAPayload != null) {
             List<XmlAgeOverNNClaim> ageOverNN = xmlEAAPayload.getAgeOverNN();
             if (ageOverNN != null && !ageOverNN.isEmpty()) {
@@ -857,7 +857,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderResidentAddressCity() {
+    public ClaimWrapper getResidentAddressCity() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getResidentAddressCity());
         }
@@ -870,7 +870,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderResidentAddressState() {
+    public ClaimWrapper getResidentAddressState() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getResidentAddressState());
         }
@@ -883,7 +883,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderResidentAddressPostalCode() {
+    public ClaimWrapper getResidentAddressPostalCode() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getResidentAddressPostalCode());
         }
@@ -896,7 +896,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderResidentAddressCountry() {
+    public ClaimWrapper getResidentAddressCountry() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getResidentAddressCountry());
         }
@@ -913,7 +913,7 @@ public class EAAPayloadProxy {
      *
      * @return a list of {@link BiometricTemplateXXClaimWrapper}s
      */
-    public List<BiometricTemplateXXClaimWrapper> getHolderBiometricTemplateList() {
+    public List<BiometricTemplateXXClaimWrapper> getBiometricTemplateList() {
         if (xmlEAAPayload != null) {
             List<XmlBiometricTemplateXXClaim> biometricTemplateList = xmlEAAPayload.getBiometricTemplate();
             if (biometricTemplateList != null && !biometricTemplateList.isEmpty()) {
@@ -928,7 +928,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderSignatureUsualMark() {
+    public ClaimWrapper getSignatureUsualMark() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getSignatureUsualMark());
         }
@@ -940,7 +940,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderFingerprint() {
+    public ClaimWrapper getFingerprint() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getFingerprint());
         }
@@ -952,7 +952,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderBusinessName() {
+    public ClaimWrapper getBusinessName() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getBusinessName());
         }
@@ -964,7 +964,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderOrganizationName() {
+    public ClaimWrapper getOrganizationName() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getOrganizationName());
         }
@@ -976,7 +976,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderProfession() {
+    public ClaimWrapper getProfession() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getProfession());
         }
@@ -988,7 +988,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipFather() {
+    public ClaimWrapper getRelationshipFather() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipFather());
         }
@@ -1000,7 +1000,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipMother() {
+    public ClaimWrapper getRelationshipMother() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipMother());
         }
@@ -1012,7 +1012,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipParent() {
+    public ClaimWrapper getRelationshipParent() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipParent());
         }
@@ -1024,7 +1024,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipSon() {
+    public ClaimWrapper getRelationshipSon() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipSon());
         }
@@ -1036,7 +1036,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipDaughter() {
+    public ClaimWrapper getRelationshipDaughter() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipDaughter());
         }
@@ -1048,7 +1048,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipBrother() {
+    public ClaimWrapper getRelationshipBrother() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipBrother());
         }
@@ -1060,7 +1060,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipSister() {
+    public ClaimWrapper getRelationshipSister() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipSister());
         }
@@ -1072,7 +1072,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipSibling() {
+    public ClaimWrapper getRelationshipSibling() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipSibling());
         }
@@ -1084,7 +1084,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipSpouse() {
+    public ClaimWrapper getRelationshipSpouse() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipSpouse());
         }
@@ -1096,7 +1096,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipFatherInLaw() {
+    public ClaimWrapper getRelationshipFatherInLaw() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipFatherInLaw());
         }
@@ -1108,7 +1108,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipMotherInLaw() {
+    public ClaimWrapper getRelationshipMotherInLaw() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipMotherInLaw());
         }
@@ -1120,7 +1120,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipParentInLaw() {
+    public ClaimWrapper getRelationshipParentInLaw() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipParentInLaw());
         }
@@ -1132,7 +1132,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipSonInLaw() {
+    public ClaimWrapper getRelationshipSonInLaw() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipSonInLaw());
         }
@@ -1144,7 +1144,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipDaughterInLaw() {
+    public ClaimWrapper getRelationshipDaughterInLaw() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipDaughterInLaw());
         }
@@ -1156,7 +1156,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipChildInLaw() {
+    public ClaimWrapper getRelationshipChildInLaw() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipChildInLaw());
         }
@@ -1168,7 +1168,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipParentalAuthority() {
+    public ClaimWrapper getRelationshipParentalAuthority() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipParentalAuthority());
         }
@@ -1180,7 +1180,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipLegalRepresentative() {
+    public ClaimWrapper getRelationshipLegalRepresentative() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipLegalRepresentative());
         }
@@ -1192,7 +1192,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getHolderRelationshipAgent() {
+    public ClaimWrapper getRelationshipAgent() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getRelationshipAgent());
         }

@@ -56,8 +56,8 @@ class SDJWTCompactEAADisclosuresDiffOrderValidationTest extends AbstractSDJWTEAA
 
         EAAWrapper eaaWrapper = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
         EAAPayloadProxy eaaPayload = eaaWrapper.getEAAPayload();
-        assertEquals("John", eaaPayload.getHolderGivenName().getText());
-        assertEquals("Doe", eaaPayload.getHolderFamilyName().getText());
+        assertEquals("John", eaaPayload.getGivenName().getText());
+        assertEquals("Doe", eaaPayload.getFamilyName().getText());
     }
 
     @Override

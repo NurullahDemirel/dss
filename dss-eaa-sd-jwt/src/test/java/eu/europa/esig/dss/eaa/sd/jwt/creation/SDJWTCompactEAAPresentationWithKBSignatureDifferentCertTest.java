@@ -132,8 +132,8 @@ class SDJWTCompactEAAPresentationWithKBSignatureDifferentCertTest extends Abstra
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
         assertEquals("https://issuer.example.com", eaa.getEAAIssuer());
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
 
         assertEquals(keyBindingParameters.getNonce(), eaa.getKeyBindingSignatureNonce());
         assertEquals(keyBindingParameters.getAudience(), eaa.getKeyBindingSignatureAudience());

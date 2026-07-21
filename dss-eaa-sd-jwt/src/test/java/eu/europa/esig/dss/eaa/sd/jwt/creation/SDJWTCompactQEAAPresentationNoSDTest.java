@@ -113,8 +113,8 @@ class SDJWTCompactQEAAPresentationNoSDTest extends AbstractSDJWTEAAPresentationT
         assertEquals("TEST Authority", eaa.getDocumentIssuingAuthority());
         assertEquals("LU", eaa.getDocumentIssuingAuthorityCountry());
         assertEquals("VATLU-123456", eaa.getIssuingRegistrationIdentifier());
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
 
         assertEquals("urn:etsi:esi:eaa:eu:qualified", eaa.getEAACategory());
 

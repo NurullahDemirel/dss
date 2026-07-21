@@ -82,10 +82,10 @@ class SDJWTCompactEAAPresentationWithAgeEqualsOrOverClaimTest extends AbstractSD
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
         assertEquals("https://issuer.example.com", eaa.getEAAIssuer());
 
-        assertTrue(eaa.isHolderAgeOver(18));
-        assertTrue(eaa.isHolderAgeOver(30));
-        assertFalse(eaa.isHolderAgeOver(40));
-        assertNull(eaa.isHolderAgeOver(65));
+        assertTrue(eaa.isAgeOver(18));
+        assertTrue(eaa.isAgeOver(30));
+        assertFalse(eaa.isAgeOver(40));
+        assertNull(eaa.isAgeOver(65));
     }
 
     @Override

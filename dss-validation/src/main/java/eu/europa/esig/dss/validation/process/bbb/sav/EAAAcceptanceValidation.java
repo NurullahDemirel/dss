@@ -200,7 +200,7 @@ public class EAAAcceptanceValidation extends AbstractAcceptanceValidation<EAAWra
 
         }
 
-        if (token.getHolderPseudonym() != null) {
+        if (token.getPseudonym() != null) {
             item = item.setNextItem(usePseudonym());
         }
 

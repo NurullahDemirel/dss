@@ -54,7 +54,7 @@ public class EAASubjectPseudonymCheck extends AbstractMultiValuesCheckItem<XmlSA
 
     @Override
     protected boolean process() {
-        return processValueCheck(eaa.getHolderPseudonym());
+        return processValueCheck(eaa.getPseudonym());
     }
 
     @Override

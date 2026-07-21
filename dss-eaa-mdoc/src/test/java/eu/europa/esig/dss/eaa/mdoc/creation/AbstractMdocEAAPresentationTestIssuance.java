@@ -259,48 +259,48 @@ public abstract class AbstractMdocEAAPresentationTestIssuance extends AbstractEA
             assertEquals(Utils.isTrue(getPayloadParameters().isShortLived()), Utils.isTrue(eaa.getShortLived()));
             assertEquals(Utils.isTrue(getPayloadParameters().isOneTime()), Utils.isTrue(eaa.getOneTimeUse()));
 
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getGivenName(), eaa.getHolderGivenName());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getFamilyName(), eaa.getHolderFamilyName());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getEmail(), eaa.getHolderEmail());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getSex(), eaa.getHolderGender());
-            assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().selectivelyDisclosable().getBirthdate()), DSSUtils.formatDateToRFC(eaa.getHolderBirthdate()));
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getPhoneNumber(), eaa.getHolderPhoneNumber());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getPlaceOfBirth(), eaa.getHolderPlaceOfBirth());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getPlaceOfBirthCountry(), eaa.getHolderPlaceOfBirthCountry());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getPlaceOfBirthLocality(), eaa.getHolderPlaceOfBirthCity());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getPlaceOfBirthRegion(), eaa.getHolderPlaceOfBirthRegion());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getGivenName(), eaa.getGivenName());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getFamilyName(), eaa.getFamilyName());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getEmail(), eaa.getEmail());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getSex(), eaa.getGender());
+            assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().selectivelyDisclosable().getBirthdate()), DSSUtils.formatDateToRFC(eaa.getBirthdate()));
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getPhoneNumber(), eaa.getPhoneNumber());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getPlaceOfBirth(), eaa.getPlaceOfBirth());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getPlaceOfBirthCountry(), eaa.getPlaceOfBirthCountry());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getPlaceOfBirthLocality(), eaa.getPlaceOfBirthCity());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getPlaceOfBirthRegion(), eaa.getPlaceOfBirthRegion());
             if (Utils.isStringNotEmpty(getPayloadParameters().selectivelyDisclosable().getNationality())) {
-                assertTrue(Utils.isCollectionNotEmpty(eaa.getHolderNationalities()));
-                assertEquals(getPayloadParameters().selectivelyDisclosable().getNationality(), eaa.getHolderNationalities().get(0));
+                assertTrue(Utils.isCollectionNotEmpty(eaa.getNationalities()));
+                assertEquals(getPayloadParameters().selectivelyDisclosable().getNationality(), eaa.getNationalities().get(0));
             } else if (Utils.isCollectionNotEmpty(getPayloadParameters().selectivelyDisclosable().getNationalities())) {
-                assertTrue(Utils.isCollectionNotEmpty(eaa.getHolderNationalities()));
-                assertEquals(getPayloadParameters().selectivelyDisclosable().getNationalities(), eaa.getHolderNationalities());
+                assertTrue(Utils.isCollectionNotEmpty(eaa.getNationalities()));
+                assertEquals(getPayloadParameters().selectivelyDisclosable().getNationalities(), eaa.getNationalities());
             } else {
-                assertFalse(Utils.isCollectionNotEmpty(eaa.getHolderNationalities()));
+                assertFalse(Utils.isCollectionNotEmpty(eaa.getNationalities()));
             }
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getBirthGivenName(), eaa.getHolderBirthGivenName());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getBirthFamilyName(), eaa.getHolderBirthFamilyName());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getTitle(), eaa.getHolderTitle());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getMobilePhoneNumber(), eaa.getHolderMobilePhoneNumber());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getPseudonym(), eaa.getHolderPseudonym());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getBirthGivenName(), eaa.getBirthGivenName());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getBirthFamilyName(), eaa.getBirthFamilyName());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getTitle(), eaa.getTitle());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getMobilePhoneNumber(), eaa.getMobilePhoneNumber());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getPseudonym(), eaa.getPseudonym());
             assertEquals(getPayloadParameters().selectivelyDisclosable().getIssuingCountry(), eaa.getDocumentIssuingAuthorityCountry());
             assertEquals(getPayloadParameters().selectivelyDisclosable().getIssuingAuthority(), eaa.getDocumentIssuingAuthority());
             assertEquals(getPayloadParameters().selectivelyDisclosable().getDocumentNumber(), eaa.getDocumentNumber());
-            assertArrayEquals(getPayloadParameters().selectivelyDisclosable().getPortrait(), eaa.getHolderPortrait());
-            assertDrivingPrivilegesEquals(getPayloadParameters().selectivelyDisclosable().getDrivingPrivileges(), eaa.getHolderDrivingPrivileges());
+            assertArrayEquals(getPayloadParameters().selectivelyDisclosable().getPortrait(), eaa.getPortrait());
+            assertDrivingPrivilegesEquals(getPayloadParameters().selectivelyDisclosable().getDrivingPrivileges(), eaa.getDrivingPrivileges());
             assertEquals(getPayloadParameters().selectivelyDisclosable().getDistinguishingSign(), eaa.getDocumentIssuingAuthorityCountryUNDistinguishingSign());
             assertEquals(getPayloadParameters().selectivelyDisclosable().getPersonalAdministrativeNumber(), eaa.getPersonalAdministrativeNumber());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getHeight(), eaa.getHolderHeight());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getWeight(), eaa.getHolderWeight());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getEyeColour(), eaa.getHolderEyeColour());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getHairColour(), eaa.getHolderHairColour());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getHeight(), eaa.getHeight());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getWeight(), eaa.getWeight());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getEyeColour(), eaa.getEyeColour());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getHairColour(), eaa.getHairColour());
             assertEquals(getPayloadParameters().selectivelyDisclosable().getPostalAddress(), eaa.getResidentPostalAddress());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getPortraitCaptureDate(), eaa.getHolderPortraitCaptureDate());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getAgeInYears(), eaa.getHolderAgeInYears());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getAgeBirthYear(), eaa.getHolderAgeBirthYear());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getPortraitCaptureDate(), eaa.getPortraitCaptureDate());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getAgeInYears(), eaa.getAgeInYears());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getAgeBirthYear(), eaa.getAgeBirthYear());
             if (Utils.isMapNotEmpty(getPayloadParameters().selectivelyDisclosable().getAgeOverNN())) {
                 for (Map.Entry<Integer, Boolean> ageEntry : getPayloadParameters().selectivelyDisclosable().getAgeOverNN().entrySet()) {
-                    assertEquals(ageEntry.getValue(), eaa.isHolderAgeOver(ageEntry.getKey()));
+                    assertEquals(ageEntry.getValue(), eaa.isAgeOver(ageEntry.getKey()));
                 }
             }
             assertEquals(getPayloadParameters().selectivelyDisclosable().getIssuingJurisdiction(), eaa.getDocumentIssuingAuthorityJurisdiction());
@@ -310,34 +310,34 @@ public abstract class AbstractMdocEAAPresentationTestIssuance extends AbstractEA
             assertEquals(getPayloadParameters().selectivelyDisclosable().getAddressCountry(), eaa.getResidentAddressCountry());
             if (Utils.isMapNotEmpty(getPayloadParameters().selectivelyDisclosable().getBiometricTemplate())) {
                 for (Map.Entry<String, byte[]> bioEntry : getPayloadParameters().selectivelyDisclosable().getBiometricTemplate().entrySet()) {
-                    assertArrayEquals(bioEntry.getValue(), eaa.getHolderBiometricTemplate(bioEntry.getKey()));
+                    assertArrayEquals(bioEntry.getValue(), eaa.getBiometricTemplate(bioEntry.getKey()));
                 }
             }
-            assertArrayEquals(getPayloadParameters().selectivelyDisclosable().getBiometricTemplateFace(), eaa.getHolderBiometricTemplate("face"));
-            assertArrayEquals(getPayloadParameters().selectivelyDisclosable().getSignatureUsualMark(), eaa.getHolderSignatureUsualMark());
-            assertArrayEquals(getPayloadParameters().selectivelyDisclosable().getFingerprint(), eaa.getHolderFingerprint());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getBusinessName(), eaa.getHolderBusinessName());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getOrganizationName(), eaa.getHolderOrganizationName());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getBirthFullName(), eaa.getHolderBirthFullName());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getProfession(), eaa.getHolderProfession());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipFather(), eaa.getHolderRelationshipFather());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipMother(), eaa.getHolderRelationshipMother());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipParent(), eaa.getHolderRelationshipParent());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSon(), eaa.getHolderRelationshipSon());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipDaughter(), eaa.getHolderRelationshipDaughter());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipBrother(), eaa.getHolderRelationshipBrother());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSister(), eaa.getHolderRelationshipSister());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSibling(), eaa.getHolderRelationshipSibling());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSpouse(), eaa.getHolderRelationshipSpouse());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipFatherInLaw(), eaa.getHolderRelationshipFatherInLaw());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipMotherInLaw(), eaa.getHolderRelationshipMotherInLaw());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipParentInLaw(), eaa.getHolderRelationshipParentInLaw());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSonInLaw(), eaa.getHolderRelationshipSonInLaw());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipDaughterInLaw(), eaa.getHolderRelationshipDaughterInLaw());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipChildInLaw(), eaa.getHolderRelationshipChildInLaw());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipParentalAuthority(), eaa.getHolderRelationshipParentalAuthority());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipLegalRepresentative(), eaa.getHolderRelationshipLegalRepresentative());
-            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipAgent(), eaa.getHolderRelationshipAgent());
+            assertArrayEquals(getPayloadParameters().selectivelyDisclosable().getBiometricTemplateFace(), eaa.getBiometricTemplate("face"));
+            assertArrayEquals(getPayloadParameters().selectivelyDisclosable().getSignatureUsualMark(), eaa.getSignatureUsualMark());
+            assertArrayEquals(getPayloadParameters().selectivelyDisclosable().getFingerprint(), eaa.getFingerprint());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getBusinessName(), eaa.getBusinessName());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getOrganizationName(), eaa.getOrganizationName());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getBirthFullName(), eaa.getBirthFullName());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getProfession(), eaa.getProfession());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipFather(), eaa.getRelationshipFather());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipMother(), eaa.getRelationshipMother());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipParent(), eaa.getRelationshipParent());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSon(), eaa.getRelationshipSon());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipDaughter(), eaa.getRelationshipDaughter());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipBrother(), eaa.getRelationshipBrother());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSister(), eaa.getRelationshipSister());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSibling(), eaa.getRelationshipSibling());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSpouse(), eaa.getRelationshipSpouse());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipFatherInLaw(), eaa.getRelationshipFatherInLaw());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipMotherInLaw(), eaa.getRelationshipMotherInLaw());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipParentInLaw(), eaa.getRelationshipParentInLaw());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipSonInLaw(), eaa.getRelationshipSonInLaw());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipDaughterInLaw(), eaa.getRelationshipDaughterInLaw());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipChildInLaw(), eaa.getRelationshipChildInLaw());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipParentalAuthority(), eaa.getRelationshipParentalAuthority());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipLegalRepresentative(), eaa.getRelationshipLegalRepresentative());
+            assertEquals(getPayloadParameters().selectivelyDisclosable().getRelationshipAgent(), eaa.getRelationshipAgent());
             assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().selectivelyDisclosable().getAdministrativeIssuanceDate()), DSSUtils.formatDateToRFC(eaa.getAdministrativeIssuanceDate()));
             assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().selectivelyDisclosable().getAdministrativeExpirationDate()), DSSUtils.formatDateToRFC(eaa.getAdministrativeExpirationDate()));
             assertEquals(getPayloadParameters().selectivelyDisclosable().getAddressStreet(), eaa.getResidentAddressStreet());

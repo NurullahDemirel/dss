@@ -249,14 +249,14 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
 
     protected void assertSDJWTClaims(SDJWTClaimParameters sd, SDJWTClaimParameters nonSd, EAAWrapper eaa) {
 
-        assertEither(sd.getGivenName(), nonSd.getGivenName(), eaa.getHolderGivenName());
-        assertEither(sd.getFamilyName(), nonSd.getFamilyName(), eaa.getHolderFamilyName());
-        assertEither(sd.getEmail(), nonSd.getEmail(), eaa.getHolderEmail());
-        assertEither(sd.getPhoneNumber(), nonSd.getPhoneNumber(), eaa.getHolderPhoneNumber());
-        assertEither(sd.getPhoneNumberVerified(), nonSd.getPhoneNumberVerified(), eaa.getHolderPhoneNumberVerified());
-        assertEitherDate(sd.getBirthdate(), nonSd.getBirthdate(), eaa.getHolderBirthdate());
+        assertEither(sd.getGivenName(), nonSd.getGivenName(), eaa.getGivenName());
+        assertEither(sd.getFamilyName(), nonSd.getFamilyName(), eaa.getFamilyName());
+        assertEither(sd.getEmail(), nonSd.getEmail(), eaa.getEmail());
+        assertEither(sd.getPhoneNumber(), nonSd.getPhoneNumber(), eaa.getPhoneNumber());
+        assertEither(sd.getPhoneNumberVerified(), nonSd.getPhoneNumberVerified(), eaa.getPhoneNumberVerified());
+        assertEitherDate(sd.getBirthdate(), nonSd.getBirthdate(), eaa.getBirthdate());
 
-        assertEither(sd.getNationalities(), nonSd.getNationalities(), eaa.getHolderNationalities());
+        assertEither(sd.getNationalities(), nonSd.getNationalities(), eaa.getNationalities());
 
         assertEither(sd.getPostalAddress(), nonSd.getPostalAddress(), eaa.getResidentPostalAddress());
         assertEither(sd.getAddressHouseNumber(), nonSd.getAddressHouseNumber(), eaa.getResidentAddressHouseNumber());
@@ -266,22 +266,22 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
         assertEither(sd.getAddressPostalCode(), nonSd.getAddressPostalCode(), eaa.getResidentAddressPostalCode());
         assertEither(sd.getAddressCountry(), nonSd.getAddressCountry(), eaa.getResidentAddressCountry());
 
-        assertEither(sd.getPlaceOfBirthCountry(), nonSd.getPlaceOfBirthCountry(), eaa.getHolderPlaceOfBirth());
-        assertEither(sd.getPlaceOfBirthRegion(), nonSd.getPlaceOfBirthRegion(), eaa.getHolderPlaceOfBirthRegion());
-        assertEither(sd.getPlaceOfBirthLocality(), nonSd.getPlaceOfBirthLocality(), eaa.getHolderPlaceOfBirthCity());
+        assertEither(sd.getPlaceOfBirthCountry(), nonSd.getPlaceOfBirthCountry(), eaa.getPlaceOfBirth());
+        assertEither(sd.getPlaceOfBirthRegion(), nonSd.getPlaceOfBirthRegion(), eaa.getPlaceOfBirthRegion());
+        assertEither(sd.getPlaceOfBirthLocality(), nonSd.getPlaceOfBirthLocality(), eaa.getPlaceOfBirthCity());
 
-        assertEither(sd.getBirthGivenName(), nonSd.getBirthGivenName(), eaa.getHolderBirthGivenName());
-        assertEither(sd.getBirthFamilyName(), nonSd.getBirthFamilyName(), eaa.getHolderBirthFamilyName());
-        assertEither(sd.getTitle(), nonSd.getTitle(), eaa.getHolderTitle());
-        assertEither(sd.getMobilePhoneNumber(), nonSd.getMobilePhoneNumber(), eaa.getHolderMobilePhoneNumber());
-        assertEither(sd.getPseudonym(), nonSd.getPseudonym(), eaa.getHolderPseudonym());
+        assertEither(sd.getBirthGivenName(), nonSd.getBirthGivenName(), eaa.getBirthGivenName());
+        assertEither(sd.getBirthFamilyName(), nonSd.getBirthFamilyName(), eaa.getBirthFamilyName());
+        assertEither(sd.getTitle(), nonSd.getTitle(), eaa.getTitle());
+        assertEither(sd.getMobilePhoneNumber(), nonSd.getMobilePhoneNumber(), eaa.getMobilePhoneNumber());
+        assertEither(sd.getPseudonym(), nonSd.getPseudonym(), eaa.getPseudonym());
 
         assertEither(sd.getPersonalAdministrativeNumber(), nonSd.getPersonalAdministrativeNumber(), eaa.getPersonalAdministrativeNumber());
 
         if (sd.getSex() != null || nonSd.getSex() != null) {
-            assertEither(sd.getSex(), nonSd.getSex(), eaa.getHolderGender());
+            assertEither(sd.getSex(), nonSd.getSex(), eaa.getGender());
         } else {
-            assertEither(sd.getGender(), nonSd.getGender(), eaa.getHolderGender());
+            assertEither(sd.getGender(), nonSd.getGender(), eaa.getGender());
         }
 
         assertEither(sd.getIssuingCountry(), nonSd.getIssuingCountry(), eaa.getDocumentIssuingAuthorityCountry());
@@ -289,8 +289,8 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
         assertEither(sd.getIssuingJurisdiction(), nonSd.getIssuingJurisdiction(), eaa.getDocumentIssuingAuthorityJurisdiction());
         assertEither(sd.getDocumentNumber(), nonSd.getDocumentNumber(), eaa.getDocumentNumber());
 
-        assertEither(sd.getAgeInYears(), nonSd.getAgeInYears(), eaa.getHolderAgeInYears());
-        assertEither(sd.getAgeBirthYear(), nonSd.getAgeBirthYear(), eaa.getHolderAgeBirthYear());
+        assertEither(sd.getAgeInYears(), nonSd.getAgeInYears(), eaa.getAgeInYears());
+        assertEither(sd.getAgeBirthYear(), nonSd.getAgeBirthYear(), eaa.getAgeBirthYear());
         assertEither(sd.getTrustAnchor(), nonSd.getTrustAnchor(), eaa.getTrustAnchor());
 
         if (Utils.isMapNotEmpty(sd.getAgeOverNN()) || Utils.isMapNotEmpty(nonSd.getAgeOverNN())) {
@@ -308,7 +308,7 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
                 Boolean sdValue = Utils.isMapNotEmpty(sd.getAgeOverNN()) ? sd.getAgeOverNN().get(age) : null;
                 Boolean nonSdValue = Utils.isMapNotEmpty(nonSd.getAgeOverNN()) ? nonSd.getAgeOverNN().get(age) : null;
 
-                assertEither(sdValue, nonSdValue, eaa.isHolderAgeOver(age));
+                assertEither(sdValue, nonSdValue, eaa.isAgeOver(age));
             }
         }
 
@@ -325,26 +325,26 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
             assertEitherDate(sd.getAdministrativeExpirationDate(), nonSd.getAdministrativeExpirationDate(), eaa.getAdministrativeExpirationDate());
         }
 
-        assertEither(sd.getPicture(), nonSd.getPicture(), eaa.getHolderPictureUrl());
-        assertEither(sd.getNickname(), nonSd.getNickname(), eaa.getHolderNickname());
+        assertEither(sd.getPicture(), nonSd.getPicture(), eaa.getPictureUrl());
+        assertEither(sd.getNickname(), nonSd.getNickname(), eaa.getNickname());
 
-        assertEither(sd.getPreferredNickname(), nonSd.getPreferredNickname(), eaa.getHolderShortName());
+        assertEither(sd.getPreferredNickname(), nonSd.getPreferredNickname(), eaa.getShortName());
 
-        assertEither(sd.getName(), nonSd.getName(), eaa.getHolderFullName());
-        assertEither(sd.getMiddleName(), nonSd.getMiddleName(), eaa.getHolderMiddleName());
-        assertEither(sd.getProfile(), nonSd.getProfile(), eaa.getHolderProfileUrl());
-        assertEither(sd.getWebsite(), nonSd.getWebsite(), eaa.getHolderWebsiteUrl());
+        assertEither(sd.getName(), nonSd.getName(), eaa.getFullName());
+        assertEither(sd.getMiddleName(), nonSd.getMiddleName(), eaa.getMiddleName());
+        assertEither(sd.getProfile(), nonSd.getProfile(), eaa.getProfileUrl());
+        assertEither(sd.getWebsite(), nonSd.getWebsite(), eaa.getWebsiteUrl());
 
-        assertEither(sd.getEmailVerified(), nonSd.getEmailVerified(), eaa.getHolderEmailVerified());
+        assertEither(sd.getEmailVerified(), nonSd.getEmailVerified(), eaa.getEmailVerified());
 
-        assertEither(sd.getZoneinfo(), nonSd.getZoneinfo(), eaa.getHolderTimezone());
-        assertEither(sd.getLocale(), nonSd.getLocale(), eaa.getHolderLocale());
-        assertEither(sd.getPhoneNumberVerified(), nonSd.getPhoneNumberVerified(), eaa.getHolderPhoneNumberVerified());
+        assertEither(sd.getZoneinfo(), nonSd.getZoneinfo(), eaa.getTimezone());
+        assertEither(sd.getLocale(), nonSd.getLocale(), eaa.getLocale());
+        assertEither(sd.getPhoneNumberVerified(), nonSd.getPhoneNumberVerified(), eaa.getPhoneNumberVerified());
 
         assertEitherDate(sd.getUpdatedAt(), nonSd.getUpdatedAt(), eaa.getEAAUpdatedAt());
 
-        assertEither(sd.getBirthMiddleName(), nonSd.getBirthMiddleName(), eaa.getHolderBirthMiddleName());
-        assertEither(sd.getSalutation(), nonSd.getSalutation(), eaa.getHolderSalutation());
+        assertEither(sd.getBirthMiddleName(), nonSd.getBirthMiddleName(), eaa.getBirthMiddleName());
+        assertEither(sd.getSalutation(), nonSd.getSalutation(), eaa.getSalutation());
 
         assertEither(sd.getAttestedAttributesSubjectIdentifier(), nonSd.getAttestedAttributesSubjectIdentifier(), eaa.getAttestedAttributesSubjectId());
         assertEither(sd.getAttestedAttributesSubjectPseudonym(), nonSd.getAttestedAttributesSubjectPseudonym(), eaa.getAttestedAttributesSubjectPseudonym());

@@ -100,8 +100,8 @@ class MdocEAAPresentationWithSDClaimsTest extends AbstractMdocEAAPresentationTes
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
     }
 
     @Override

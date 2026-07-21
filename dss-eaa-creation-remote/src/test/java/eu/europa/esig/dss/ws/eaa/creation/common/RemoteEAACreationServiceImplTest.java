@@ -221,8 +221,8 @@ class RemoteEAACreationServiceImplTest extends PKIFactoryAccess {
         assertEquals("TEST Authority", eaa.getDocumentIssuingAuthority());
         assertEquals("LU", eaa.getDocumentIssuingAuthorityCountry());
         assertEquals("VATLU-123456", eaa.getIssuingRegistrationIdentifier());
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
 
         assertEquals("urn:etsi:esi:eaa:eu:qualified", eaa.getEAACategory());
 
@@ -369,9 +369,9 @@ class RemoteEAACreationServiceImplTest extends PKIFactoryAccess {
         assertEquals("https://pki.nowina.lu/eaa/identifier_list", eaa.getEAAIdentifierListUri());
         assertArrayEquals(getCertificate(GOOD_CA).getEncoded(), eaa.getEAAIdentifierListCertificate());
 
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
-        assertEquals("2001-01-01T00:00:00Z", DSSUtils.formatDateToRFC(eaa.getHolderBirthdate()));
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
+        assertEquals("2001-01-01T00:00:00Z", DSSUtils.formatDateToRFC(eaa.getBirthdate()));
         assertEquals("2026-06-01T00:00:00Z", DSSUtils.formatDateToRFC(eaa.getAdministrativeIssuanceDate()));
         assertEquals("2026-08-31T00:00:00Z", DSSUtils.formatDateToRFC(eaa.getAdministrativeExpirationDate()));
         assertEquals("LU", eaa.getDocumentIssuingAuthorityCountry());
@@ -379,11 +379,11 @@ class RemoteEAACreationServiceImplTest extends PKIFactoryAccess {
         assertEquals("VATLU-123456789", eaa.getIssuingRegistrationIdentifier());
         assertEquals("123456789", eaa.getDocumentNumber());
 
-        DrivingPrivilegesClaimWrapper holderDrivingPrivileges = eaa.getHolderDrivingPrivileges();
-        assertNotNull(holderDrivingPrivileges);
-        assertEquals(1, Utils.collectionSize(holderDrivingPrivileges.getDrivingPrivileges()));
+        DrivingPrivilegesClaimWrapper drivingPrivileges = eaa.getDrivingPrivileges();
+        assertNotNull(drivingPrivileges);
+        assertEquals(1, Utils.collectionSize(drivingPrivileges.getDrivingPrivileges()));
 
-        DrivingPrivilegeClaimWrapper drivingPrivilegeClaimWrapper = holderDrivingPrivileges.getDrivingPrivileges().get(0);
+        DrivingPrivilegeClaimWrapper drivingPrivilegeClaimWrapper = drivingPrivileges.getDrivingPrivileges().get(0);
         assertEquals("B", drivingPrivilegeClaimWrapper.getVehicleCategoryCode().getText());
         assertEquals("2020-01-01T00:00:00Z", DSSUtils.formatDateToRFC(drivingPrivilegeClaimWrapper.getIssueDate().getDateTime()));
         assertEquals("2030-01-01T00:00:00Z", DSSUtils.formatDateToRFC(drivingPrivilegeClaimWrapper.getExpiryDate().getDateTime()));

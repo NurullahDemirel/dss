@@ -134,8 +134,8 @@ class MdocEAAPresentationDisclosureNotExistingDigestIdTest extends AbstractMdocE
 
         EAAWrapper eaaWrapper = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
         EAAPayloadProxy eaaPayload = eaaWrapper.getEAAPayload();
-        assertNull(eaaPayload.getHolderGivenName());
-        assertNotNull(eaaPayload.getHolderFamilyName());
+        assertNull(eaaPayload.getGivenName());
+        assertNotNull(eaaPayload.getFamilyName());
     }
 
 }

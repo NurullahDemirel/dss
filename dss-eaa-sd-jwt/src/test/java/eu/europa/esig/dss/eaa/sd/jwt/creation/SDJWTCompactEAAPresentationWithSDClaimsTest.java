@@ -117,8 +117,8 @@ class SDJWTCompactEAAPresentationWithSDClaimsTest extends AbstractSDJWTEAAPresen
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
         assertEquals("https://issuer.example.com", eaa.getEAAIssuer());
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
     }
 
     @Override

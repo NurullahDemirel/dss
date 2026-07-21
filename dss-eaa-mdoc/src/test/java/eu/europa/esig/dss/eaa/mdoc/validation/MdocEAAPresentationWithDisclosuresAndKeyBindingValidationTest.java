@@ -194,9 +194,9 @@ class MdocEAAPresentationWithDisclosuresAndKeyBindingValidationTest extends Abst
         assertEquals("1.0", eaa.getEAAVersion());
         assertEquals("org.iso.18013.5.1.mDL", eaa.getEAADocumentType());
 
-        assertEquals("John", eaa.getHolderGivenName());
-        assertEquals("Doe", eaa.getHolderFamilyName());
-        assertEquals(DSSUtils.parseRFCDate("2000-01-01T00:00:00Z"), eaa.getHolderBirthdate());
+        assertEquals("John", eaa.getGivenName());
+        assertEquals("Doe", eaa.getFamilyName());
+        assertEquals(DSSUtils.parseRFCDate("2000-01-01T00:00:00Z"), eaa.getBirthdate());
 
         List<ClaimWrapper> selectivelyDisclosableClaims = eaa.getSelectivelyDisclosableClaims();
         assertEquals(3, selectivelyDisclosableClaims.size());

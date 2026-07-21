@@ -125,8 +125,8 @@ class MdocEAAPresentationMultipleDisclosuresInvalidTest extends AbstractMdocEAAP
 
         EAAWrapper eaaWrapper = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
         EAAPayloadProxy eaaPayload = eaaWrapper.getEAAPayload();
-        assertNull(eaaPayload.getHolderGivenName());
-        assertNull(eaaPayload.getHolderFamilyName());
+        assertNull(eaaPayload.getGivenName());
+        assertNull(eaaPayload.getFamilyName());
     }
 
 }
