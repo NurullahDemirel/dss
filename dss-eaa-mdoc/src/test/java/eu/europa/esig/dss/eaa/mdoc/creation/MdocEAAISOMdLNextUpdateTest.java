@@ -118,6 +118,7 @@ class MdocEAAISOMdLNextUpdateTest extends AbstractMdocEAAPresentationTestIssuanc
         for (XmlDigestMatcher xmlDigestMatcher : digestMatchers) {
             assertNotNull(xmlDigestMatcher.getDisclosableClaim());
             if ("family_name".equals(xmlDigestMatcher.getDisclosableClaim().getName())) {
+                assertEquals("org.iso.18013.5.1", xmlDigestMatcher.getDisclosableClaim().getNamespace());
                 assertEquals("Doe", xmlDigestMatcher.getDisclosableClaim().getValue());
                 familyNameSDFound = true;
             } else if ("given_name".equals(xmlDigestMatcher.getDisclosableClaim().getName())) {

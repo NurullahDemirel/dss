@@ -53,6 +53,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -1889,7 +1890,16 @@ public class EAAWrapper extends AbstractTokenProxy {
      * @return a list of {@link ClaimWrapper}s
      */
     public List<String> getAllEAAPayloadClaimNames() {
-        return getAllEAAPayloadClaims().stream().map(ClaimWrapper::getName).collect(Collectors.toList());
+        return getAllEAAPayloadClaims().stream().map(ClaimWrapper::getName).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    /**
+     * (Mdoc only) Gets a set of all claim namespaces
+     *
+     * @return a set of {@link String}s
+     */
+    public Set<String> getAllClaimNamespaces() {
+        return getAllEAAPayloadClaims().stream().map(ClaimWrapper::getNamespace).filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
     /**

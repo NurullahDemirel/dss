@@ -1818,12 +1818,19 @@ public interface ValidationPolicy {
 	 */
 	MultiValuesRule getEAAClaimsConstraint();
 
-    /**
-     * Returns EAASupportedClaims constraint if present in the policy, null otherwise
-     *
-     * @return {@code MultiValuesRule} if EAASupportedClaims element is present
-     */
+	/**
+	 * Returns EAASupportedClaims constraint if present in the policy, null otherwise
+	 *
+	 * @return {@code MultiValuesRule} if EAASupportedClaims element is present
+	 */
 	MultiValuesRule getEAASupportedClaimsConstraint();
+
+	/**
+	 * Returns EAASupportedNamespaces constraint if present in the policy, null otherwise
+	 *
+	 * @return {@code MultiValuesRule} if EAASupportedNamespaces element is present
+	 */
+	MultiValuesRule getEAASupportedNamespacesConstraint();
 
 	/**
 	 * Returns EAARevocationAvailable constraint if present in the policy, null otherwise

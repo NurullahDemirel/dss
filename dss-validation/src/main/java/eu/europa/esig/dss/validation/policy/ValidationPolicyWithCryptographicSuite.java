@@ -1149,6 +1149,11 @@ public class ValidationPolicyWithCryptographicSuite implements ValidationPolicy 
     }
 
     @Override
+    public MultiValuesRule getEAASupportedNamespacesConstraint() {
+        return validationPolicy.getEAASupportedNamespacesConstraint();
+    }
+
+    @Override
     public LevelRule getEAARevocationAvailableConstraint() {
         return validationPolicy.getEAARevocationAvailableConstraint();
     }

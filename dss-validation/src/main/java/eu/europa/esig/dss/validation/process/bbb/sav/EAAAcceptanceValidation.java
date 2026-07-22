@@ -62,6 +62,7 @@ import eu.europa.esig.dss.validation.process.eaa.checks.EAAShortLivedCheck;
 import eu.europa.esig.dss.validation.process.eaa.checks.EAASubjectCheck;
 import eu.europa.esig.dss.validation.process.eaa.checks.EAASubjectPseudonymCheck;
 import eu.europa.esig.dss.validation.process.eaa.checks.EAASupportedClaimsCheck;
+import eu.europa.esig.dss.validation.process.eaa.checks.EAASupportedNamespacesCheck;
 import eu.europa.esig.dss.validation.process.eaa.checks.EAATypeCheck;
 import eu.europa.esig.dss.validation.process.eaa.checks.EAATypeIntegrityPresentCheck;
 import eu.europa.esig.dss.validation.process.eaa.checks.ETSI194721ConformanceCheck;
@@ -158,30 +159,30 @@ public class EAAAcceptanceValidation extends AbstractAcceptanceValidation<EAAWra
 
             // TODO : make status check configurable ?
 
-            EAARevocationPresentCheck EAARevocationPresentCheck = statusPresent();
+            EAARevocationPresentCheck revocationPresentCheck = statusPresent();
 
-            item = item.setNextItem(EAARevocationPresentCheck);
+            item = item.setNextItem(revocationPresentCheck);
 
-            if (EAARevocationPresentCheck.process()) {
+            if (revocationPresentCheck.process()) {
 
                 item = item.setNextItem(statusAvailable());
 
                 // TODO : improve with EAA Status selector ?
                 lastAcceptableStatus = null;
-                for (EAARevocationWrapper EAARevocationWrapper : token.getEAARevocations()) {
+                for (EAARevocationWrapper revocationWrapper : token.getEAARevocations()) {
 
-                    XmlBasicBuildingBlocks eaaRevocationBBB = bbbs.get(EAARevocationWrapper.getId());
+                    XmlBasicBuildingBlocks eaaRevocationBBB = bbbs.get(revocationWrapper.getId());
                     if (eaaRevocationBBB == null) {
-                        throw new IllegalStateException(String.format("No BasicBuildingBlock found for token with Id '%s'", EAARevocationWrapper.getId()));
+                        throw new IllegalStateException(String.format("No BasicBuildingBlock found for token with Id '%s'", revocationWrapper.getId()));
                     }
 
-                    item = item.setNextItem(statusKnown(EAARevocationWrapper));
+                    item = item.setNextItem(statusKnown(revocationWrapper));
 
-                    item = item.setNextItem(statusAcceptable(EAARevocationWrapper, eaaRevocationBBB.getConclusion()));
+                    item = item.setNextItem(statusAcceptable(revocationWrapper, eaaRevocationBBB.getConclusion()));
 
                     if (isValidConclusion(eaaRevocationBBB.getConclusion())
-                            && (lastAcceptableStatus == null || lastAcceptableStatus.getIssuedAt().before(EAARevocationWrapper.getIssuedAt()))) {
-                        lastAcceptableStatus = EAARevocationWrapper;
+                            && (lastAcceptableStatus == null || lastAcceptableStatus.getIssuedAt().before(revocationWrapper.getIssuedAt()))) {
+                        lastAcceptableStatus = revocationWrapper;
                     }
 
                 }
@@ -207,6 +208,12 @@ public class EAAAcceptanceValidation extends AbstractAcceptanceValidation<EAAWra
         item = item.setNextItem(claims());
 
         item = item.setNextItem(supportedClaims());
+
+        if (EAAType.ISO_IEC_MDOC == token.getEAAType()) {
+
+            item = item.setNextItem(supportedNamespaces());
+
+        }
 
         // cryptographic check
         item = cryptographic(item);
@@ -355,6 +362,11 @@ public class EAAAcceptanceValidation extends AbstractAcceptanceValidation<EAAWra
     private ChainItem<XmlSAV> supportedClaims() {
         MultiValuesRule constraint = validationPolicy.getEAASupportedClaimsConstraint();
         return new EAASupportedClaimsCheck(i18nProvider, result, token, constraint);
+    }
+
+    private ChainItem<XmlSAV> supportedNamespaces() {
+        MultiValuesRule constraint = validationPolicy.getEAASupportedNamespacesConstraint();
+        return new EAASupportedNamespacesCheck(i18nProvider, result, token, constraint);
     }
 
     @Override

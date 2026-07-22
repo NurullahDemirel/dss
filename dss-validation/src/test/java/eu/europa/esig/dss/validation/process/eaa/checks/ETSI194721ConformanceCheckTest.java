@@ -36,6 +36,7 @@ import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EAACategory;
 import eu.europa.esig.dss.enumerations.EAAType;
 import eu.europa.esig.dss.enumerations.Level;
+import eu.europa.esig.dss.i18n.MessageTag;
 import eu.europa.esig.dss.policy.LevelConstraintWrapper;
 import eu.europa.esig.dss.policy.jaxb.LevelConstraint;
 import eu.europa.esig.dss.validation.process.bbb.AbstractTestCheck;
@@ -49,6 +50,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
@@ -104,6 +106,7 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
         XmlEAA xmlEAA = new XmlEAA();
         xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("org.iso.18013.5.1.mDL");
 
         XmlEAASignature presentationSignature = new XmlEAASignature();
         XmlSignature signature = new XmlSignature();
@@ -122,10 +125,12 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
         XmlClaim documentNumber = new XmlClaim();
         documentNumber.setText("test-value");
+        documentNumber.setNamespace("org.iso.18013.5.1");
         xmlEAAPayload.setDocumentNumber(documentNumber);
 
         XmlClaim issuingAuthority = new XmlClaim();
-        issuingAuthority.setText("issuingAuthority");
+        issuingAuthority.setText("issuing_authority");
+        issuingAuthority.setNamespace("org.iso.18013.5.1");
         xmlEAAPayload.setIssuingAuthority(issuingAuthority);
 
         xmlEAA.setEAAPayload(xmlEAAPayload);
@@ -395,6 +400,7 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
         XmlEAA xmlEAA = new XmlEAA();
         xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("org.iso.18013.5.1.mDL");
 
         XmlEAASignature presentationSignature = new XmlEAASignature();
         XmlSignature signature = new XmlSignature();
@@ -417,10 +423,12 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
         XmlClaim documentNumber = new XmlClaim();
         documentNumber.setText("test-value");
+        documentNumber.setNamespace("org.iso.18013.5.1");
         xmlEAAPayload.setDocumentNumber(documentNumber);
 
         XmlClaim issuingAuthority = new XmlClaim();
-        issuingAuthority.setText("issuingAuthority");
+        issuingAuthority.setText("issuing_authority");
+        issuingAuthority.setNamespace("org.iso.18013.5.1");
         xmlEAAPayload.setIssuingAuthority(issuingAuthority);
 
         xmlEAA.setEAAPayload(xmlEAAPayload);
@@ -439,12 +447,13 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
     }
 
     @Test
-    void mdocDocumentNumberAbsentTest() {
+    void mdocMDLNamespacesConformanceValidTest() {
         LevelConstraint constraint = new LevelConstraint();
         constraint.setLevel(Level.FAIL);
 
         XmlEAA xmlEAA = new XmlEAA();
         xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("org.iso.18013.5.1.mDL");
 
         XmlEAASignature presentationSignature = new XmlEAASignature();
         XmlSignature signature = new XmlSignature();
@@ -462,7 +471,296 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
         xmlEAAPayload.setExpiration(notAfter);
 
         XmlClaim issuingAuthority = new XmlClaim();
-        issuingAuthority.setText("issuingAuthority");
+        issuingAuthority.setText("TEST Authority");
+        issuingAuthority.setName("issuing_authority");
+        issuingAuthority.setNamespace("org.iso.18013.5.1");
+        xmlEAAPayload.setIssuingAuthority(issuingAuthority);
+
+        XmlClaim documentNumber = new XmlClaim();
+        documentNumber.setText("12345");
+        documentNumber.setName("document_number");
+        documentNumber.setNamespace("org.iso.18013.5.1");
+        xmlEAAPayload.setDocumentNumber(documentNumber);
+
+        XmlClaim pseudonym = new XmlClaim();
+        pseudonym.setText("X Man");
+        pseudonym.setName("also_known_as");
+        pseudonym.setNamespace("org.etsi.01947201.010101");
+        xmlEAAPayload.setPseudonym(pseudonym);
+
+        xmlEAA.setEAAPayload(xmlEAAPayload);
+
+        XmlSAV result = new XmlSAV();
+
+        ETSI194721ConformanceCheck etsi194721ConformanceCheck = new ETSI194721ConformanceCheck(
+                i18nProvider, result, new EAAWrapper(xmlEAA), new Date(), new LevelConstraintWrapper(constraint));
+        etsi194721ConformanceCheck.execute();
+
+        List<XmlConstraint> constraints = result.getConstraint();
+
+        assertEquals(1, constraints.size());
+        assertEquals(XmlStatus.OK, constraints.get(0).getStatus());
+        assertNull(constraints.get(0).getAdditionalInfo());
+    }
+
+    @Test
+    void mdocMDLNamespacesConformanceNonMDLNamespaceTest() {
+        LevelConstraint constraint = new LevelConstraint();
+        constraint.setLevel(Level.FAIL);
+
+        XmlEAA xmlEAA = new XmlEAA();
+        xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("org.iso.18013.5.1.mDL");
+
+        XmlEAASignature presentationSignature = new XmlEAASignature();
+        XmlSignature signature = new XmlSignature();
+        presentationSignature.setSignature(signature);
+        xmlEAA.getEAASignature().add(presentationSignature);
+
+        XmlEAAPayload xmlEAAPayload = new XmlEAAPayload();
+
+        XmlClaim notBefore = new XmlClaim();
+        notBefore.setDateTime(new Date(System.currentTimeMillis() - 60000));
+        xmlEAAPayload.setNotBefore(notBefore);
+
+        XmlClaim notAfter = new XmlClaim();
+        notAfter.setDateTime(new Date(notBefore.getDateTime().getTime() + 3600 * 1000));
+        xmlEAAPayload.setExpiration(notAfter);
+
+        XmlClaim issuingAuthority = new XmlClaim();
+        issuingAuthority.setText("TEST Authority");
+        issuingAuthority.setName("issuing_authority");
+        issuingAuthority.setNamespace("org.iso.18013.5.1");
+        xmlEAAPayload.setIssuingAuthority(issuingAuthority);
+
+        XmlClaim documentNumber = new XmlClaim();
+        documentNumber.setText("12345");
+        documentNumber.setName("document_number");
+        documentNumber.setNamespace("org.iso.18013.5.1");
+        xmlEAAPayload.setDocumentNumber(documentNumber);
+
+        XmlClaim pseudonym = new XmlClaim();
+        pseudonym.setText("X Man");
+        pseudonym.setName("also_known_as");
+        pseudonym.setNamespace("org.iso.23220.1");
+        xmlEAAPayload.setPseudonym(pseudonym);
+
+        xmlEAA.setEAAPayload(xmlEAAPayload);
+
+        XmlSAV result = new XmlSAV();
+
+        ETSI194721ConformanceCheck etsi194721ConformanceCheck = new ETSI194721ConformanceCheck(
+                i18nProvider, result, new EAAWrapper(xmlEAA), new Date(), new LevelConstraintWrapper(constraint));
+        etsi194721ConformanceCheck.execute();
+
+        List<XmlConstraint> constraints = result.getConstraint();
+
+        assertEquals(1, constraints.size());
+        assertEquals(XmlStatus.NOT_OK, constraints.get(0).getStatus());
+        assertNotNull(constraints.get(0).getAdditionalInfo());
+        assertTrue(constraints.get(0).getAdditionalInfo().contains(i18nProvider.getMessage(MessageTag.EAA_MDOC_NAMESPACE_CONFORMANCE)));
+    }
+
+    @Test
+    void mdocMDLNamespacesConformanceMDLNotPresentTest() {
+        LevelConstraint constraint = new LevelConstraint();
+        constraint.setLevel(Level.FAIL);
+
+        XmlEAA xmlEAA = new XmlEAA();
+        xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("org.iso.18013.5.1.mDL");
+
+        XmlEAASignature presentationSignature = new XmlEAASignature();
+        XmlSignature signature = new XmlSignature();
+        presentationSignature.setSignature(signature);
+        xmlEAA.getEAASignature().add(presentationSignature);
+
+        XmlEAAPayload xmlEAAPayload = new XmlEAAPayload();
+
+        XmlClaim notBefore = new XmlClaim();
+        notBefore.setDateTime(new Date(System.currentTimeMillis() - 60000));
+        xmlEAAPayload.setNotBefore(notBefore);
+
+        XmlClaim notAfter = new XmlClaim();
+        notAfter.setDateTime(new Date(notBefore.getDateTime().getTime() + 3600 * 1000));
+        xmlEAAPayload.setExpiration(notAfter);
+
+        XmlClaim issuingAuthority = new XmlClaim();
+        issuingAuthority.setText("TEST Authority");
+        issuingAuthority.setName("issuing_authority_unicode");
+        issuingAuthority.setNamespace("org.etsi.01947201.010101");
+        xmlEAAPayload.setIssuingAuthority(issuingAuthority);
+
+        XmlClaim documentNumber = new XmlClaim();
+        documentNumber.setText("12345");
+        documentNumber.setName("document_number");
+        documentNumber.setNamespace("org.etsi.01947201.010101");
+        xmlEAAPayload.setDocumentNumber(documentNumber);
+
+        XmlClaim pseudonym = new XmlClaim();
+        pseudonym.setText("X Man");
+        pseudonym.setName("also_known_as");
+        pseudonym.setNamespace("org.etsi.01947201.010101");
+        xmlEAAPayload.setPseudonym(pseudonym);
+
+        xmlEAA.setEAAPayload(xmlEAAPayload);
+
+        XmlSAV result = new XmlSAV();
+
+        ETSI194721ConformanceCheck etsi194721ConformanceCheck = new ETSI194721ConformanceCheck(
+                i18nProvider, result, new EAAWrapper(xmlEAA), new Date(), new LevelConstraintWrapper(constraint));
+        etsi194721ConformanceCheck.execute();
+
+        List<XmlConstraint> constraints = result.getConstraint();
+
+        assertEquals(1, constraints.size());
+        assertEquals(XmlStatus.NOT_OK, constraints.get(0).getStatus());
+        assertNotNull(constraints.get(0).getAdditionalInfo());
+        assertTrue(constraints.get(0).getAdditionalInfo().contains(i18nProvider.getMessage(MessageTag.EAA_MDOC_NAMESPACE_CONFORMANCE)));
+    }
+
+    @Test
+    void mdocNonMDLNamespacesConformanceValidTest() {
+        LevelConstraint constraint = new LevelConstraint();
+        constraint.setLevel(Level.FAIL);
+
+        XmlEAA xmlEAA = new XmlEAA();
+        xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("eu.europa.ec.eudi.pid.1");
+
+        XmlEAASignature presentationSignature = new XmlEAASignature();
+        XmlSignature signature = new XmlSignature();
+        presentationSignature.setSignature(signature);
+        xmlEAA.getEAASignature().add(presentationSignature);
+
+        XmlEAAPayload xmlEAAPayload = new XmlEAAPayload();
+
+        XmlClaim notBefore = new XmlClaim();
+        notBefore.setDateTime(new Date(System.currentTimeMillis() - 60000));
+        xmlEAAPayload.setNotBefore(notBefore);
+
+        XmlClaim notAfter = new XmlClaim();
+        notAfter.setDateTime(new Date(notBefore.getDateTime().getTime() + 3600 * 1000));
+        xmlEAAPayload.setExpiration(notAfter);
+
+        XmlClaim issuingAuthority = new XmlClaim();
+        issuingAuthority.setText("TEST Authority");
+        issuingAuthority.setName("issuing_authority");
+        issuingAuthority.setNamespace("org.iso.18013.5.1");
+        xmlEAAPayload.setIssuingAuthority(issuingAuthority);
+
+        XmlClaim documentNumber = new XmlClaim();
+        documentNumber.setText("12345");
+        documentNumber.setName("document_number");
+        documentNumber.setNamespace("org.iso.18013.5.1");
+        xmlEAAPayload.setDocumentNumber(documentNumber);
+
+        XmlClaim pseudonym = new XmlClaim();
+        pseudonym.setText("X Man");
+        pseudonym.setName("also_known_as");
+        pseudonym.setNamespace("org.iso.23220.1");
+        xmlEAAPayload.setPseudonym(pseudonym);
+
+        xmlEAA.setEAAPayload(xmlEAAPayload);
+
+        XmlSAV result = new XmlSAV();
+
+        ETSI194721ConformanceCheck etsi194721ConformanceCheck = new ETSI194721ConformanceCheck(
+                i18nProvider, result, new EAAWrapper(xmlEAA), new Date(), new LevelConstraintWrapper(constraint));
+        etsi194721ConformanceCheck.execute();
+
+        List<XmlConstraint> constraints = result.getConstraint();
+
+        assertEquals(1, constraints.size());
+        assertEquals(XmlStatus.OK, constraints.get(0).getStatus());
+        assertNull(constraints.get(0).getAdditionalInfo());
+    }
+
+    @Test
+    void mdocNonMDLNamespacesConformanceInvalidTest() {
+        LevelConstraint constraint = new LevelConstraint();
+        constraint.setLevel(Level.FAIL);
+
+        XmlEAA xmlEAA = new XmlEAA();
+        xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("eu.europa.ec.eudi.pid.1");
+
+        XmlEAASignature presentationSignature = new XmlEAASignature();
+        XmlSignature signature = new XmlSignature();
+        presentationSignature.setSignature(signature);
+        xmlEAA.getEAASignature().add(presentationSignature);
+
+        XmlEAAPayload xmlEAAPayload = new XmlEAAPayload();
+
+        XmlClaim notBefore = new XmlClaim();
+        notBefore.setDateTime(new Date(System.currentTimeMillis() - 60000));
+        xmlEAAPayload.setNotBefore(notBefore);
+
+        XmlClaim notAfter = new XmlClaim();
+        notAfter.setDateTime(new Date(notBefore.getDateTime().getTime() + 3600 * 1000));
+        xmlEAAPayload.setExpiration(notAfter);
+
+        XmlClaim issuingAuthority = new XmlClaim();
+        issuingAuthority.setText("TEST Authority");
+        issuingAuthority.setName("issuing_authority");
+        issuingAuthority.setNamespace("org.iso.18013.5.1");
+        xmlEAAPayload.setIssuingAuthority(issuingAuthority);
+
+        XmlClaim documentNumber = new XmlClaim();
+        documentNumber.setText("12345");
+        documentNumber.setName("document_number");
+        documentNumber.setNamespace("org.iso.18013.5.1");
+        xmlEAAPayload.setDocumentNumber(documentNumber);
+
+        XmlClaim pseudonym = new XmlClaim();
+        pseudonym.setText("X Man");
+        pseudonym.setName("also_known_as");
+        pseudonym.setNamespace("org.etsi.01947201.010101");
+        xmlEAAPayload.setPseudonym(pseudonym);
+
+        xmlEAA.setEAAPayload(xmlEAAPayload);
+
+        XmlSAV result = new XmlSAV();
+
+        ETSI194721ConformanceCheck etsi194721ConformanceCheck = new ETSI194721ConformanceCheck(
+                i18nProvider, result, new EAAWrapper(xmlEAA), new Date(), new LevelConstraintWrapper(constraint));
+        etsi194721ConformanceCheck.execute();
+
+        List<XmlConstraint> constraints = result.getConstraint();
+
+        assertEquals(1, constraints.size());
+        assertEquals(XmlStatus.NOT_OK, constraints.get(0).getStatus());
+        assertNotNull(constraints.get(0).getAdditionalInfo());
+        assertTrue(constraints.get(0).getAdditionalInfo().contains(i18nProvider.getMessage(MessageTag.EAA_MDOC_NAMESPACE_CONFORMANCE)));
+    }
+
+    @Test
+    void mdocDocumentNumberAbsentTest() {
+        LevelConstraint constraint = new LevelConstraint();
+        constraint.setLevel(Level.FAIL);
+
+        XmlEAA xmlEAA = new XmlEAA();
+        xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("org.iso.18013.5.1.mDL");
+
+        XmlEAASignature presentationSignature = new XmlEAASignature();
+        XmlSignature signature = new XmlSignature();
+        presentationSignature.setSignature(signature);
+        xmlEAA.getEAASignature().add(presentationSignature);
+
+        XmlEAAPayload xmlEAAPayload = new XmlEAAPayload();
+
+        XmlClaim notBefore = new XmlClaim();
+        notBefore.setDateTime(new Date(System.currentTimeMillis() - 60000));
+        xmlEAAPayload.setNotBefore(notBefore);
+
+        XmlClaim notAfter = new XmlClaim();
+        notAfter.setDateTime(new Date(notBefore.getDateTime().getTime() + 3600 * 1000));
+        xmlEAAPayload.setExpiration(notAfter);
+
+        XmlClaim issuingAuthority = new XmlClaim();
+        issuingAuthority.setText("issuing_authority");
+        issuingAuthority.setNamespace("org.iso.18013.5.1");
         xmlEAAPayload.setIssuingAuthority(issuingAuthority);
 
         xmlEAA.setEAAPayload(xmlEAAPayload);
@@ -487,6 +785,7 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
         XmlEAA xmlEAA = new XmlEAA();
         xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("org.iso.18013.5.1.mDL");
 
         XmlEAASignature presentationSignature = new XmlEAASignature();
         XmlSignature signature = new XmlSignature();
@@ -505,6 +804,7 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
         XmlClaim documentNumber = new XmlClaim();
         documentNumber.setText("test-value");
+        documentNumber.setNamespace("org.iso.18013.5.1");
         xmlEAAPayload.setDocumentNumber(documentNumber);
 
         xmlEAA.setEAAPayload(xmlEAAPayload);
@@ -865,6 +1165,7 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
         XmlEAA xmlEAA = new XmlEAA();
         xmlEAA.setEAAType(EAAType.ISO_IEC_MDOC);
+        xmlEAA.setDocumentType("org.iso.18013.5.1.mDL");
 
         XmlEAASignature presentationSignature = new XmlEAASignature();
         XmlSignature signature = new XmlSignature();
@@ -886,10 +1187,12 @@ class ETSI194721ConformanceCheckTest extends AbstractTestCheck {
 
         XmlClaim documentNumber = new XmlClaim();
         documentNumber.setText("test-value");
+        documentNumber.setNamespace("org.iso.18013.5.1");
         xmlEAAPayload.setDocumentNumber(documentNumber);
 
         XmlClaim issuingAuthority = new XmlClaim();
-        issuingAuthority.setText("issuingAuthority");
+        issuingAuthority.setText("issuing_authority");
+        issuingAuthority.setNamespace("org.iso.18013.5.1");
         xmlEAAPayload.setIssuingAuthority(issuingAuthority);
 
         xmlEAA.setEAAPayload(xmlEAAPayload);

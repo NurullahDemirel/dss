@@ -2069,6 +2069,15 @@ public class EtsiValidationPolicy implements ValidationPolicy {
     }
 
 	@Override
+	public MultiValuesRule getEAASupportedNamespacesConstraint() {
+		EAAConstraints eaaConstraints = getEAAConstraints();
+		if (eaaConstraints != null) {
+			return toRule(eaaConstraints.getEAASupportedNamespaces());
+		}
+		return null;
+	}
+
+	@Override
 	public LevelRule getEAARevocationAvailableConstraint() {
 		EAAConstraints eaaConstraints = getEAAConstraints();
 		if (eaaConstraints != null) {

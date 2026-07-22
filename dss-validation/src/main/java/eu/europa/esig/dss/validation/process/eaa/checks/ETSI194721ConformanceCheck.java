@@ -39,11 +39,24 @@ import eu.europa.esig.dss.validation.process.ValidationProcessUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class verifies whether the issuing authority identifier is valid as per TS 119 472-1
  */
 public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
+
+    /** mdoc document type as defined in ISO/IEC 18013-5 */
+    public static final String ISO18013_5_MDL_DOC_TYPE = "org.iso.18013.5.1.mDL";
+
+    /** Namespace for the data elements defined in section 7.1 of ISO/IEC 18013-5  */
+    public static final String ISO18013_5_NAMESPACE = "org.iso.18013.5.1";
+
+    /** Namespace for the data elements defined in section 6.3 of ISO/IEC 23220-2  */
+    public static final String ISO23220_1_NAMESPACE = "org.iso.23220.1";
+
+    /** Namespace for the data elements defined in section 6 of ETSI TS 119 472-1  */
+    public static final String ETSI_19472_1_NAMESPACE = "org.etsi.01947201.010101";
 
     /** EAA to check */
     private final EAAWrapper eaa;
@@ -81,9 +94,10 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
                 && checkNowAfterAdministrativeDateIssuance()
                 && checkNowBeforeAdministrativeDateExpiration()
                 && checkSDJWTAdministrativeDateConformance()
+                && checkSDJWTIssuingAuthorityAndCountryPresent()
+                && checkMDOCNamespaceConformance()
                 && checkMDOCDocumentNumberPresent()
                 && checkMDOCIssuingAuthorityPresent()
-                && checkSDJWTIssuingAuthorityAndCountryPresent()
                 && checkNoStatusIfShortLived()
                 && checkStatusIsPresentIfMandatory()
                 && checkSDJWTStatusConformance();
@@ -131,6 +145,38 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
             return eaa.getDocumentIssuingAuthority() != null;
         }
 
+        return true;
+    }
+
+    private boolean checkMDOCNamespaceConformance() {
+        /*
+         * EAA-6.1-02: If the EAA is a mobile driving license (mDL) (i.e. the document type of the EAA is
+         * "org.iso.18013.5.1.mDL"), it:
+         * 1) Shall contain data elements defined in section 7.1 of ISO/IEC 18013-5 [12] within the namespace
+         * "org.iso.18013.5.1"; and
+         * 2) May contain data elements defined in the present document.
+         *
+         * EAA-6.1-03: If the EAA is NOT a mobile driving license, it:
+         * 1) Shall contain data elements defined in section 6.3 of ISO/IEC 23220-2 [13] within the namespace
+         * "org.iso.23220.1";
+         * 2) May contain data elements defined in the present document; and
+         * 3) May contain data elements defined in another document.
+         */
+        if (EAAType.ISO_IEC_MDOC.equals(eaa.getEAAType())) {
+            Set<String> namespaces = eaa.getAllClaimNamespaces();
+            if (ISO18013_5_MDL_DOC_TYPE.equals(eaa.getEAADocumentType())) {
+                if (!namespaces.contains(ISO18013_5_NAMESPACE)) {
+                    return false;
+                }
+                if (namespaces.stream().anyMatch(n -> !ISO18013_5_NAMESPACE.equals(n) && !ETSI_19472_1_NAMESPACE.equals(n))) {
+                    return false;
+                }
+            } else {
+                if (!namespaces.contains(ISO23220_1_NAMESPACE)) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -237,17 +283,20 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
                     ValidationProcessUtils.getFormattedDate(validationTime),
                     ValidationProcessUtils.getFormattedDate(eaa.getAdministrativeExpirationDate())));
         }
-        if (!checkMDOCDocumentNumberPresent()) {
-            errors.add(i18nProvider.getMessage(MessageTag.EAA_MDOC_DOCUMENT_NUMBER_ABSENT));
-        }
-        if (!checkMDOCIssuingAuthorityPresent()) {
-            errors.add(i18nProvider.getMessage(MessageTag.EAA_MDOC_ISSUING_AUTHORITY));
-        }
         if (!checkSDJWTIssuingAuthorityAndCountryPresent()) {
             errors.add(i18nProvider.getMessage(MessageTag.EAA_SDJWT_ISSUING_AUTHORITY));
         }
         if (!checkSDJWTAdministrativeDateConformance()) {
             errors.add(i18nProvider.getMessage(MessageTag.EAA_AD_SDJWT_CONFORMANCE));
+        }
+        if (!checkMDOCNamespaceConformance()) {
+            errors.add(i18nProvider.getMessage(MessageTag.EAA_MDOC_NAMESPACE_CONFORMANCE));
+        }
+        if (!checkMDOCDocumentNumberPresent()) {
+            errors.add(i18nProvider.getMessage(MessageTag.EAA_MDOC_DOCUMENT_NUMBER_ABSENT));
+        }
+        if (!checkMDOCIssuingAuthorityPresent()) {
+            errors.add(i18nProvider.getMessage(MessageTag.EAA_MDOC_ISSUING_AUTHORITY));
         }
         if (!checkNoStatusIfShortLived()) {
             errors.add(i18nProvider.getMessage(MessageTag.EAA_SHORT_LIVED_STATUS_PRESENT));

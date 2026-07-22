@@ -783,6 +783,11 @@
                             <xsd:documentation>Checks whether the EAA token contains only claims that are supported. Only the root level of the EAA is checked, not the nested claims.</xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
+					<xsd:element name="EAASupportedNamespaces" type="MultiValuesConstraint" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Checks whether the EAA token contains only claims within namespaces which are supported. Mdoc only.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 					<xsd:element name="Cryptographic" type="CryptographicConstraint" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation>Group of cryptographic checks to operate on the disclosure hash algorithm(s)</xsd:documentation>

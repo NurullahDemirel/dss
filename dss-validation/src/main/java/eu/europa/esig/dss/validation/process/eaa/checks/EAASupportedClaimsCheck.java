@@ -59,6 +59,9 @@ public class EAASupportedClaimsCheck extends AbstractMultiValuesCheckItem<XmlSAV
     @Override
     protected boolean process() {
         List<String> claimNames = eaa.getAllEAAPayloadClaimNames();
+        if (Utils.isCollectionEmpty(claimNames)) {
+            return true;
+        }
         return processAllValuesCheck(claimNames);
     }
 
@@ -67,7 +70,10 @@ public class EAASupportedClaimsCheck extends AbstractMultiValuesCheckItem<XmlSAV
         List<String> unsupportedClaims = eaa.getAllEAAPayloadClaimNames().stream()
                 .filter(c -> !processValueCheck(c))
                 .collect(Collectors.toList());
-        return i18nProvider.getMessage(MessageTag.EAA_UNSUPPORTED_CLAIMS, Utils.joinStrings(unsupportedClaims, ", "));
+        if (Utils.isCollectionNotEmpty(unsupportedClaims)) {
+            return i18nProvider.getMessage(MessageTag.EAA_UNSUPPORTED_CLAIMS, Utils.joinStrings(unsupportedClaims, ", "));
+        }
+        return null;
     }
 
     @Override

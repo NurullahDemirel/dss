@@ -1885,6 +1885,156 @@ class EAAValidationProcessExecutorTest extends AbstractTestValidationExecutor {
     }
 
     @Test
+    void claimNamespacesNotSupportedFailTest() throws Exception {
+        XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
+                new File("src/test/resources/diag-data/eaa-validation/diag_data_mdoc.xml"));
+        assertNotNull(xmlDiagnosticData);
+
+        EtsiValidationPolicy validationPolicy = loadDefaultPolicy();
+
+        MultiValuesConstraint claims = new MultiValuesConstraint();
+        claims.setLevel(Level.FAIL);
+        claims.getId().add("org.iso.18013.5.1");
+        validationPolicy.getEAAConstraints().setEAASupportedNamespaces(claims);
+
+        EAAPresentationProcessExecutor executor = new EAAPresentationProcessExecutor();
+        executor.setDiagnosticData(xmlDiagnosticData);
+        executor.setCurrentTime(xmlDiagnosticData.getValidationDate());
+        executor.setValidationPolicy(validationPolicy);
+
+        Reports reports = executor.execute();
+
+        SimpleReport simpleReport = reports.getSimpleReport();
+        assertNotNull(simpleReport);
+
+        assertEquals(Indication.INDETERMINATE, simpleReport.getIndication(simpleReport.getFirstEAAId()));
+        assertEquals(SubIndication.EAA_CONSTRAINTS_FAILURE, simpleReport.getSubIndication(simpleReport.getFirstEAAId()));
+        assertTrue(checkMessageValuePresence(simpleReport.getAdESValidationErrors(simpleReport.getFirstEAAId()), i18nProvider.getMessage(MessageTag.EAA_SUPPORTED_CLAIM_NAMESPACES_ANS)));
+        assertTrue(Utils.isCollectionEmpty(simpleReport.getAdESValidationWarnings(simpleReport.getFirstEAAId())));
+        assertTrue(Utils.isCollectionEmpty(simpleReport.getAdESValidationInfo(simpleReport.getFirstEAAId())));
+
+        DetailedReport detailedReport = reports.getDetailedReport();
+        assertEquals(Indication.INDETERMINATE, detailedReport.getFinalIndication(simpleReport.getFirstEAAId()));
+        assertEquals(SubIndication.EAA_CONSTRAINTS_FAILURE, detailedReport.getFinalSubIndication(simpleReport.getFirstEAAId()));
+
+        XmlEAA xmlEAA = detailedReport.getXmlEAAById(detailedReport.getFirstEAAId());
+        assertNotNull(xmlEAA);
+
+        XmlValidationProcessEAA validationProcessEAA = xmlEAA.getValidationProcessEAA();
+        assertNotNull(validationProcessEAA);
+        assertEquals(Indication.INDETERMINATE, validationProcessEAA.getConclusion().getIndication());
+        assertEquals(SubIndication.EAA_CONSTRAINTS_FAILURE, validationProcessEAA.getConclusion().getSubIndication());
+
+        XmlBasicBuildingBlocks eaaBBB = detailedReport.getBasicBuildingBlockById(xmlEAA.getId());
+        assertNotNull(eaaBBB);
+
+        XmlFC xmlFC = eaaBBB.getFC();
+        assertNotNull(xmlFC);
+        assertEquals(Indication.PASSED, xmlFC.getConclusion().getIndication());
+
+        XmlCV xmlCV = eaaBBB.getCV();
+        assertNotNull(xmlCV);
+        assertEquals(Indication.PASSED, xmlCV.getConclusion().getIndication());
+
+        XmlAOV xmlAOV = eaaBBB.getAOV();
+        assertNotNull(xmlAOV);
+        assertEquals(Indication.PASSED, xmlAOV.getConclusion().getIndication());
+
+        XmlSAV xmlSAV = eaaBBB.getSAV();
+        assertNotNull(xmlSAV);
+        assertEquals(Indication.INDETERMINATE, xmlSAV.getConclusion().getIndication());
+        assertEquals(SubIndication.EAA_CONSTRAINTS_FAILURE, xmlSAV.getConclusion().getSubIndication());
+
+        boolean supportedNamespacesCheckFound = false;
+        for (XmlConstraint xmlConstraint : xmlSAV.getConstraint()) {
+            if (MessageTag.EAA_SUPPORTED_CLAIM_NAMESPACES.getId().equals(xmlConstraint.getName().getKey())) {
+                assertEquals(XmlStatus.NOT_OK, xmlConstraint.getStatus());
+                assertEquals(MessageTag.EAA_SUPPORTED_CLAIM_NAMESPACES_ANS.getId(), xmlConstraint.getError().getKey());
+                assertEquals(i18nProvider.getMessage(MessageTag.EAA_UNSUPPORTED_CLAIM_NAMESPACES, "org.etsi.01947201.010101"), xmlConstraint.getAdditionalInfo());
+                supportedNamespacesCheckFound = true;
+            } else {
+                assertEquals(XmlStatus.OK, xmlConstraint.getStatus());
+            }
+        }
+        assertTrue(supportedNamespacesCheckFound);
+
+        checkReports(reports);
+    }
+
+    @Test
+    void claimNamespacesNotSupportedWarnTest() throws Exception {
+        XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
+                new File("src/test/resources/diag-data/eaa-validation/diag_data_mdoc.xml"));
+        assertNotNull(xmlDiagnosticData);
+
+        EtsiValidationPolicy validationPolicy = loadDefaultPolicy();
+
+        MultiValuesConstraint claims = new MultiValuesConstraint();
+        claims.setLevel(Level.WARN);
+        claims.getId().add("org.iso.18013.5.1");
+        validationPolicy.getEAAConstraints().setEAASupportedNamespaces(claims);
+
+        EAAPresentationProcessExecutor executor = new EAAPresentationProcessExecutor();
+        executor.setDiagnosticData(xmlDiagnosticData);
+        executor.setCurrentTime(xmlDiagnosticData.getValidationDate());
+        executor.setValidationPolicy(validationPolicy);
+
+        Reports reports = executor.execute();
+
+        SimpleReport simpleReport = reports.getSimpleReport();
+        assertNotNull(simpleReport);
+
+        assertEquals(Indication.PASSED, simpleReport.getIndication(simpleReport.getFirstEAAId()));
+        assertTrue(Utils.isCollectionEmpty(simpleReport.getAdESValidationErrors(simpleReport.getFirstEAAId())));
+        assertTrue(checkMessageValuePresence(simpleReport.getAdESValidationWarnings(simpleReport.getFirstEAAId()), i18nProvider.getMessage(MessageTag.EAA_SUPPORTED_CLAIM_NAMESPACES_ANS)));
+        assertTrue(Utils.isCollectionEmpty(simpleReport.getAdESValidationInfo(simpleReport.getFirstEAAId())));
+
+        DetailedReport detailedReport = reports.getDetailedReport();
+        assertEquals(Indication.PASSED, detailedReport.getFinalIndication(simpleReport.getFirstEAAId()));
+
+        XmlEAA xmlEAA = detailedReport.getXmlEAAById(detailedReport.getFirstEAAId());
+        assertNotNull(xmlEAA);
+
+        XmlValidationProcessEAA validationProcessEAA = xmlEAA.getValidationProcessEAA();
+        assertNotNull(validationProcessEAA);
+        assertEquals(Indication.PASSED, validationProcessEAA.getConclusion().getIndication());
+
+        XmlBasicBuildingBlocks eaaBBB = detailedReport.getBasicBuildingBlockById(xmlEAA.getId());
+        assertNotNull(eaaBBB);
+
+        XmlFC xmlFC = eaaBBB.getFC();
+        assertNotNull(xmlFC);
+        assertEquals(Indication.PASSED, xmlFC.getConclusion().getIndication());
+
+        XmlCV xmlCV = eaaBBB.getCV();
+        assertNotNull(xmlCV);
+        assertEquals(Indication.PASSED, xmlCV.getConclusion().getIndication());
+
+        XmlAOV xmlAOV = eaaBBB.getAOV();
+        assertNotNull(xmlAOV);
+        assertEquals(Indication.PASSED, xmlAOV.getConclusion().getIndication());
+
+        XmlSAV xmlSAV = eaaBBB.getSAV();
+        assertNotNull(xmlSAV);
+        assertEquals(Indication.PASSED, xmlSAV.getConclusion().getIndication());
+
+        boolean supportedNamespacesCheckFound = false;
+        for (XmlConstraint xmlConstraint : xmlSAV.getConstraint()) {
+            if (MessageTag.EAA_SUPPORTED_CLAIM_NAMESPACES.getId().equals(xmlConstraint.getName().getKey())) {
+                assertEquals(XmlStatus.WARNING, xmlConstraint.getStatus());
+                assertEquals(MessageTag.EAA_SUPPORTED_CLAIM_NAMESPACES_ANS.getId(), xmlConstraint.getWarning().getKey());
+                assertEquals(i18nProvider.getMessage(MessageTag.EAA_UNSUPPORTED_CLAIM_NAMESPACES, "org.etsi.01947201.010101"), xmlConstraint.getAdditionalInfo());
+                supportedNamespacesCheckFound = true;
+            } else {
+                assertEquals(XmlStatus.OK, xmlConstraint.getStatus());
+            }
+        }
+        assertTrue(supportedNamespacesCheckFound);
+
+        checkReports(reports);
+    }
+
+    @Test
     void eaaCategoryTest() throws Exception {
         XmlDiagnosticData xmlDiagnosticData = DiagnosticDataFacade.newFacade().unmarshall(
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));

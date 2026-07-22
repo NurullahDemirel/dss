@@ -729,10 +729,10 @@ public class ValidationProcessUtils {
 	 * Checks the value against the list of expected values
 	 *
 	 * @param value {@link String} to check
-	 * @param expectedValues a list of {@link String} expected values
-	 * @return TRUE if the value is allowed by the list of expected values, FALSE otherwise
+	 * @param expectedValues a collection of {@link String} expected values
+	 * @return TRUE if the value is allowed by the collection of expected values, FALSE otherwise
 	 */
-	public static boolean processValueCheck(String value, List<String> expectedValues) {
+	public static boolean processValueCheck(String value, Collection<String> expectedValues) {
 		if (Utils.isStringNotEmpty(value) && Utils.isCollectionNotEmpty(expectedValues)) {
 			return expectedValues.contains(ALL_VALUE) || expectedValues.contains(value);
 		}
@@ -744,9 +744,9 @@ public class ValidationProcessUtils {
 	 *
 	 * @param values {@link String} to check
 	 * @param expectedValues {@link String}s to check against
-	 * @return TRUE if at least one of the value is allowed by the list of expected values, FALSE otherwise
+	 * @return TRUE if at least one of the value is allowed by the collection of expected values, FALSE otherwise
 	 */
-	public static boolean processValuesCheck(List<String> values, List<String> expectedValues) {
+	public static boolean processValuesCheck(Collection<String> values, Collection<String> expectedValues) {
 		if (Utils.isCollectionNotEmpty(values)) {
 			for (String value : values) {
 				if (processValueCheck(value, expectedValues)) {
@@ -764,9 +764,9 @@ public class ValidationProcessUtils {
      *
      * @param values {@link String} to check
      * @param expectedValues {@link String}s to check against
-     * @return TRUE if all the values are allowed by the list of expected values, FALSE otherwise
+     * @return TRUE if all the values are allowed by the collection of expected values, FALSE otherwise
      */
-    public static boolean processAllValuesCheck(List<String> values, List<String> expectedValues) {
+    public static boolean processAllValuesCheck(Collection<String> values, Collection<String> expectedValues) {
         if (Utils.isCollectionNotEmpty(values)) {
             for (String value : values) {
                 if (!processValueCheck(value, expectedValues)) {
@@ -786,7 +786,7 @@ public class ValidationProcessUtils {
 	 * @param expectedValues {@link String}s to check against
 	 * @return TRUE if all values is present within the expected values, FALSE otherwise
 	 */
-	public static boolean processValuesForEachExpectedCheck(List<String> values, List<String> expectedValues) {
+	public static boolean processValuesForEachExpectedCheck(Collection<String> values, Collection<String> expectedValues) {
 		if (Utils.isCollectionNotEmpty(values)) {
 			for (String expectedValue : expectedValues) {
 				if (!processValueCheck(expectedValue, values)) {
