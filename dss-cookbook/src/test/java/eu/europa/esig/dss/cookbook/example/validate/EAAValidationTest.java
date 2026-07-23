@@ -166,7 +166,7 @@ class EAAValidationTest extends CookbookTools {
             EAAWrapper eaa = eaas.get(0);
 
             // Issuer and subject
-            String issuer = eaa.getEAAIssuer();
+            String issuer = eaa.getIssuer();
             String subject = eaa.getEAASubject();
 
             // Expiration and issuance dates
@@ -192,7 +192,7 @@ class EAAValidationTest extends CookbookTools {
             String kbAudience = eaa.getKeyBindingSignatureAudience();
 
             // Revocation / status list information
-            for (EAARevocationWrapper revocation : eaa.getEAARevocations()) {
+            for (EAARevocationWrapper revocation : eaa.getAttestationRevocations()) {
                 String sourceAddress = revocation.getSourceAddress();
                 EAAStatus status = revocation.getStatus();
             }

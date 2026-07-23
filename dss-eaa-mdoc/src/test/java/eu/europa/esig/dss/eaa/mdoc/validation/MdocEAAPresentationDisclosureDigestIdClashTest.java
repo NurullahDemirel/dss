@@ -133,7 +133,7 @@ class MdocEAAPresentationDisclosureDigestIdClashTest extends AbstractMdocEAAPres
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaaWrapper = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        EAAPayloadProxy eaaPayload = eaaWrapper.getEAAPayload();
+        EAAPayloadProxy eaaPayload = eaaWrapper.getPayload();
         assertNull(eaaPayload.getGivenName());
         assertNotNull(eaaPayload.getFamilyName());
     }

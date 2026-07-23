@@ -111,13 +111,13 @@ class SDJWTCompactEAAPresentationWithMetadataValidationTest extends AbstractSDJW
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
-        assertEquals("https://issuer.example.com", eaa.getEAAIssuer());
-        assertEquals("user_42", eaa.getEAASubject());
-        assertEquals(DSSUtils.parseRFCDate("2029-09-01T23:33:20Z"), eaa.getEAAExpiration());
-        assertEquals(DSSUtils.parseRFCDate("2023-05-02T04:00:00Z"), eaa.getEAAIssuedAt());
-        assertEquals("urn:eudi:pid:1", eaa.getEAAVerifiableCredentialsTypeUri());
-        assertEquals(DigestAlgorithm.SHA256, eaa.getEAAVerifiableCredentialsTypeIntegrityDigestAlgorithm());
-        assertEquals("1odmyxoVQCuQx8SAym8rWHXba41fM/Iv/V1H8VHGN00=", Utils.toBase64(eaa.getEAAVerifiableCredentialsTypeIntegrityBytes()));
+        assertEquals("https://issuer.example.com", eaa.getIssuer());
+        assertEquals("user_42", eaa.getSubject());
+        assertEquals(DSSUtils.parseRFCDate("2029-09-01T23:33:20Z"), eaa.getExpiration());
+        assertEquals(DSSUtils.parseRFCDate("2023-05-02T04:00:00Z"), eaa.getIssuedAt());
+        assertEquals("urn:eudi:pid:1", eaa.getVerifiableCredentialsTypeUri());
+        assertEquals(DigestAlgorithm.SHA256, eaa.getVerifiableCredentialsTypeIntegrityDigestAlgorithm());
+        assertEquals("1odmyxoVQCuQx8SAym8rWHXba41fM/Iv/V1H8VHGN00=", Utils.toBase64(eaa.getVerifiableCredentialsTypeIntegrityBytes()));
 
         List<ClaimWrapper> payloadClaims = eaa.getAllEAAPayloadClaims();
         assertNotNull(payloadClaims);

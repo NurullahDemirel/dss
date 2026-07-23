@@ -64,7 +64,7 @@ public class MdocEAAISONonMdLWithStatusListTest extends AbstractMdocEAAPresentat
         super.checkEAARevocations(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        List<EAARevocationWrapper> eaaStatuses = eaa.getEAARevocations();
+        List<EAARevocationWrapper> eaaStatuses = eaa.getAttestationRevocations();
         assertEquals(1, eaaStatuses.size());
         assertEquals(EAAStatus.VALID, eaaStatuses.get(0).getStatus());
         assertEquals("application/statuslist+cwt", eaaStatuses.get(0).getType());

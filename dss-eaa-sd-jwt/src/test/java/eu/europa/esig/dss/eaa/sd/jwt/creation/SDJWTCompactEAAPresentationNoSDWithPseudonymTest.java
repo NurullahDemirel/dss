@@ -84,18 +84,18 @@ class SDJWTCompactEAAPresentationNoSDWithPseudonymTest extends AbstractSDJWTEAAP
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("urn:eudi:eaa:1", eaa.getEAAVerifiableCredentialsTypeUri());
-        assertEquals(DigestAlgorithm.SHA256, eaa.getEAAVerifiableCredentialsTypeIntegrityDigestAlgorithm());
-        assertArrayEquals(DSSUtils.digest(DigestAlgorithm.SHA256, "vct".getBytes()), eaa.getEAAVerifiableCredentialsTypeIntegrityBytes());
-        assertEquals(DSSUtils.formatDateToRFC(getSignatureParameters().bLevel().getSigningDate()), DSSUtils.formatDateToRFC(eaa.getEAANotBefore()));
-        assertEquals(DSSUtils.formatDateToRFC(getSigningCert().getNotAfter()), DSSUtils.formatDateToRFC(eaa.getEAAExpiration()));
-        assertEquals("EAA provider", eaa.getEAAIssuer());
-        assertEquals(DSSASN1Utils.getSubjectCommonName(getSigningCert()), eaa.getEAASubject());
+        assertEquals("urn:eudi:eaa:1", eaa.getVerifiableCredentialsTypeUri());
+        assertEquals(DigestAlgorithm.SHA256, eaa.getVerifiableCredentialsTypeIntegrityDigestAlgorithm());
+        assertArrayEquals(DSSUtils.digest(DigestAlgorithm.SHA256, "vct".getBytes()), eaa.getVerifiableCredentialsTypeIntegrityBytes());
+        assertEquals(DSSUtils.formatDateToRFC(getSignatureParameters().bLevel().getSigningDate()), DSSUtils.formatDateToRFC(eaa.getNotBefore()));
+        assertEquals(DSSUtils.formatDateToRFC(getSigningCert().getNotAfter()), DSSUtils.formatDateToRFC(eaa.getExpiration()));
+        assertEquals("EAA provider", eaa.getIssuer());
+        assertEquals(DSSASN1Utils.getSubjectCommonName(getSigningCert()), eaa.getSubject());
         assertEquals("TEST Authority", eaa.getDocumentIssuingAuthority());
         assertEquals("LU", eaa.getDocumentIssuingAuthorityCountry());
         assertEquals("VATLU-123456", eaa.getIssuingRegistrationIdentifier());
         assertEquals("X Man", eaa.getPseudonym());
-        assertArrayEquals(getSigningCert().getPublicKey().getEncoded(), eaa.getEAADevicePublicKey());
+        assertArrayEquals(getSigningCert().getPublicKey().getEncoded(), eaa.getDevicePublicKey());
     }
 
     @Override

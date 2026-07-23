@@ -60,8 +60,8 @@ public class EAACategoryForEAAPresenceCheck extends ChainItem<XmlValidationEAAQu
 
     @Override
     protected boolean process() {
-        return eaa.getEAACategory() != null &&
-                Arrays.stream(EAACategory.values()).anyMatch(c -> c.getUrn().equals(eaa.getEAACategory()));
+        return eaa.getCategory() != null &&
+                Arrays.stream(EAACategory.values()).anyMatch(c -> c.getUrn().equals(eaa.getCategory()));
     }
 
     @Override
@@ -71,10 +71,10 @@ public class EAACategoryForEAAPresenceCheck extends ChainItem<XmlValidationEAAQu
 
     @Override
     protected XmlMessage buildErrorMessage() {
-        if (eaa.getEAACategory() == null) {
+        if (eaa.getCategory() == null) {
             return buildXmlMessage(MessageTag.EAA_CAT_EAA_ANS_1);
         } else {
-            return buildXmlMessage(MessageTag.EAA_CAT_EAA_ANS_2, eaa.getEAACategory());
+            return buildXmlMessage(MessageTag.EAA_CAT_EAA_ANS_2, eaa.getCategory());
         }
     }
 

@@ -180,12 +180,12 @@ class MdocEAAISONonMdLQEAATest extends AbstractMdocEAAPresentationTestIssuance {
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.23220.1.mID", eaa.getEAADocumentType());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.23220.1.mID", eaa.getAttestationDocumentType());
 
-        assertEquals(1, eaa.getEAAStatusIndex());
-        assertEquals("https://pki.nowina.lu/eaa/status_list", eaa.getEAAStatusUri());
-        assertNull(eaa.getEAAStatusCertificate());
+        assertEquals(1, eaa.getStatusIndex());
+        assertEquals("https://pki.nowina.lu/eaa/status_list", eaa.getStatusUri());
+        assertNull(eaa.getStatusCertificate());
     }
 
     @Override

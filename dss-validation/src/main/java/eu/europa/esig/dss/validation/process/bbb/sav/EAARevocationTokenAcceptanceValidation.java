@@ -106,12 +106,12 @@ public class EAARevocationTokenAcceptanceValidation extends AbstractAcceptanceVa
     }
 
     private ChainItem<XmlSAV> subject() {
-        MultiValuesRule constraint = validationPolicy.getEAARevocationSubjectConstraint();
+        MultiValuesRule constraint = validationPolicy.getAttestationRevocationsubjectConstraint();
         return new EAARevocationSubjectCheck(i18nProvider, result, token, constraint);
     }
 
     private ChainItem<XmlSAV> subjectMatches() {
-        LevelRule constraint = validationPolicy.getEAARevocationSubjectMatchConstraint();
+        LevelRule constraint = validationPolicy.getAttestationRevocationsubjectMatchConstraint();
         return new EAARevocationSubjectMatchCheck(i18nProvider, result, token, constraint);
     }
 

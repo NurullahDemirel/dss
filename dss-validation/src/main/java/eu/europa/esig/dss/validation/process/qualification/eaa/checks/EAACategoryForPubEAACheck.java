@@ -58,7 +58,7 @@ public class EAACategoryForPubEAACheck extends ChainItem<XmlValidationEAAQualifi
 
     @Override
     protected boolean process() {
-        return EAACategory.EU_PUBEAA.getUrn().equals(eaa.getEAACategory());
+        return EAACategory.EU_PUBEAA.getUrn().equals(eaa.getCategory());
     }
 
     @Override

@@ -122,7 +122,7 @@ class SDJWTJsonSerializationEAAPresentationWithKBSignatureTest extends AbstractS
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
-        assertEquals("https://issuer.example.com", eaa.getEAAIssuer());
+        assertEquals("https://issuer.example.com", eaa.getIssuer());
         assertEquals("John", eaa.getGivenName());
         assertEquals("Doe", eaa.getFamilyName());
     }

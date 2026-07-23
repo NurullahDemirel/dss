@@ -593,8 +593,8 @@ class MdocEAAISOMdLAllOptionalElementsTest extends AbstractMdocEAAPresentationTe
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.18013.5.1.mDL", eaa.getEAADocumentType());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.18013.5.1.mDL", eaa.getAttestationDocumentType());
     }
 
     @Override

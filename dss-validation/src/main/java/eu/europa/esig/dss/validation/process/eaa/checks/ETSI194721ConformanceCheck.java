@@ -105,14 +105,14 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
 
     private boolean checkVCTPresent() {
         if (EAAType.SD_JWT_VC.equals(eaa.getEAAType())) {
-            return eaa.getEAAVerifiableCredentialsTypeUri() != null;
+            return eaa.getVerifiableCredentialsTypeUri() != null;
         }
         return true;
     }
 
     private boolean checkVCTIntegrityPresent() {
         if (EAAType.SD_JWT_VC.equals(eaa.getEAAType())) {
-            return eaa.getEAAVerifiableCredentialsTypeIntegrityBytes() != null;
+            return eaa.getVerifiableCredentialsTypeIntegrityBytes() != null;
         }
         return true;
     }
@@ -164,7 +164,7 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
          */
         if (EAAType.ISO_IEC_MDOC.equals(eaa.getEAAType())) {
             Set<String> namespaces = eaa.getAllClaimNamespaces();
-            if (ISO18013_5_MDL_DOC_TYPE.equals(eaa.getEAADocumentType())) {
+            if (ISO18013_5_MDL_DOC_TYPE.equals(eaa.getAttestationDocumentType())) {
                 if (!namespaces.contains(ISO18013_5_NAMESPACE)) {
                     return false;
                 }
@@ -215,16 +215,16 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
     }
 
     private boolean checkNowAfterNotBefore() {
-        return eaa.getEAANotBefore() != null && !validationTime.before(eaa.getEAANotBefore());
+        return eaa.getNotBefore() != null && !validationTime.before(eaa.getNotBefore());
     }
 
     private boolean checkNowBeforeExpiration() {
-        return eaa.getEAAExpiration() != null && validationTime.before(eaa.getEAAExpiration());
+        return eaa.getExpiration() != null && validationTime.before(eaa.getExpiration());
     }
 
     private boolean checkNoStatusIfShortLived() {
         if (Utils.isTrue(eaa.getShortLived())) {
-            return eaa.getEAAPayload().getEAAStatus() == null;
+            return eaa.getPayload().getStatus() == null;
         }
         return true;
     }
@@ -232,7 +232,7 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
     private boolean checkStatusIsPresentIfMandatory() {
         if ((eaa.getCategoryQualification().equals(EAAQualification.QEAA) || eaa.getCategoryQualification().equals(EAAQualification.PUBEAA))
                 && !Utils.isTrue(eaa.getShortLived())) {
-            return eaa.getEAAPayload().getEAAStatus() != null;
+            return eaa.getPayload().getStatus() != null;
         }
 
         return true;
@@ -240,12 +240,12 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
 
     private boolean checkSDJWTStatusConformance() {
         // TODO: lax processing until TS 119 472-1 review
-//        if (EAAType.SD_JWT_VC == eaa.getEAAType()
-//                && eaa.getEAAPayload().getEAAStatus() != null) {
-//            return eaa.getEAAStatusUri() != null
-//                    && eaa.getEAAStatusIndex() != null
-//                    && eaa.getEAAStatusType() != null
-//                    && eaa.getEAAStatusPurpose() != null;
+//        if (EAAType.SD_JWT_VC == eaa.getType()
+//                && eaa.getPayload().getStatus() != null) {
+//            return eaa.getStatusUri() != null
+//                    && eaa.getStatusIndex() != null
+//                    && eaa.getStatusType() != null
+//                    && eaa.getStatusPurpose() != null;
 //        }
         return true;
     }
@@ -256,22 +256,22 @@ public class ETSI194721ConformanceCheck extends ChainItem<XmlSAV> {
         if (!checkVCTPresent()) {
             errors.add(i18nProvider.getMessage(MessageTag.SDJWT_EAA_VCT_PRESENT_ANS,
                     ValidationProcessUtils.getFormattedDate(validationTime),
-                    ValidationProcessUtils.getFormattedDate(eaa.getEAANotBefore())));
+                    ValidationProcessUtils.getFormattedDate(eaa.getNotBefore())));
         }
         if (!checkVCTIntegrityPresent()) {
             errors.add(i18nProvider.getMessage(MessageTag.SDJWT_EAA_VCT_INT_PRESENT_ANS,
                     ValidationProcessUtils.getFormattedDate(validationTime),
-                    ValidationProcessUtils.getFormattedDate(eaa.getEAANotBefore())));
+                    ValidationProcessUtils.getFormattedDate(eaa.getNotBefore())));
         }
         if (!checkNowAfterNotBefore()) {
             errors.add(i18nProvider.getMessage(MessageTag.EAA_NOW_BEFORE_NBF,
                     ValidationProcessUtils.getFormattedDate(validationTime),
-                    ValidationProcessUtils.getFormattedDate(eaa.getEAANotBefore())));
+                    ValidationProcessUtils.getFormattedDate(eaa.getNotBefore())));
         }
         if (!checkNowBeforeExpiration()) {
             errors.add(i18nProvider.getMessage(MessageTag.EAA_NOW_AFTER_EXP,
                     ValidationProcessUtils.getFormattedDate(validationTime),
-                    ValidationProcessUtils.getFormattedDate(eaa.getEAAExpiration())));
+                    ValidationProcessUtils.getFormattedDate(eaa.getExpiration())));
         }
         if (!checkNowAfterAdministrativeDateIssuance()) {
             errors.add(i18nProvider.getMessage(MessageTag.EAA_NOW_BEFORE_ADI,

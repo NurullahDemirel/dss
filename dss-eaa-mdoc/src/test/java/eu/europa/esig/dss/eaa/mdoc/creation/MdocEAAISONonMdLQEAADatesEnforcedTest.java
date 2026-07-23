@@ -210,18 +210,18 @@ class MdocEAAISONonMdLQEAADatesEnforcedTest extends AbstractMdocEAAPresentationT
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.23220.1.mID", eaa.getEAADocumentType());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.23220.1.mID", eaa.getAttestationDocumentType());
 
-        assertEquals(DSSUtils.formatDateToRFC(signingDate), DSSUtils.formatDateToRFC(eaa.getEAAIssuedAt()));
-        assertEquals(DSSUtils.formatDateToRFC(validFrom), DSSUtils.formatDateToRFC(eaa.getEAANotBefore()));
-        assertEquals(DSSUtils.formatDateToRFC(validUntil), DSSUtils.formatDateToRFC(eaa.getEAAExpiration()));
-        assertEquals(DSSUtils.formatDateToRFC(nextUpdate), DSSUtils.formatDateToRFC(eaa.getEAANextUpdate()));
+        assertEquals(DSSUtils.formatDateToRFC(signingDate), DSSUtils.formatDateToRFC(eaa.getIssuedAt()));
+        assertEquals(DSSUtils.formatDateToRFC(validFrom), DSSUtils.formatDateToRFC(eaa.getNotBefore()));
+        assertEquals(DSSUtils.formatDateToRFC(validUntil), DSSUtils.formatDateToRFC(eaa.getExpiration()));
+        assertEquals(DSSUtils.formatDateToRFC(nextUpdate), DSSUtils.formatDateToRFC(eaa.getNextUpdate()));
 
-        assertEquals(1, eaa.getEAAStatusIndex());
-        assertEquals("https://pki.nowina.lu/eaa/status_list", eaa.getEAAStatusUri());
-        assertNull(eaa.getEAAStatusCertificate());
-        assertEquals("urn:etsi:esi:eaa:eu:qualified", eaa.getEAACategory());
+        assertEquals(1, eaa.getStatusIndex());
+        assertEquals("https://pki.nowina.lu/eaa/status_list", eaa.getStatusUri());
+        assertNull(eaa.getStatusCertificate());
+        assertEquals("urn:etsi:esi:eaa:eu:qualified", eaa.getCategory());
     }
 
     @Override

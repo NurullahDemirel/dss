@@ -20,15 +20,6 @@
  */
 package eu.europa.esig.dss.eaa.sd.jwt.creation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Date;
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
-
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.EAAWrapper;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDigestMatcher;
@@ -36,6 +27,14 @@ import eu.europa.esig.dss.enumerations.JWSSerializationType;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.jades.JAdESSignatureParameters;
+import org.junit.jupiter.api.BeforeEach;
+
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SDJWTFlattenedJsonSerializationEAAPresentationWithKBSignatureTest extends AbstractSDJWTEAAPresentationTestIssuance {
 
@@ -122,7 +121,7 @@ class SDJWTFlattenedJsonSerializationEAAPresentationWithKBSignatureTest extends 
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
-        assertEquals("https://issuer.example.com", eaa.getEAAIssuer());
+        assertEquals("https://issuer.example.com", eaa.getIssuer());
         assertEquals("John", eaa.getGivenName());
         assertEquals("Doe", eaa.getFamilyName());
     }

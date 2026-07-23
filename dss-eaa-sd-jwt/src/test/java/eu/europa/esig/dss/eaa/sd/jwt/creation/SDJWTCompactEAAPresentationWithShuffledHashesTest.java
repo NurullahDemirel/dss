@@ -94,9 +94,9 @@ class SDJWTCompactEAAPresentationWithShuffledHashesTest extends AbstractSDJWTEAA
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
-        assertEquals("https://issuer.example.com", eaa.getEAAIssuer());
-        assertEquals(expiration.toInstant().getEpochSecond(), eaa.getEAAExpiration().toInstant().getEpochSecond());
-        assertEquals(issuanceDate.toInstant().getEpochSecond(), eaa.getEAAIssuedAt().toInstant().getEpochSecond());
+        assertEquals("https://issuer.example.com", eaa.getIssuer());
+        assertEquals(expiration.toInstant().getEpochSecond(), eaa.getExpiration().toInstant().getEpochSecond());
+        assertEquals(issuanceDate.toInstant().getEpochSecond(), eaa.getIssuedAt().toInstant().getEpochSecond());
 
         assertEquals("John", eaa.getGivenName());
         assertEquals("Doe", eaa.getFamilyName());

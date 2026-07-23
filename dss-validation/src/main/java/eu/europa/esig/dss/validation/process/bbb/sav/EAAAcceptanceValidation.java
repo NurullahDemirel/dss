@@ -123,7 +123,7 @@ public class EAAAcceptanceValidation extends AbstractAcceptanceValidation<EAAWra
 
         item = item.setNextItem(expirationPresent());
 
-        if (token.getEAANotBefore() != null && token.getEAAExpiration() != null) {
+        if (token.getNotBefore() != null && token.getExpiration() != null) {
             item = item.setNextItem(notExpired());
         }
 
@@ -169,7 +169,7 @@ public class EAAAcceptanceValidation extends AbstractAcceptanceValidation<EAAWra
 
                 // TODO : improve with EAA Status selector ?
                 lastAcceptableStatus = null;
-                for (EAARevocationWrapper revocationWrapper : token.getEAARevocations()) {
+                for (EAARevocationWrapper revocationWrapper : token.getAttestationRevocations()) {
 
                     XmlBasicBuildingBlocks eaaRevocationBBB = bbbs.get(revocationWrapper.getId());
                     if (eaaRevocationBBB == null) {
@@ -384,7 +384,7 @@ public class EAAAcceptanceValidation extends AbstractAcceptanceValidation<EAAWra
             XmlBasicBuildingBlocks tokenBBB = bbbs.get(lastAcceptableStatus.getId());
             collectAllMessages(conclusion, tokenBBB.getConclusion());
         } else {
-            for (EAARevocationWrapper EAARevocationWrapper : token.getEAARevocations()) {
+            for (EAARevocationWrapper EAARevocationWrapper : token.getAttestationRevocations()) {
                 XmlBasicBuildingBlocks tokenBBB = bbbs.get(EAARevocationWrapper.getId());
                 collectAllMessages(conclusion, tokenBBB.getConclusion());
             }

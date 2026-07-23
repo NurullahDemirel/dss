@@ -55,7 +55,7 @@ public class EAARevocationPresentCheck extends ChainItem<XmlSAV> {
 
     @Override
     public boolean process() {
-        return eaa.getEAAPayload().getEAAStatus() != null;
+        return eaa.getPayload().getStatus() != null;
     }
 
     @Override

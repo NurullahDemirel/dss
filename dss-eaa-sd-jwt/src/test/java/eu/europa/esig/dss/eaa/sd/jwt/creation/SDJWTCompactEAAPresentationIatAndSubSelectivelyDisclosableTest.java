@@ -94,10 +94,10 @@ class SDJWTCompactEAAPresentationIatAndSubSelectivelyDisclosableTest extends Abs
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
-        assertEquals("https://issuer.example.com", eaa.getEAAIssuer());
-        assertEquals("good-user", eaa.getEAASubject());
-        assertEquals(expiration.toInstant().getEpochSecond(), eaa.getEAAExpiration().toInstant().getEpochSecond());
-        assertEquals(issuanceDate.toInstant().getEpochSecond(), eaa.getEAAIssuedAt().toInstant().getEpochSecond());
+        assertEquals("https://issuer.example.com", eaa.getIssuer());
+        assertEquals("good-user", eaa.getSubject());
+        assertEquals(expiration.toInstant().getEpochSecond(), eaa.getExpiration().toInstant().getEpochSecond());
+        assertEquals(issuanceDate.toInstant().getEpochSecond(), eaa.getIssuedAt().toInstant().getEpochSecond());
     }
 
     @Override

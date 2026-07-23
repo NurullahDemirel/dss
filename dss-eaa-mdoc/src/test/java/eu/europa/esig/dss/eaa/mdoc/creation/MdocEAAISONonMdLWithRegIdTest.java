@@ -161,9 +161,9 @@ class MdocEAAISONonMdLWithRegIdTest extends AbstractMdocEAAPresentationTestIssua
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.23220.1.mID", eaa.getEAADocumentType());
-        assertNotNull(eaa.getEAANextUpdate());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.23220.1.mID", eaa.getAttestationDocumentType());
+        assertNotNull(eaa.getNextUpdate());
     }
 
     @Override

@@ -183,13 +183,13 @@ class MdocEAAISOMdLKeyAuthorizationsDataElementsTest extends AbstractMdocEAAPres
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.18013.5.1.mDL", eaa.getEAADocumentType());
-        assertTrue(Utils.isCollectionEmpty(eaa.getEAADeviceKeyAuthorizedNamespaces()));
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.18013.5.1.mDL", eaa.getAttestationDocumentType());
+        assertTrue(Utils.isCollectionEmpty(eaa.getDeviceKeyAuthorizedNamespaces()));
 
         Map<String, List<String>> dataElementsMap = new HashMap<>();
         dataElementsMap.put("org.iso.18013.5.1", Arrays.asList("family_name", "given_name", "birth_date", "portrait", "driving_privileges"));
-        assertEquals(dataElementsMap, eaa.getEAADeviceKeyAuthorizedDataElements());
+        assertEquals(dataElementsMap, eaa.getDeviceKeyAuthorizedDataElements());
     }
 
     @Override

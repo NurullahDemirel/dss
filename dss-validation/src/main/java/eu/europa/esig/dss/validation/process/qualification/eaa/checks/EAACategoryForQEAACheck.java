@@ -57,7 +57,7 @@ public class EAACategoryForQEAACheck extends ChainItem<XmlValidationEAAQualifica
 
     @Override
     protected boolean process() {
-        return EAACategory.EU_QEAA.getUrn().equals(eaa.getEAACategory());
+        return EAACategory.EU_QEAA.getUrn().equals(eaa.getCategory());
     }
 
     @Override

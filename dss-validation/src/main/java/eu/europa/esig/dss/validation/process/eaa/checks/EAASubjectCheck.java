@@ -54,7 +54,7 @@ public class EAASubjectCheck extends AbstractMultiValuesCheckItem<XmlSAV> {
 
     @Override
     protected boolean process() {
-        return processValueCheck(eaa.getEAASubject());
+        return processValueCheck(eaa.getSubject());
     }
 
     @Override

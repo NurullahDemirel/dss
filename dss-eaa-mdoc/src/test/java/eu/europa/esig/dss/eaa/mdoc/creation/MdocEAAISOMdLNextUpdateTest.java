@@ -181,9 +181,9 @@ class MdocEAAISOMdLNextUpdateTest extends AbstractMdocEAAPresentationTestIssuanc
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.18013.5.1.mDL", eaa.getEAADocumentType());
-        assertNotNull(eaa.getEAANextUpdate());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.18013.5.1.mDL", eaa.getAttestationDocumentType());
+        assertNotNull(eaa.getNextUpdate());
     }
 
     @Override

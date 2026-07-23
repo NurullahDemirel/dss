@@ -163,13 +163,13 @@ class MdocEAAPresentationWithDisclosuresValidationTest extends AbstractMdocEAAPr
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
-        assertNotNull(eaa.getEAAIssuedAt());
-        assertNotNull(eaa.getEAANotBefore());
-        assertNotNull(eaa.getEAAExpiration());
+        assertNotNull(eaa.getIssuedAt());
+        assertNotNull(eaa.getNotBefore());
+        assertNotNull(eaa.getExpiration());
 
-        assertNotNull(eaa.getEAADevicePublicKey());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.18013.5.1.mDL", eaa.getEAADocumentType());
+        assertNotNull(eaa.getDevicePublicKey());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.18013.5.1.mDL", eaa.getAttestationDocumentType());
 
         assertEquals("John", eaa.getGivenName());
         assertEquals("Doe", eaa.getFamilyName());

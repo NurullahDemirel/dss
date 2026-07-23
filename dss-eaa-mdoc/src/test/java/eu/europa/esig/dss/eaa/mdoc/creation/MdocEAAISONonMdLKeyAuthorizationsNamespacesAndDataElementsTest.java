@@ -159,13 +159,13 @@ class MdocEAAISONonMdLKeyAuthorizationsNamespacesAndDataElementsTest extends Abs
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.23220.1.mID", eaa.getEAADocumentType());
-        assertEquals(Arrays.asList("org.iso.23220.1", "org.etsi.01947201.010101"), eaa.getEAADeviceKeyAuthorizedNamespaces());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.23220.1.mID", eaa.getAttestationDocumentType());
+        assertEquals(Arrays.asList("org.iso.23220.1", "org.etsi.01947201.010101"), eaa.getDeviceKeyAuthorizedNamespaces());
 
         Map<String, List<String>> dataElementsMap = new HashMap<>();
         dataElementsMap.put("org.iso.23220.1", Arrays.asList("family_name", "given_name", "birth_date", "issuing_country", "issuing_authority", "document_number"));
-        assertEquals(dataElementsMap, eaa.getEAADeviceKeyAuthorizedDataElements());
+        assertEquals(dataElementsMap, eaa.getDeviceKeyAuthorizedDataElements());
     }
 
     @Override

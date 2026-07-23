@@ -986,33 +986,33 @@ public class SimpleReportBuilder {
 	private XmlEAAPayload buildXmlEAAPayload(EAAWrapper eaaWrapper) {
 		XmlEAAPayload xmlEAAPayload = new XmlEAAPayload();
 
-		EAAPayloadProxy eaaPayloadProxy = eaaWrapper.getEAAPayload();
-		xmlEAAPayload.setIdentifier(getXmlDisclosableClaim(eaaPayloadProxy.getEAAIdentifier()));
-		xmlEAAPayload.setIssuer(getXmlDisclosableClaim(eaaPayloadProxy.getEAAIssuer()));
-		xmlEAAPayload.setSubject(getXmlDisclosableClaim(eaaPayloadProxy.getEAASubject()));
-		xmlEAAPayload.setAudience(getXmlDisclosableClaim(eaaPayloadProxy.getEAAAudience()));
-		xmlEAAPayload.setExpiration(getXmlDisclosableClaim(eaaPayloadProxy.getEAAExpiration()));
-		xmlEAAPayload.setNotBefore(getXmlDisclosableClaim(eaaPayloadProxy.getEAANotBefore()));
-		xmlEAAPayload.setIssuedAt(getXmlDisclosableClaim(eaaPayloadProxy.getEAAIssuedAt()));
-		xmlEAAPayload.setUpdatedAt(getXmlDisclosableClaim(eaaPayloadProxy.getEAAUpdatedAt()));
-		xmlEAAPayload.setUpdatedAt(getXmlDisclosableClaim(eaaPayloadProxy.getEAAUpdatedAt()));
-		xmlEAAPayload.setCategory(getXmlDisclosableClaim(eaaPayloadProxy.getEAACategory()));
-		xmlEAAPayload.setVerifiableCredentialsType(getXmlDisclosableClaim(eaaPayloadProxy.getEAAVerifiableCredentialsType()));
-		StatusClaimWrapper eaaStatus = eaaPayloadProxy.getEAAStatus();
+		EAAPayloadProxy eaaPayloadProxy = eaaWrapper.getPayload();
+		xmlEAAPayload.setIdentifier(getXmlDisclosableClaim(eaaPayloadProxy.getIdentifier()));
+		xmlEAAPayload.setIssuer(getXmlDisclosableClaim(eaaPayloadProxy.getIssuer()));
+		xmlEAAPayload.setSubject(getXmlDisclosableClaim(eaaPayloadProxy.getSubject()));
+		xmlEAAPayload.setAudience(getXmlDisclosableClaim(eaaPayloadProxy.getAudience()));
+		xmlEAAPayload.setExpiration(getXmlDisclosableClaim(eaaPayloadProxy.getExpiration()));
+		xmlEAAPayload.setNotBefore(getXmlDisclosableClaim(eaaPayloadProxy.getNotBefore()));
+		xmlEAAPayload.setIssuedAt(getXmlDisclosableClaim(eaaPayloadProxy.getIssuedAt()));
+		xmlEAAPayload.setUpdatedAt(getXmlDisclosableClaim(eaaPayloadProxy.getUpdatedAt()));
+		xmlEAAPayload.setUpdatedAt(getXmlDisclosableClaim(eaaPayloadProxy.getUpdatedAt()));
+		xmlEAAPayload.setCategory(getXmlDisclosableClaim(eaaPayloadProxy.getCategory()));
+		xmlEAAPayload.setVerifiableCredentialsType(getXmlDisclosableClaim(eaaPayloadProxy.getVerifiableCredentialsType()));
+		StatusClaimWrapper eaaStatus = eaaPayloadProxy.getStatus();
 		if (eaaStatus != null) {
 			xmlEAAPayload.setStatusIndex(getXmlDisclosableClaim(eaaStatus.getIndex(), eaaStatus.isSelectivelyDisclosable()));
 			xmlEAAPayload.setStatusUri(getXmlDisclosableClaim(eaaStatus.getUri(), eaaStatus.isSelectivelyDisclosable()));
 			xmlEAAPayload.setStatusType(getXmlDisclosableClaim(eaaStatus.getType(), eaaStatus.isSelectivelyDisclosable()));
 			xmlEAAPayload.setStatusPurpose(getXmlDisclosableClaim(eaaStatus.getPurpose(), eaaStatus.isSelectivelyDisclosable()));
 		}
-		xmlEAAPayload.setNonce(getXmlDisclosableClaim(eaaPayloadProxy.getEAANonce()));
-		DeviceKeyClaimWrapper eaaDeviceKey = eaaPayloadProxy.getEAADeviceKey();
+		xmlEAAPayload.setNonce(getXmlDisclosableClaim(eaaPayloadProxy.getNonce()));
+		DeviceKeyClaimWrapper eaaDeviceKey = eaaPayloadProxy.getDeviceKey();
 		if (eaaDeviceKey != null && eaaDeviceKey.getPublicKey() != null) {
 			xmlEAAPayload.setDeviceKey(getXmlDisclosableClaim(eaaDeviceKey.getName(), eaaDeviceKey.isSelectivelyDisclosable(), Utils.toBase64(eaaDeviceKey.getPublicKey())));
 		}
-		xmlEAAPayload.setVersion(getXmlDisclosableClaim(eaaPayloadProxy.getEAAVersion()));
-		xmlEAAPayload.setDocType(getXmlDisclosableClaim(eaaPayloadProxy.getEAADocType()));
-		ValidityInfoClaimWrapper eaaValidityInfo = eaaPayloadProxy.getEAAValidityInfo();
+		xmlEAAPayload.setVersion(getXmlDisclosableClaim(eaaPayloadProxy.getVersion()));
+		xmlEAAPayload.setDocType(getXmlDisclosableClaim(eaaPayloadProxy.getDocType()));
+		ValidityInfoClaimWrapper eaaValidityInfo = eaaPayloadProxy.getValidityInfo();
 		if (eaaValidityInfo != null) {
 			xmlEAAPayload.setIssuedAt(getXmlDisclosableClaim(eaaValidityInfo.getSigned(), eaaValidityInfo.isSelectivelyDisclosable()));
 			xmlEAAPayload.setNotBefore(getXmlDisclosableClaim(eaaValidityInfo.getValidFrom(), eaaValidityInfo.isSelectivelyDisclosable()));
@@ -1138,7 +1138,7 @@ public class SimpleReportBuilder {
 		xmlEAAPayload.setRelationshipParentalAuthority(getXmlDisclosableClaim(eaaPayloadProxy.getRelationshipParentalAuthority()));
 		xmlEAAPayload.setRelationshipLegalRepresentative(getXmlDisclosableClaim(eaaPayloadProxy.getRelationshipLegalRepresentative()));
 		xmlEAAPayload.setRelationshipAgent(getXmlDisclosableClaim(eaaPayloadProxy.getRelationshipAgent()));
-		xmlEAAPayload.setDocumentType(getXmlDisclosableClaim(eaaPayloadProxy.getDocumentType()));
+		xmlEAAPayload.setDocumentType(getXmlDisclosableClaim(eaaPayloadProxy.getClaimedDocumentType()));
 
 		xmlEAAPayload.setIssuingAuthorityRegistrationIdentifier(getXmlDisclosableClaim(eaaPayloadProxy.getIssuingAuthorityRegistrationIdentifier()));
 

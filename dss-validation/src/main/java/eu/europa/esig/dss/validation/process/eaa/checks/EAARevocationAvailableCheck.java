@@ -56,7 +56,7 @@ public class EAARevocationAvailableCheck extends ChainItem<XmlSAV> {
 
     @Override
     protected boolean process() {
-        return Utils.isCollectionNotEmpty(eaa.getEAARevocations());
+        return Utils.isCollectionNotEmpty(eaa.getAttestationRevocations());
     }
 
     @Override

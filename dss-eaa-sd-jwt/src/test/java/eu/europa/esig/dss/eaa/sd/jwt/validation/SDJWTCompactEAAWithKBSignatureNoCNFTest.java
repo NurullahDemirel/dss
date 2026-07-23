@@ -1,11 +1,5 @@
 package eu.europa.esig.dss.eaa.sd.jwt.validation;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import eu.europa.esig.dss.diagnostic.CertificateRefWrapper;
 import eu.europa.esig.dss.diagnostic.CertificateWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
@@ -22,6 +16,12 @@ import eu.europa.esig.dss.simplereport.jaxb.XmlSignature;
 import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.validationreport.jaxb.SignerInformationType;
 import eu.europa.esig.validationreport.jaxb.SignersDocumentType;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SDJWTCompactEAAWithKBSignatureNoCNFTest extends AbstractSDJWTEAAPresentationTestValidation {
 
@@ -96,7 +96,7 @@ class SDJWTCompactEAAWithKBSignatureNoCNFTest extends AbstractSDJWTEAAPresentati
     @Override
     protected void checkDeviceKeyClaim(DiagnosticData diagnosticData) {
         for (EAAWrapper eaa : diagnosticData.getEAAs()) {
-            assertNull(eaa.getEAADevicePublicKey());
+            assertNull(eaa.getDevicePublicKey());
         }
     }
 

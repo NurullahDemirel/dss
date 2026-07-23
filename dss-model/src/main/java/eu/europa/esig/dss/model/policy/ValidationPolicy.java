@@ -1956,14 +1956,14 @@ public interface ValidationPolicy {
 	 *
 	 * @return {@code MultiValuesRule} if EAARevocationSubject element is present
 	 */
-	MultiValuesRule getEAARevocationSubjectConstraint();
+	MultiValuesRule getAttestationRevocationsubjectConstraint();
 
 	/**
 	 * Returns EAARevocationSubjectMatch constraint if present in the policy, null otherwise
 	 *
 	 * @return {@code LevelRule} if EAARevocationSubjectMatch element is present
 	 */
-	LevelRule getEAARevocationSubjectMatchConstraint();
+	LevelRule getAttestationRevocationsubjectMatchConstraint();
 
 	/**
 	 * Returns EAARevocationIssuerValidAtIssuanceTime constraint if present in the policy, null otherwise

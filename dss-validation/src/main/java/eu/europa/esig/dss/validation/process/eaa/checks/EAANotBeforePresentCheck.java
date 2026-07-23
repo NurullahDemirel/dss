@@ -54,7 +54,7 @@ public class EAANotBeforePresentCheck extends ChainItem<XmlSAV> {
 
     @Override
     protected boolean process() {
-        return eaa.getEAANotBefore() != null;
+        return eaa.getNotBefore() != null;
     }
 
     @Override

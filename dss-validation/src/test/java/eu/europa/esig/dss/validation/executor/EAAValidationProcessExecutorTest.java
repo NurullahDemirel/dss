@@ -3062,7 +3062,7 @@ class EAAValidationProcessExecutorTest extends AbstractTestValidationExecutor {
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        diagnosticData.getEAAs().get(0).getEAARevocations().clear();
+        diagnosticData.getEAAs().get(0).getAttestationRevocations().clear();
 
         EtsiValidationPolicy validationPolicy = loadDefaultPolicy();
 
@@ -3303,7 +3303,7 @@ class EAAValidationProcessExecutorTest extends AbstractTestValidationExecutor {
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        diagnosticData.getEAAs().get(0).getEAARevocations().get(0).setStatus(EAAStatus.INVALID);
+        diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0).setStatus(EAAStatus.INVALID);
 
         EtsiValidationPolicy validationPolicy = loadDefaultPolicy();
 
@@ -3409,7 +3409,7 @@ class EAAValidationProcessExecutorTest extends AbstractTestValidationExecutor {
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        diagnosticData.getEAAs().get(0).getEAARevocations().get(0).setStatus(EAAStatus.SUSPENDED);
+        diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0).setStatus(EAAStatus.SUSPENDED);
 
         EtsiValidationPolicy validationPolicy = loadDefaultPolicy();
 

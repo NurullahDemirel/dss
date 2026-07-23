@@ -72,7 +72,7 @@ public class EAANotExpiredCheck extends ChainItem<XmlSAV> {
          * claim requires that the current date/time MUST be after or equal to
          * the not-before date/time listed in the "nbf" claim.
          */
-        return eaa.getEAANotBefore() != null && !validationTime.before(eaa.getEAANotBefore());
+        return eaa.getNotBefore() != null && !validationTime.before(eaa.getNotBefore());
     }
 
     private boolean notAtOrAfter() {
@@ -82,7 +82,7 @@ public class EAANotExpiredCheck extends ChainItem<XmlSAV> {
          * processing of the "exp" claim requires that the current date/time
          * MUST be before the expiration date/time listed in the "exp" claim.
          */
-        return eaa.getEAAExpiration() != null && validationTime.before(eaa.getEAAExpiration());
+        return eaa.getExpiration() != null && validationTime.before(eaa.getExpiration());
     }
 
     @Override
@@ -90,8 +90,8 @@ public class EAANotExpiredCheck extends ChainItem<XmlSAV> {
         if (!notBefore() || !notAtOrAfter()) {
             return i18nProvider.getMessage(MessageTag.EAA_VT_ITVR_VALIDITY,
                     ValidationProcessUtils.getFormattedDate(validationTime),
-                    ValidationProcessUtils.getFormattedDate(eaa.getEAANotBefore()),
-                    ValidationProcessUtils.getFormattedDate(eaa.getEAAExpiration()));
+                    ValidationProcessUtils.getFormattedDate(eaa.getNotBefore()),
+                    ValidationProcessUtils.getFormattedDate(eaa.getExpiration()));
         }
         return null;
     }

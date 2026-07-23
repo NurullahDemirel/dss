@@ -54,7 +54,7 @@ public class EAAExpirationPresentCheck extends ChainItem<XmlSAV> {
 
     @Override
     protected boolean process() {
-        return eaa.getEAAExpiration() != null;
+        return eaa.getExpiration() != null;
     }
 
     @Override

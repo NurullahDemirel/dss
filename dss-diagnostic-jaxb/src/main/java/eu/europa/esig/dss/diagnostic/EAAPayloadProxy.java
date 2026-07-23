@@ -76,7 +76,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAAIdentifier() {
+    public ClaimWrapper getIdentifier() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getIdentifier());
         }
@@ -88,7 +88,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAAIssuer() {
+    public ClaimWrapper getIssuer() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getIssuer());
         }
@@ -100,7 +100,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAASubject() {
+    public ClaimWrapper getSubject() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getSubject());
         }
@@ -112,7 +112,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAAAudience() {
+    public ClaimWrapper getAudience() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getAudience());
         }
@@ -124,7 +124,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAAIssuedAt() {
+    public ClaimWrapper getIssuedAt() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getIssuedAt());
         }
@@ -136,7 +136,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAANotBefore() {
+    public ClaimWrapper getNotBefore() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getNotBefore());
         }
@@ -148,7 +148,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAAExpiration() {
+    public ClaimWrapper getExpiration() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getExpiration());
         }
@@ -160,7 +160,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAAUpdatedAt() {
+    public ClaimWrapper getUpdatedAt() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getUpdatedAt());
         }
@@ -172,7 +172,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAACategory() {
+    public ClaimWrapper getCategory() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getCategory());
         }
@@ -184,7 +184,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAAVerifiableCredentialsType() {
+    public ClaimWrapper getVerifiableCredentialsType() {
         if (xmlEAAPayload != null && xmlEAAPayload.getVerifiableCredentialsType() != null) {
             return getClaim(xmlEAAPayload.getVerifiableCredentialsType());
         }
@@ -196,7 +196,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public IntegrityClaimWrapper getEAAVerifiableCredentialsTypeIntegrity() {
+    public IntegrityClaimWrapper getVerifiableCredentialsTypeIntegrity() {
         if (xmlEAAPayload != null && xmlEAAPayload.getVerifiableCredentialsType() != null) {
             return getIntegrityClaim(xmlEAAPayload.getVerifiableCredentialsType().getIntegrity());
         }
@@ -208,7 +208,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link StatusClaimWrapper}
      */
-    public StatusClaimWrapper getEAAStatus() {
+    public StatusClaimWrapper getStatus() {
         if (xmlEAAPayload != null) {
             return getStatusClaim(xmlEAAPayload.getStatus());
         }
@@ -220,7 +220,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAANonce() {
+    public ClaimWrapper getNonce() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getNonce());
         }
@@ -232,7 +232,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public DeviceKeyClaimWrapper getEAADeviceKey() {
+    public DeviceKeyClaimWrapper getDeviceKey() {
         if (xmlEAAPayload != null) {
             return getDeviceKeyClaim(xmlEAAPayload.getDeviceKey());
         }
@@ -244,7 +244,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAAVersion() {
+    public ClaimWrapper getVersion() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getVersion());
         }
@@ -257,7 +257,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getEAADocType() {
+    public ClaimWrapper getDocType() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getDocType());
         }
@@ -269,7 +269,7 @@ public class EAAPayloadProxy {
      *
      * @return {@link ValidityInfoClaimWrapper}
      */
-    public ValidityInfoClaimWrapper getEAAValidityInfo() {
+    public ValidityInfoClaimWrapper getValidityInfo() {
         if (xmlEAAPayload != null) {
             return getValidityInfoClaim(xmlEAAPayload.getValidityInfo());
         }
@@ -1200,11 +1200,11 @@ public class EAAPayloadProxy {
     }
 
     /**
-     * Gets the document type.
+     * Gets the document type, claimed by the attestation.
      *
      * @return {@link ClaimWrapper}
      */
-    public ClaimWrapper getDocumentType() {
+    public ClaimWrapper getClaimedDocumentType() {
         if (xmlEAAPayload != null) {
             return getClaim(xmlEAAPayload.getDocumentType());
         }

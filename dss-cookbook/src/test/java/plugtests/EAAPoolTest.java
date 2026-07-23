@@ -174,7 +174,7 @@ class EAAPoolTest extends AbstractTestSignaturePool {
 
     protected void checkEAARevocations(DiagnosticData diagnosticData) {
         for (EAAWrapper eaa : diagnosticData.getAllEAA()) {
-            for (EAARevocationWrapper eaaStatusWrapper : eaa.getEAARevocations()) {
+            for (EAARevocationWrapper eaaStatusWrapper : eaa.getAttestationRevocations()) {
                 assertNotNull(eaaStatusWrapper.getId());
                 assertNotNull(eaaStatusWrapper.getStatus());
             }

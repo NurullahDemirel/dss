@@ -2231,7 +2231,7 @@ public class EtsiValidationPolicy implements ValidationPolicy {
 	}
 
 	@Override
-	public MultiValuesRule getEAARevocationSubjectConstraint() {
+	public MultiValuesRule getAttestationRevocationsubjectConstraint() {
 		EAARevocationConstraints eaaRevocationConstraints = getEAARevocationConstraints();
 		if (eaaRevocationConstraints != null) {
 			return toRule(eaaRevocationConstraints.getSubject());
@@ -2240,7 +2240,7 @@ public class EtsiValidationPolicy implements ValidationPolicy {
 	}
 
 	@Override
-	public LevelRule getEAARevocationSubjectMatchConstraint() {
+	public LevelRule getAttestationRevocationsubjectMatchConstraint() {
 		EAARevocationConstraints eaaRevocationConstraints = getEAARevocationConstraints();
 		if (eaaRevocationConstraints != null) {
 			return toLevelRule(eaaRevocationConstraints.getSubjectMatch());

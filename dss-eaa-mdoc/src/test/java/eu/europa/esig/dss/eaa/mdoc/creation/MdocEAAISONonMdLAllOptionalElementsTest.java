@@ -578,8 +578,8 @@ class MdocEAAISONonMdLAllOptionalElementsTest extends AbstractMdocEAAPresentatio
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.23220.1.mID", eaa.getEAADocumentType());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.23220.1.mID", eaa.getAttestationDocumentType());
     }
 
     @Override

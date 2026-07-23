@@ -91,7 +91,7 @@ class MdocEAAISOMdLIdentifierListTest extends AbstractMdocEAAPresentationTestIss
         super.checkEAARevocations(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        List<EAARevocationWrapper> eaaStatuses = eaa.getEAARevocations();
+        List<EAARevocationWrapper> eaaStatuses = eaa.getAttestationRevocations();
         assertEquals(1, eaaStatuses.size());
         EAARevocationWrapper eaaRevocationWrapper = eaaStatuses.get(0);
         assertEquals(EAAStatus.VALID, eaaRevocationWrapper.getStatus());
@@ -210,16 +210,16 @@ class MdocEAAISOMdLIdentifierListTest extends AbstractMdocEAAPresentationTestIss
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.18013.5.1.mDL", eaa.getEAADocumentType());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.18013.5.1.mDL", eaa.getAttestationDocumentType());
 
-        assertArrayEquals(new byte[] { 1 }, eaa.getEAAIdentifierListId());
-        assertEquals("https://pki.nowina.lu/eaa/identifier_list", eaa.getEAAIdentifierListUri());
-        assertArrayEquals(getCertificate(GOOD_CA).getEncoded(), eaa.getEAAIdentifierListCertificate());
+        assertArrayEquals(new byte[] { 1 }, eaa.getIdentifierListId());
+        assertEquals("https://pki.nowina.lu/eaa/identifier_list", eaa.getIdentifierListUri());
+        assertArrayEquals(getCertificate(GOOD_CA).getEncoded(), eaa.getIdentifierListCertificate());
 
-        assertNull(eaa.getEAAStatusIndex());
-        assertNull(eaa.getEAAStatusUri());
-        assertNull(eaa.getEAAStatusCertificate());
+        assertNull(eaa.getStatusIndex());
+        assertNull(eaa.getStatusUri());
+        assertNull(eaa.getStatusCertificate());
     }
 
     @Override

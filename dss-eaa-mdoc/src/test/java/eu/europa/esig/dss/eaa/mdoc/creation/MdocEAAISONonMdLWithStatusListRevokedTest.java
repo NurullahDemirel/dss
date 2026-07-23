@@ -46,7 +46,7 @@ class MdocEAAISONonMdLWithStatusListRevokedTest extends MdocEAAISONonMdLWithStat
     @Override
     protected void checkEAARevocations(DiagnosticData diagnosticData) {
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        List<EAARevocationWrapper> eaaStatuses = eaa.getEAARevocations();
+        List<EAARevocationWrapper> eaaStatuses = eaa.getAttestationRevocations();
         assertEquals(1, eaaStatuses.size());
         assertEquals(EAAStatus.INVALID, eaaStatuses.get(0).getStatus());
         assertEquals("application/statuslist+cwt", eaaStatuses.get(0).getType());

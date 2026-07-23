@@ -109,10 +109,10 @@ class SDJWTCompactStatusAndAttestedAttributesCreationTest extends AbstractSDJWTE
 
         EAAWrapper eaa = diagnosticData.getEAAs().get(0);
 
-        assertEquals("TokenStatusList", eaa.getEAAStatusType());
-        assertEquals("revocation", eaa.getEAAStatusPurpose());
-        assertEquals(0, eaa.getEAAStatusIndex().intValue());
-        assertEquals("https://nowina.lu/pki-factory/status", eaa.getEAAStatusUri());
+        assertEquals("TokenStatusList", eaa.getStatusType());
+        assertEquals("revocation", eaa.getStatusPurpose());
+        assertEquals(0, eaa.getStatusIndex().intValue());
+        assertEquals("https://nowina.lu/pki-factory/status", eaa.getStatusUri());
 
         assertEquals("good-user", eaa.getAttestedAttributesSubjectId());
         assertNull(eaa.getAttestedAttributesSubjectFamilyName());

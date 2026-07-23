@@ -152,9 +152,9 @@ class MdocEAAISONonMdLKeyAuthorizationsNamespacesTest extends AbstractMdocEAAPre
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.23220.1.mID", eaa.getEAADocumentType());
-        assertEquals(Arrays.asList("org.iso.23220.1", "org.etsi.01947201.010101"), eaa.getEAADeviceKeyAuthorizedNamespaces());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.23220.1.mID", eaa.getAttestationDocumentType());
+        assertEquals(Arrays.asList("org.iso.23220.1", "org.etsi.01947201.010101"), eaa.getDeviceKeyAuthorizedNamespaces());
     }
 
     @Override

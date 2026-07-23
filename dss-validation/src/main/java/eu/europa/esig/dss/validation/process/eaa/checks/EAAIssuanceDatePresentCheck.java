@@ -54,7 +54,7 @@ public class EAAIssuanceDatePresentCheck extends ChainItem<XmlSAV> {
 
     @Override
     protected boolean process() {
-        return eaa.getEAAIssuedAt() != null;
+        return eaa.getIssuedAt() != null;
     }
 
     @Override

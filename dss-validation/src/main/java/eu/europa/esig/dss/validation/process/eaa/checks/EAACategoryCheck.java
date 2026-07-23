@@ -54,7 +54,7 @@ public class EAACategoryCheck extends AbstractMultiValuesCheckItem<XmlSAV> {
 
     @Override
     protected boolean process() {
-        return processValueCheck(eaa.getEAACategory());
+        return processValueCheck(eaa.getCategory());
     }
 
     @Override

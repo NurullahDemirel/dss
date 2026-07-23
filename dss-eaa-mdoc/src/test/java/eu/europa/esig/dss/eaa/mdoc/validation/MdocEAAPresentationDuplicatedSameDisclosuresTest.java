@@ -124,7 +124,7 @@ class MdocEAAPresentationDuplicatedSameDisclosuresTest extends AbstractMdocEAAPr
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaaWrapper = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        EAAPayloadProxy eaaPayload = eaaWrapper.getEAAPayload();
+        EAAPayloadProxy eaaPayload = eaaWrapper.getPayload();
         assertEquals("123456789", eaaPayload.getDocumentNumber().getText());
     }
 

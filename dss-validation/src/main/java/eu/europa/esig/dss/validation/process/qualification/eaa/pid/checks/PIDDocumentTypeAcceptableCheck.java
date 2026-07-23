@@ -78,14 +78,14 @@ public class PIDDocumentTypeAcceptableCheck extends ChainItem<XmlValidationPIDQu
     private String getClaimedDocumentType() {
         switch (eaa.getEAAType()) {
             case SD_JWT_VC:
-                return eaa.getEAAVerifiableCredentialsTypeUri();
+                return eaa.getVerifiableCredentialsTypeUri();
             case ISO_IEC_MDOC:
                 // TODO : not clear what element is to be checked
                 /*
                  * The attestation type for person identification data in ISO/IEC mdoc format
                  * shall be "eu.europa.ec.eudi.pid.1".
                  */
-                return eaa.getEAADocumentType();
+                return eaa.getAttestationDocumentType();
             default:
                 throw new UnsupportedOperationException(String.format("Not supported EAA Type : '%s'", eaa.getEAAType()));
         }

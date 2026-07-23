@@ -211,25 +211,25 @@ class RemoteEAACreationServiceImplTest extends PKIFactoryAccess {
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
         assertEquals(EAAType.SD_JWT_VC, eaa.getEAAType());
 
-        assertEquals("urn:eudi:eaa:1", eaa.getEAAVerifiableCredentialsTypeUri());
-        assertEquals(DigestAlgorithm.SHA256, eaa.getEAAVerifiableCredentialsTypeIntegrityDigestAlgorithm());
-        assertArrayEquals(DSSUtils.digest(DigestAlgorithm.SHA256, "vct".getBytes()), eaa.getEAAVerifiableCredentialsTypeIntegrityBytes());
-        assertEquals(DSSUtils.formatDateToRFC(signingTime), DSSUtils.formatDateToRFC(eaa.getEAANotBefore()));
-        assertEquals(DSSUtils.formatDateToRFC(expirationTime), DSSUtils.formatDateToRFC(eaa.getEAAExpiration()));
-        assertEquals("EAA provider", eaa.getEAAIssuer());
-        assertEquals("good-ecdsa-user", eaa.getEAASubject());
+        assertEquals("urn:eudi:eaa:1", eaa.getVerifiableCredentialsTypeUri());
+        assertEquals(DigestAlgorithm.SHA256, eaa.getVerifiableCredentialsTypeIntegrityDigestAlgorithm());
+        assertArrayEquals(DSSUtils.digest(DigestAlgorithm.SHA256, "vct".getBytes()), eaa.getVerifiableCredentialsTypeIntegrityBytes());
+        assertEquals(DSSUtils.formatDateToRFC(signingTime), DSSUtils.formatDateToRFC(eaa.getNotBefore()));
+        assertEquals(DSSUtils.formatDateToRFC(expirationTime), DSSUtils.formatDateToRFC(eaa.getExpiration()));
+        assertEquals("EAA provider", eaa.getIssuer());
+        assertEquals("good-ecdsa-user", eaa.getSubject());
         assertEquals("TEST Authority", eaa.getDocumentIssuingAuthority());
         assertEquals("LU", eaa.getDocumentIssuingAuthorityCountry());
         assertEquals("VATLU-123456", eaa.getIssuingRegistrationIdentifier());
         assertEquals("John", eaa.getGivenName());
         assertEquals("Doe", eaa.getFamilyName());
 
-        assertEquals("urn:etsi:esi:eaa:eu:qualified", eaa.getEAACategory());
+        assertEquals("urn:etsi:esi:eaa:eu:qualified", eaa.getCategory());
 
-        assertEquals(1, eaa.getEAAStatusIndex());
-        assertEquals("https://pki.nowina.lu/eaa/status_list", eaa.getEAAStatusUri());
+        assertEquals(1, eaa.getStatusIndex());
+        assertEquals("https://pki.nowina.lu/eaa/status_list", eaa.getStatusUri());
 
-        assertArrayEquals(getSigningCert().getPublicKey().getEncoded(), eaa.getEAADevicePublicKey());
+        assertArrayEquals(getSigningCert().getPublicKey().getEncoded(), eaa.getDevicePublicKey());
 
         List<ClaimWrapper> otherClaims = eaa.getOtherClaims();
         assertEquals(1, otherClaims.size());
@@ -357,17 +357,17 @@ class RemoteEAACreationServiceImplTest extends PKIFactoryAccess {
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
         assertEquals(EAAType.ISO_IEC_MDOC, eaa.getEAAType());
 
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.18013.5.1.mDL", eaa.getEAADocumentType());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.18013.5.1.mDL", eaa.getAttestationDocumentType());
 
-        assertEquals(DSSUtils.formatDateToRFC(signingDate), DSSUtils.formatDateToRFC(eaa.getEAAIssuedAt()));
-        assertEquals(DSSUtils.formatDateToRFC(validFrom), DSSUtils.formatDateToRFC(eaa.getEAANotBefore()));
-        assertEquals(DSSUtils.formatDateToRFC(validUntil), DSSUtils.formatDateToRFC(eaa.getEAAExpiration()));
-        assertEquals(DSSUtils.formatDateToRFC(nextUpdate), DSSUtils.formatDateToRFC(eaa.getEAANextUpdate()));
+        assertEquals(DSSUtils.formatDateToRFC(signingDate), DSSUtils.formatDateToRFC(eaa.getIssuedAt()));
+        assertEquals(DSSUtils.formatDateToRFC(validFrom), DSSUtils.formatDateToRFC(eaa.getNotBefore()));
+        assertEquals(DSSUtils.formatDateToRFC(validUntil), DSSUtils.formatDateToRFC(eaa.getExpiration()));
+        assertEquals(DSSUtils.formatDateToRFC(nextUpdate), DSSUtils.formatDateToRFC(eaa.getNextUpdate()));
 
-        assertArrayEquals(new byte[] { 1 }, eaa.getEAAIdentifierListId());
-        assertEquals("https://pki.nowina.lu/eaa/identifier_list", eaa.getEAAIdentifierListUri());
-        assertArrayEquals(getCertificate(GOOD_CA).getEncoded(), eaa.getEAAIdentifierListCertificate());
+        assertArrayEquals(new byte[] { 1 }, eaa.getIdentifierListId());
+        assertEquals("https://pki.nowina.lu/eaa/identifier_list", eaa.getIdentifierListUri());
+        assertArrayEquals(getCertificate(GOOD_CA).getEncoded(), eaa.getIdentifierListCertificate());
 
         assertEquals("John", eaa.getGivenName());
         assertEquals("Doe", eaa.getFamilyName());

@@ -154,7 +154,7 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
 
     protected void checkEAARevocations(DiagnosticData diagnosticData) {
         for (EAAWrapper eaa : diagnosticData.getAllEAA()) {
-            for (EAARevocationWrapper eaaStatusWrapper : eaa.getEAARevocations()) {
+            for (EAARevocationWrapper eaaStatusWrapper : eaa.getAttestationRevocations()) {
                 assertNotNull(eaaStatusWrapper.getId());
                 assertNotNull(eaaStatusWrapper.getStatus());
             }
@@ -317,9 +317,9 @@ public abstract class AbstractEAAPresentationTestValidation extends AbstractDocu
     protected void checkDeviceKeyClaim(DiagnosticData diagnosticData) {
         for (EAAWrapper eaa : diagnosticData.getEAAs()) {
             if (keyBindingPresent()) {
-                assertNotNull(eaa.getEAADevicePublicKey());
-                if (eaa.getEAADeviceCertificate() != null) {
-                    assertEquals(1, eaa.getEAADeviceCertificateChain().size()); // only one certificate should be present
+                assertNotNull(eaa.getDevicePublicKey());
+                if (eaa.getDeviceCertificate() != null) {
+                    assertEquals(1, eaa.getDeviceCertificateChain().size()); // only one certificate should be present
                 }
             }
         }

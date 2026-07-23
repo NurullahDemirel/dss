@@ -68,7 +68,7 @@ class SDJWTCompactEAAPresentationNoSDWithETSIStatusListTest extends AbstractSDJW
         super.checkEAARevocations(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        List<EAARevocationWrapper> eaaStatuses = eaa.getEAARevocations();
+        List<EAARevocationWrapper> eaaStatuses = eaa.getAttestationRevocations();
         assertEquals(1, eaaStatuses.size());
         assertEquals(EAAStatus.VALID, eaaStatuses.get(0).getStatus());
         assertEquals("application/statuslist+jwt", eaaStatuses.get(0).getType());
@@ -79,10 +79,10 @@ class SDJWTCompactEAAPresentationNoSDWithETSIStatusListTest extends AbstractSDJW
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("TokenStatusList", eaa.getEAAStatusType());
-        assertEquals("revocation", eaa.getEAAStatusPurpose());
-        assertEquals(0, eaa.getEAAStatusIndex());
-        assertEquals("https://dss.nowina.lu/pki-factory/eaa/status_list", eaa.getEAAStatusUri());
+        assertEquals("TokenStatusList", eaa.getStatusType());
+        assertEquals("revocation", eaa.getStatusPurpose());
+        assertEquals(0, eaa.getStatusIndex());
+        assertEquals("https://dss.nowina.lu/pki-factory/eaa/status_list", eaa.getStatusUri());
     }
 
     @Override

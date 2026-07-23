@@ -51,7 +51,7 @@ class SDJWTCompactEAAValidationTest extends AbstractSDJWTEAAPresentationTestVali
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaaWrapper = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        EAAPayloadProxy eaaPayload = eaaWrapper.getEAAPayload();
+        EAAPayloadProxy eaaPayload = eaaWrapper.getPayload();
         assertEquals("John", eaaPayload.getGivenName().getText());
         assertEquals("Doe", eaaPayload.getFamilyName().getText());
     }

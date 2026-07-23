@@ -153,64 +153,64 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
 
         for (EAAWrapper eaa : diagnosticData.getEAAs()) {
 
-            assertNotNull(eaa.getEAANotBefore());
-            assertNotNull(eaa.getEAAExpiration());
+            assertNotNull(eaa.getNotBefore());
+            assertNotNull(eaa.getExpiration());
 
-            assertEquals(getPayloadParameters().getIssuer(), eaa.getEAAIssuer());
+            assertEquals(getPayloadParameters().getIssuer(), eaa.getIssuer());
             // TODO : deviceKeyType
             // assertEquals(getPayloadParameters().getDeviceKeyType(), eaa.getDeviceKeyType());
 
             if (getPayloadParameters().getDeviceKey() != null) {
-                assertArrayEquals(getPayloadParameters().getDeviceKey().getEncoded(), eaa.getEAADevicePublicKey());
+                assertArrayEquals(getPayloadParameters().getDeviceKey().getEncoded(), eaa.getDevicePublicKey());
             } else {
-                assertNull(eaa.getEAADevicePublicKey());
+                assertNull(eaa.getDevicePublicKey());
             }
 
             if (Utils.isCollectionNotEmpty(getPayloadParameters().getDeviceX509CertificateChain())) {
-                assertNotNull(eaa.getEAADeviceCertificateChain());
-                assertEquals(getPayloadParameters().getDeviceX509CertificateChain().size(), eaa.getEAADeviceCertificateChain().size());
+                assertNotNull(eaa.getDeviceCertificateChain());
+                assertEquals(getPayloadParameters().getDeviceX509CertificateChain().size(), eaa.getDeviceCertificateChain().size());
             } else {
-                assertFalse(Utils.isCollectionNotEmpty(eaa.getEAADeviceCertificateChain()));
+                assertFalse(Utils.isCollectionNotEmpty(eaa.getDeviceCertificateChain()));
             }
 
             if (getPayloadParameters().getDeviceX509CertificateThumbprint() != null) {
-                assertEquals(1, Utils.collectionSize(eaa.getEAADeviceCertificateChainDigests()));
+                assertEquals(1, Utils.collectionSize(eaa.getDeviceCertificateChainDigests()));
                 assertEquals(getPayloadParameters().getDeviceX509CertificateThumbprint().getAlgorithm(),
-                        eaa.getEAADeviceCertificateChainDigests().get(0).getDigestMethod());
+                        eaa.getDeviceCertificateChainDigests().get(0).getDigestMethod());
                 assertArrayEquals(getPayloadParameters().getDeviceX509CertificateThumbprint().getValue(),
-                        eaa.getEAADeviceCertificateChainDigests().get(0).getDigestValue());
+                        eaa.getDeviceCertificateChainDigests().get(0).getDigestValue());
             } else {
-                assertEquals(0, Utils.collectionSize(eaa.getEAADeviceCertificateChainDigests()));
+                assertEquals(0, Utils.collectionSize(eaa.getDeviceCertificateChainDigests()));
             }
 
             if (getPayloadParameters().getDeviceX509CertificateUrl() != null) {
-                assertEquals(1, Utils.collectionSize(eaa.getEAADeviceCertificateUrls()));
-                assertEquals(getPayloadParameters().getDeviceX509CertificateUrl(), eaa.getEAADeviceCertificateUrls().get(0));
+                assertEquals(1, Utils.collectionSize(eaa.getDeviceCertificateUrls()));
+                assertEquals(getPayloadParameters().getDeviceX509CertificateUrl(), eaa.getDeviceCertificateUrls().get(0));
             } else {
-                assertEquals(0, Utils.collectionSize(eaa.getEAADeviceCertificateUrls()));
+                assertEquals(0, Utils.collectionSize(eaa.getDeviceCertificateUrls()));
             }
 
             // TODO : not yet supported
-            assertEquals(0, Utils.collectionSize(eaa.getEAADeviceCertificateKIDs()));
+            assertEquals(0, Utils.collectionSize(eaa.getDeviceCertificateKIDs()));
 
-            assertEquals(getPayloadParameters().getVerifiableCredentialsType(), eaa.getEAAVerifiableCredentialsTypeUri());
+            assertEquals(getPayloadParameters().getVerifiableCredentialsType(), eaa.getVerifiableCredentialsTypeUri());
 
             if (getPayloadParameters().getVerifiableCredentialsTypeIntegrity() != null) {
-                assertEquals(getPayloadParameters().getVerifiableCredentialsTypeIntegrity().getAlgorithm(), eaa.getEAAVerifiableCredentialsTypeIntegrityDigestAlgorithm());
-                assertArrayEquals(getPayloadParameters().getVerifiableCredentialsTypeIntegrity().getValue(), eaa.getEAAVerifiableCredentialsTypeIntegrityBytes());
+                assertEquals(getPayloadParameters().getVerifiableCredentialsTypeIntegrity().getAlgorithm(), eaa.getVerifiableCredentialsTypeIntegrityDigestAlgorithm());
+                assertArrayEquals(getPayloadParameters().getVerifiableCredentialsTypeIntegrity().getValue(), eaa.getVerifiableCredentialsTypeIntegrityBytes());
             } else {
-                assertNull(eaa.getEAAVerifiableCredentialsTypeIntegrityDigestAlgorithm());
-                assertNull(eaa.getEAAVerifiableCredentialsTypeIntegrityBytes());
+                assertNull(eaa.getVerifiableCredentialsTypeIntegrityDigestAlgorithm());
+                assertNull(eaa.getVerifiableCredentialsTypeIntegrityBytes());
             }
 
             assertEquals(getPayloadParameters().getDigestAlgorithm(), eaa.getSelectiveDisclosuresDigestAlgorithm());
 
-            assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().getNotBeforeDate()), DSSUtils.formatDateToRFC(eaa.getEAANotBefore()));
-            assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().getExpirationDate()), DSSUtils.formatDateToRFC(eaa.getEAAExpiration()));
+            assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().getNotBeforeDate()), DSSUtils.formatDateToRFC(eaa.getNotBefore()));
+            assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().getExpirationDate()), DSSUtils.formatDateToRFC(eaa.getExpiration()));
 
             assertStatusListEqual(getPayloadParameters().getStatusList(), eaa);
 
-            assertEquals(getPayloadParameters().getCategory(), eaa.getEAACategory());
+            assertEquals(getPayloadParameters().getCategory(), eaa.getCategory());
             assertEquals(Utils.isTrue(getPayloadParameters().isShortLived()), Utils.isTrue(eaa.getShortLived()));
             assertEquals(Utils.isTrue(getPayloadParameters().isOneTime()), Utils.isTrue(eaa.getOneTimeUse()));
 
@@ -222,30 +222,30 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
         if (statusList != null) {
             if (statusList instanceof ETSIEAAStatusList) {
                 ETSIEAAStatusList etsiEAAStatusList = (ETSIEAAStatusList) statusList;
-                assertEquals(etsiEAAStatusList.getType(), eaa.getEAAStatusType());
-                assertEquals(etsiEAAStatusList.getPurpose(), eaa.getEAAStatusPurpose());
+                assertEquals(etsiEAAStatusList.getType(), eaa.getStatusType());
+                assertEquals(etsiEAAStatusList.getPurpose(), eaa.getStatusPurpose());
             } else {
-                assertNull(eaa.getEAAStatusType());
-                assertNull(eaa.getEAAStatusPurpose());
+                assertNull(eaa.getStatusType());
+                assertNull(eaa.getStatusPurpose());
             }
-            assertEquals(statusList.getIndex(), eaa.getEAAStatusIndex());
-            assertEquals(statusList.getUri(), eaa.getEAAStatusUri());
+            assertEquals(statusList.getIndex(), eaa.getStatusIndex());
+            assertEquals(statusList.getUri(), eaa.getStatusUri());
             if (statusList.getCertificate() != null) {
-                assertArrayEquals(statusList.getCertificate().getEncoded(), eaa.getEAAStatusCertificate());
+                assertArrayEquals(statusList.getCertificate().getEncoded(), eaa.getStatusCertificate());
             } else {
-                assertNull(eaa.getEAAStatusCertificate());
+                assertNull(eaa.getStatusCertificate());
             }
         } else {
-            assertNull(eaa.getEAAStatusIndex());
-            assertNull(eaa.getEAAStatusUri());
-            assertNull(eaa.getEAAStatusCertificate());
+            assertNull(eaa.getStatusIndex());
+            assertNull(eaa.getStatusUri());
+            assertNull(eaa.getStatusCertificate());
         }
     }
 
     protected void assertSDJWTClaims(SDJWTClaimParameters sd, SDJWTClaimParameters nonSd, EAAWrapper eaa) {
 
-        assertEitherDate(sd.getIssuanceDate(), nonSd.getIssuanceDate(), eaa.getEAAIssuedAt());
-        assertEither(sd.getSubject(), nonSd.getSubject(), eaa.getEAASubject());
+        assertEitherDate(sd.getIssuanceDate(), nonSd.getIssuanceDate(), eaa.getIssuedAt());
+        assertEither(sd.getSubject(), nonSd.getSubject(), eaa.getSubject());
 
         assertEither(sd.getGivenName(), nonSd.getGivenName(), eaa.getGivenName());
         assertEither(sd.getFamilyName(), nonSd.getFamilyName(), eaa.getFamilyName());
@@ -339,7 +339,7 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
         assertEither(sd.getLocale(), nonSd.getLocale(), eaa.getLocale());
         assertEither(sd.getPhoneNumberVerified(), nonSd.getPhoneNumberVerified(), eaa.getPhoneNumberVerified());
 
-        assertEitherDate(sd.getUpdatedAt(), nonSd.getUpdatedAt(), eaa.getEAAUpdatedAt());
+        assertEitherDate(sd.getUpdatedAt(), nonSd.getUpdatedAt(), eaa.getUpdatedAt());
 
         assertEither(sd.getBirthMiddleName(), nonSd.getBirthMiddleName(), eaa.getBirthMiddleName());
         assertEither(sd.getSalutation(), nonSd.getSalutation(), eaa.getSalutation());

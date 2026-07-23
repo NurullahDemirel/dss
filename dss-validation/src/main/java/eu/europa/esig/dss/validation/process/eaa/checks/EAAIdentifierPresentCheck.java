@@ -56,7 +56,7 @@ public class EAAIdentifierPresentCheck extends ChainItem<XmlSAV> {
     protected boolean process() {
         switch (eaa.getEAAType()) {
             case SD_JWT_VC:
-                return eaa.getEAAIdentifier() != null;
+                return eaa.getIdentifier() != null;
             case ISO_IEC_MDOC:
                 return eaa.getDocumentNumber() != null;
             default:

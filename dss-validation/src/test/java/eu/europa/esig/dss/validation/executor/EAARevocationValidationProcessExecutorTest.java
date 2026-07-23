@@ -79,7 +79,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         xmlEAARevocationStatus.setStatus(EAAStatus.UNKNOWN);
 
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
@@ -257,7 +257,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
         eaaRevocationToken.setIssuedAt(null);
 
@@ -429,7 +429,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
         eaaRevocationToken.setIssuedAt(null);
 
@@ -594,7 +594,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
         eaaRevocationToken.setExpirationTime(null);
 
@@ -768,7 +768,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
         eaaRevocationToken.setExpirationTime(null);
 
@@ -934,7 +934,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
 
         Calendar calendar = Calendar.getInstance();
@@ -1112,7 +1112,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
 
         Calendar calendar = Calendar.getInstance();
@@ -1282,7 +1282,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
 
         eaaRevocationToken.setSubject(null);
@@ -1458,7 +1458,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
 
         eaaRevocationToken.setSubject(null);
@@ -1625,7 +1625,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
 
         eaaRevocationToken.getSubject().setMatch(false);
@@ -1800,7 +1800,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
 
         eaaRevocationToken.getSubject().setMatch(false);
@@ -1966,7 +1966,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
 
         Calendar calendar = Calendar.getInstance();
@@ -2144,7 +2144,7 @@ class EAARevocationValidationProcessExecutorTest extends AbstractTestValidationE
                 new File("src/test/resources/diag-data/eaa-validation/diag_data_eaa.xml"));
         assertNotNull(diagnosticData);
 
-        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getEAARevocations().get(0);
+        XmlEAARevocationStatus xmlEAARevocationStatus = diagnosticData.getEAAs().get(0).getAttestationRevocations().get(0);
         XmlEAARevocationToken eaaRevocationToken = xmlEAARevocationStatus.getEAARevocationToken();
 
         Calendar calendar = Calendar.getInstance();

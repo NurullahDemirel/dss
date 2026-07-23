@@ -161,8 +161,8 @@ class MdocEAAISONonMdLWithKBTest extends AbstractMdocEAAPresentationTestIssuance
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.23220.1.mID", eaa.getEAADocumentType());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.23220.1.mID", eaa.getAttestationDocumentType());
 
         final List<ClaimWrapper> otherKeyBindingPayloadClaims = eaa.getOtherKeyBindingPayloadClaims();
         assertEquals(0, otherKeyBindingPayloadClaims.size());

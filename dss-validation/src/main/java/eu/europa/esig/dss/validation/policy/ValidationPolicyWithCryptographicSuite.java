@@ -1239,13 +1239,13 @@ public class ValidationPolicyWithCryptographicSuite implements ValidationPolicy 
     }
 
     @Override
-    public MultiValuesRule getEAARevocationSubjectConstraint() {
-        return validationPolicy.getEAARevocationSubjectConstraint();
+    public MultiValuesRule getAttestationRevocationsubjectConstraint() {
+        return validationPolicy.getAttestationRevocationsubjectConstraint();
     }
 
     @Override
-    public LevelRule getEAARevocationSubjectMatchConstraint() {
-        return validationPolicy.getEAARevocationSubjectMatchConstraint();
+    public LevelRule getAttestationRevocationsubjectMatchConstraint() {
+        return validationPolicy.getAttestationRevocationsubjectMatchConstraint();
     }
 
     @Override

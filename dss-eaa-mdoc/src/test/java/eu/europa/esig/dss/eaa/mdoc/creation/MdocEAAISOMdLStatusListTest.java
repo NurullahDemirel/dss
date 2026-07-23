@@ -179,16 +179,16 @@ class MdocEAAISOMdLStatusListTest extends AbstractMdocEAAPresentationTestIssuanc
         super.checkClaims(diagnosticData);
 
         EAAWrapper eaa = diagnosticData.getEAAById(diagnosticData.getFirstEAAId());
-        assertEquals("1.0", eaa.getEAAVersion());
-        assertEquals("org.iso.18013.5.1.mDL", eaa.getEAADocumentType());
+        assertEquals("1.0", eaa.getVersion());
+        assertEquals("org.iso.18013.5.1.mDL", eaa.getAttestationDocumentType());
 
-        assertEquals(1, eaa.getEAAStatusIndex());
-        assertEquals("https://pki.nowina.lu/eaa/status_list", eaa.getEAAStatusUri());
-        assertNull(eaa.getEAAStatusCertificate());
+        assertEquals(1, eaa.getStatusIndex());
+        assertEquals("https://pki.nowina.lu/eaa/status_list", eaa.getStatusUri());
+        assertNull(eaa.getStatusCertificate());
 
-        assertNull(eaa.getEAAIdentifierListId());
-        assertNull(eaa.getEAAIdentifierListUri());
-        assertNull(eaa.getEAAIdentifierListCertificate());
+        assertNull(eaa.getIdentifierListId());
+        assertNull(eaa.getIdentifierListUri());
+        assertNull(eaa.getIdentifierListCertificate());
     }
 
     @Override
