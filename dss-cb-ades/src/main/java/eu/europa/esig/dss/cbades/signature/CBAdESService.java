@@ -357,12 +357,12 @@ public class CBAdESService extends AbstractSignatureService<CBAdESSignatureParam
                     }
                     break;
                 case SHA384:
-                    if (384 != keySize) {
+                    if (320 != keySize && 384 != keySize) {
                         throw new IllegalArgumentException(String.format(errorMessage, signatureAlgorithm.getDigestAlgorithm(), 384));
                     }
                     break;
                 case SHA512:
-                    if (521 != keySize) {
+                    if (512 != keySize && 521 != keySize) {
                         throw new IllegalArgumentException(String.format(errorMessage, signatureAlgorithm.getDigestAlgorithm(), 521));
                     }
                     break;

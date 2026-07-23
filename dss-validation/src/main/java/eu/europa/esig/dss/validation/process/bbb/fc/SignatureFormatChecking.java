@@ -91,8 +91,9 @@ public class SignatureFormatChecking extends AbstractSignatureFormatChecking<Sig
 
 		}
 
-		// JAdES
-		if (SignatureForm.JAdES.equals(token.getSignatureFormat().getSignatureForm())) {
+		// JAdES / CB-AdES
+		SignatureForm signatureForm = token.getSignatureFormat().getSignatureForm();
+		if (SignatureForm.JAdES.equals(signatureForm) || SignatureForm.CBAdES.equals(signatureForm)) {
 
 			if (token.getEncryptionAlgorithm() != null && token.getEncryptionAlgorithm().isEquivalent(EncryptionAlgorithm.ECDSA)) {
 				item = item.setNextItem(ellipticCurveKeySizeCheck());

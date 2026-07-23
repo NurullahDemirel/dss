@@ -325,7 +325,7 @@
 			</xsd:element>
 			<xsd:element name="EllipticCurveKeySize" type="LevelConstraint" minOccurs="0">
 				<xsd:annotation>
-					<xsd:documentation>Verifies whether the size of the elliptic curve key used to create the signature corresponds to the defined signature algorithm (see RFC 7518)</xsd:documentation> <!-- JAdES only -->
+					<xsd:documentation>Verifies whether the size of the elliptic curve key used to create the signature corresponds to the defined signature algorithm (see RFC 7518)</xsd:documentation> <!-- JAdES and CB-AdES only -->
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="CommitmentTypeIndication" type="MultiValuesConstraint" minOccurs="0">

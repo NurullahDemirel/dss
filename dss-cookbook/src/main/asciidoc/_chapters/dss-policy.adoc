@@ -2118,7 +2118,7 @@ Note: executed for XAdES, CAdES, PAdES
 
 Default: `WARN`
 
-Note: executed for JAdES only
+Note: executed for JAdES and CB-AdES only
 
 [source,xml,indent=0]
 .Example of EllipticCurveKeySize usage (with WARN validation level)
