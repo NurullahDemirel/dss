@@ -3269,6 +3269,24 @@ Default: not executed
 </EAA>
 ----
 
+* `EAASupportedNamespaces` - this constraint checks whether the EAA token contains only claims within supported namespaces. The constraint is applied only for mdoc validation.
+
+Default: not executed (mdoc only)
+
+[source,xml,indent=0]
+.Example of EAASupportedNamespaces usage (with WARN validation level)
+----
+<EAA>
+    ...
+    <EAASupportedNamespaces Level="WARN">
+         <Id>org.iso.18013.5.1</Id>
+         <Id>org.etsi.01947201.010101</Id>
+         ...
+    </EAASupportedNamespaces>
+    ...
+</EAA>
+----
+
 ===== Cryptographic Constraints
 
 The `<Cryptographic>` block defines list of acceptable digest and encryption algorithms, as well as the dates of their expiration. The `<Cryptographic>` element may be defined for each particular token (e.g. for a signing-certificate, for revocation data, etc.) to define specific rules for the algorithms processing within the given token, as well as may be defined within `<ConstraintsParameters>` to define the general rules for all token types, if no specific rules are defined.
@@ -3805,7 +3823,7 @@ This table defines the correspondence between the enforced validation policy con
                                   |EAANotBeforePresent             |LevelConstraint                   |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
                                   |EAAExpirationPresent            |LevelConstraint                   |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
                                   |EAANotExpired                   |LevelConstraint                   |INDETERMINATE         |OUT_OF_BOUNDS_NO_POE
-.16+|EAAConstraints               |EAAAdministrativeIssuanceDatePresent        |LevelConstraint       |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
+.17+|EAAConstraints               |EAAAdministrativeIssuanceDatePresent        |LevelConstraint       |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
                                   |EAAAdministrativeExpirationDatePresent      |LevelConstraint       |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
                                   |EAAAdministrativePeriodNotExpired           |LevelConstraint       |INDETERMINATE         |OUT_OF_BOUNDS_NO_POE
                                   |EAACategory                     |LevelConstraint                   |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
@@ -3820,6 +3838,7 @@ This table defines the correspondence between the enforced validation policy con
                                   |EAAUsePseudonym                 |LevelConstraint                   |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
                                   |EAAClaims                       |LevelConstraint                   |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
                                   |EAASupportedClaims              |LevelConstraint                   |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
+                                  |EAASupportedNamespaces          |LevelConstraint                   |INDETERMINATE         |EAA_CONSTRAINTS_FAILURE
                                   |Cryptographic                   |CryptographicConstraint         2+|See CryptographicConstraint
 .4+|Cryptographic                 |AcceptableEncryptionAlgo        |ListAlgo                          |INDETERMINATE         |CRYPTO_CONSTRAINTS_FAILURE_NO_POE +
                                                                                                                               CRYPTO_CONSTRAINTS_FAILURE
