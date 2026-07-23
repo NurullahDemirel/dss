@@ -32,6 +32,11 @@ import java.util.List;
  */
 public class SDJWTClaimParameters extends AbstractEAAClaimParameters<SDJWTEAAClaim> {
 
+    // ietf-oauh-sd-jwt-vc
+
+    /** EAA subject */
+    private String subject;
+
     // OpenID Connect Core 1.0
 
     /** URL of the End-User's profile picture. */
@@ -111,6 +116,24 @@ public class SDJWTClaimParameters extends AbstractEAAClaimParameters<SDJWTEAACla
      */
     public SDJWTClaimParameters() {
         // empty
+    }
+
+    /**
+     * Gets the EAA subject
+     *
+     * @return {@link String}
+     */
+    public String getSubject() {
+        return subject;
+    }
+
+    /**
+     * Sets the EAA subject
+     *
+     * @param subject {@link String}
+     */
+    public void setSubject(final String subject) {
+        this.subject = subject;
     }
 
     /**

@@ -123,7 +123,6 @@ class RemoteEAACreationServiceImplTest extends PKIFactoryAccess {
         payloadParameters.setExpirationDate(expirationTime);
 
         payloadParameters.setIssuer("EAA provider");
-        payloadParameters.setSubject("good-ecdsa-user");
 
         signingAlias = ECDSA_521_USER;
 
@@ -144,6 +143,7 @@ class RemoteEAACreationServiceImplTest extends PKIFactoryAccess {
         payloadParameters.setSelectivelyDisclosable(selectivelyDisclosable);
 
         RemoteEAAClaimParameters nonSelectivelyDisclosable = new RemoteEAAClaimParameters();
+        nonSelectivelyDisclosable.setSubject("good-ecdsa-user");
         nonSelectivelyDisclosable.setIssuingAuthority("TEST Authority");
         nonSelectivelyDisclosable.setIssuingCountry("LU");
         nonSelectivelyDisclosable.setIssuingAuthorityRegistrationIdentifier("VATLU-123456");

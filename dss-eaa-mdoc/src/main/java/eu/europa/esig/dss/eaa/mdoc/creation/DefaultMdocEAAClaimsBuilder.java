@@ -60,7 +60,6 @@ public abstract class DefaultMdocEAAClaimsBuilder implements MdocEAAClaimsBuilde
         final List<MdocEAAClaim> result = new ArrayList<>();
 
         /* ETSI technical claims */
-        addClaim(result, getIssuanceDate(payloadParameters));
         addClaim(result, getOneTime(payloadParameters));
         addClaim(result, getShortLived(payloadParameters));
         addClaim(result, getCategory(payloadParameters));
@@ -68,6 +67,7 @@ public abstract class DefaultMdocEAAClaimsBuilder implements MdocEAAClaimsBuilde
         /* Other selectively disclosable claims */
 
         MdocEAAClaimParameters selectivelyDisclosable = payloadParameters.selectivelyDisclosable();
+        addClaim(result, getIssuanceDate(selectivelyDisclosable));
         addClaim(result, getGivenName(selectivelyDisclosable));
         addClaim(result, getFamilyName(selectivelyDisclosable));
         addClaim(result, getEmail(selectivelyDisclosable));
@@ -146,11 +146,11 @@ public abstract class DefaultMdocEAAClaimsBuilder implements MdocEAAClaimsBuilde
     /**
      * Gets mdoc claim generated for the issuanceDate parameter
      *
-     * @param payloadParameters {@link MdocEAAPayloadParameters}
+     * @param selectivelyDisclosable {@link MdocEAAClaimParameters}
      * @return {@link MdocEAAClaim}
      */
-    protected MdocEAAClaim getIssuanceDate(MdocEAAPayloadParameters payloadParameters) {
-        return ISO232201MIDEAAClaimsBuilder.getInstance().getIssuanceDate(payloadParameters);
+    protected MdocEAAClaim getIssuanceDate(MdocEAAClaimParameters selectivelyDisclosable) {
+        return ISO232201MIDEAAClaimsBuilder.getInstance().getIssuanceDate(selectivelyDisclosable);
     }
 
     /**
@@ -956,9 +956,9 @@ public abstract class DefaultMdocEAAClaimsBuilder implements MdocEAAClaimsBuilde
         }
 
         @Override
-        protected MdocEAAClaim getIssuanceDate(MdocEAAPayloadParameters payloadParameters) {
-            if (payloadParameters.getIssuanceDate() != null) {
-                return create(ISO180135Headers.ISSUE_DATE, payloadParameters.getIssuanceDate());
+        protected MdocEAAClaim getIssuanceDate(MdocEAAClaimParameters selectivelyDisclosable) {
+            if (selectivelyDisclosable.getIssuanceDate() != null) {
+                return create(ISO180135Headers.ISSUE_DATE, selectivelyDisclosable.getIssuanceDate());
             }
             return null;
         }
@@ -1291,9 +1291,9 @@ public abstract class DefaultMdocEAAClaimsBuilder implements MdocEAAClaimsBuilde
         }
 
         @Override
-        protected MdocEAAClaim getIssuanceDate(MdocEAAPayloadParameters payloadParameters) {
-            if (payloadParameters.getIssuanceDate() != null) {
-                return create(ISO232202Headers.ISSUE_DATE, payloadParameters.getIssuanceDate());
+        protected MdocEAAClaim getIssuanceDate(MdocEAAClaimParameters selectivelyDisclosable) {
+            if (selectivelyDisclosable.getIssuanceDate() != null) {
+                return create(ISO232202Headers.ISSUE_DATE, selectivelyDisclosable.getIssuanceDate());
             }
             return null;
         }

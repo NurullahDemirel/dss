@@ -51,7 +51,7 @@ class SDJWTCompactEAAPresentationSDAllOptionalElementsTest extends AbstractSDJWT
     void init() {
         payloadParameters = new SDJWTEAAPayloadParameters();
         payloadParameters.setIssuer("EAA provider");
-        payloadParameters.setSubject(DSSASN1Utils.getSubjectCommonName(getSigningCert()));
+        payloadParameters.nonSelectivelyDisclosable().setSubject(DSSASN1Utils.getSubjectCommonName(getSigningCert()));
         payloadParameters.setDeviceKey(getSigningCert().getPublicKey());
 
         payloadParameters.selectivelyDisclosable().setGivenName("John");

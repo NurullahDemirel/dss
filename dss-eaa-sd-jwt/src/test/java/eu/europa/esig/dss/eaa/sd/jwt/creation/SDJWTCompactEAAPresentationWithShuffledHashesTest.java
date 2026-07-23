@@ -50,7 +50,7 @@ class SDJWTCompactEAAPresentationWithShuffledHashesTest extends AbstractSDJWTEAA
         expiration = new Date(issuanceDate.getTime() + 3600 * 1000);
 
         payloadParameters = new SDJWTEAAPayloadParameters();
-        payloadParameters.setIssuanceDate(issuanceDate);
+        payloadParameters.nonSelectivelyDisclosable().setIssuanceDate(issuanceDate);
         payloadParameters.setExpirationDate(expiration);
         payloadParameters.setIssuer("https://issuer.example.com");
 

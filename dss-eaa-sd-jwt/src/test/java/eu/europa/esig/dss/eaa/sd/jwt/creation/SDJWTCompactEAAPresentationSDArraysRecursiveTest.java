@@ -46,7 +46,7 @@ class SDJWTCompactEAAPresentationSDArraysRecursiveTest extends AbstractSDJWTEAAP
     void init() {
         payloadParameters = new SDJWTEAAPayloadParameters();
         payloadParameters.setIssuer("EAA provider");
-        payloadParameters.setSubject(DSSASN1Utils.getSubjectCommonName(getSigningCert()));
+        payloadParameters.nonSelectivelyDisclosable().setSubject(DSSASN1Utils.getSubjectCommonName(getSigningCert()));
         payloadParameters.setDeviceKey(getSigningCert().getPublicKey());
 
         payloadParameters.setVerifiableCredentialsType("urn:eudi:eaa:1");

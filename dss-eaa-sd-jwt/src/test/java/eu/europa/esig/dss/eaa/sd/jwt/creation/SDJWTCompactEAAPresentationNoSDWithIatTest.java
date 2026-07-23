@@ -45,7 +45,7 @@ class SDJWTCompactEAAPresentationNoSDWithIatTest extends AbstractSDJWTEAAPresent
     void init() {
         payloadParameters = new SDJWTEAAPayloadParameters();
         payloadParameters.setIssuer("EAA provider");
-        payloadParameters.setSubject(DSSASN1Utils.getSubjectCommonName(getSigningCert()));
+        payloadParameters.nonSelectivelyDisclosable().setSubject(DSSASN1Utils.getSubjectCommonName(getSigningCert()));
         payloadParameters.setDeviceKey(getSigningCert().getPublicKey());
 
         payloadParameters.setVerifiableCredentialsType("urn:eudi:eaa:1");
@@ -53,7 +53,7 @@ class SDJWTCompactEAAPresentationNoSDWithIatTest extends AbstractSDJWTEAAPresent
         payloadParameters.setVerifiableCredentialsTypeIntegrity(digest);
 
         issuanceTime = new Date();
-        payloadParameters.setIssuanceDate(issuanceTime);
+        payloadParameters.nonSelectivelyDisclosable().setIssuanceDate(issuanceTime);
 
         payloadParameters.nonSelectivelyDisclosable().setGivenName("John");
         payloadParameters.nonSelectivelyDisclosable().setFamilyName("Doe");

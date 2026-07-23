@@ -91,10 +91,8 @@ public class DefaultSDJWTEAAClaimBuilder implements SDJWTEAAClaimBuilder {
         final List<SDJWTEAAClaim> claims = new ArrayList<>();
 
         addIfNotNull(claims, buildIssuerClaim(payloadParameters));
-        addIfNotNull(claims, buildIssuedAtClaim(payloadParameters));
         addIfNotNull(claims, buildNotBeforeClaim(payloadParameters));
         addIfNotNull(claims, buildExpirationTimeClaim(payloadParameters));
-        addIfNotNull(claims, buildSubjectClaim(payloadParameters));
         addIfNotNull(claims, buildOneTimeClaim(payloadParameters));
         addIfNotNull(claims, buildShortLivedClaim(payloadParameters));
         addIfNotNull(claims, buildCategoryClaim(payloadParameters));
@@ -116,6 +114,8 @@ public class DefaultSDJWTEAAClaimBuilder implements SDJWTEAAClaimBuilder {
     protected List<SDJWTEAAClaim> buildClaims(final SDJWTClaimParameters parameters,
                                               final boolean selectivelyDisclosable) {
         final List<SDJWTEAAClaim> claims = new ArrayList<>();
+        addIfNotNull(claims, buildIssuedAtClaim(parameters, selectivelyDisclosable));
+        addIfNotNull(claims, buildSubjectClaim(parameters, selectivelyDisclosable));
         addIfNotNull(claims, buildFamilyNameClaim(parameters, selectivelyDisclosable));
         addIfNotNull(claims, buildGivenNameClaim(parameters, selectivelyDisclosable));
         addIfNotNull(claims, buildBirthDateClaim(parameters, selectivelyDisclosable));
@@ -215,20 +215,6 @@ public class DefaultSDJWTEAAClaimBuilder implements SDJWTEAAClaimBuilder {
     }
 
     /**
-     * Builds the issued at claim.
-     *
-     * @param payloadParameters the payload parameters
-     * @return the claim or null
-     */
-    protected SDJWTEAAClaim buildIssuedAtClaim(final SDJWTEAAPayloadParameters payloadParameters) {
-        if (payloadParameters.getIssuanceDate() == null) {
-            return null;
-        }
-        return buildClaim(SDJWTConstants.ISSUED_AT,
-                DSSUtils.getTimeValueInSeconds(payloadParameters.getIssuanceDate().getTime()), false);
-    }
-
-    /**
      * Builds the not before claim.
      *
      * @param payloadParameters the payload parameters
@@ -254,19 +240,6 @@ public class DefaultSDJWTEAAClaimBuilder implements SDJWTEAAClaimBuilder {
         }
         return buildClaim(SDJWTConstants.EXPIRATION_TIME,
                 DSSUtils.getTimeValueInSeconds(payloadParameters.getExpirationDate().getTime()), false);
-    }
-
-    /**
-     * Builds the subject claim.
-     *
-     * @param payloadParameters the payload parameters
-     * @return the claim or null
-     */
-    protected SDJWTEAAClaim buildSubjectClaim(final SDJWTEAAPayloadParameters payloadParameters) {
-        if (payloadParameters.getSubject() == null) {
-            return null;
-        }
-        return buildClaim(SDJWTConstants.SUBJECT, payloadParameters.getSubject(), false);
     }
 
     /**
@@ -415,6 +388,37 @@ public class DefaultSDJWTEAAClaimBuilder implements SDJWTEAAClaimBuilder {
 
         String vctIntegrity = String.format("%s-%s", vctDigest.getAlgorithm().getSubresourceIntegrityId(), vctDigest.getBase64Value());
         return buildClaim(SDJWTConstants.VERIFIABLE_CREDENTIALS_INTEGRITY, vctIntegrity, false);
+    }
+
+    /**
+     * Builds the issued at claim.
+     *
+     * @param parameters the claim parameters
+     * @param selectivelyDisclosable whether selectively disclosable
+     * @return the claim or null
+     */
+    protected SDJWTEAAClaim buildIssuedAtClaim(final SDJWTClaimParameters parameters,
+                                               final boolean selectivelyDisclosable) {
+        if (parameters.getIssuanceDate() == null) {
+            return null;
+        }
+        return buildClaim(SDJWTConstants.ISSUED_AT,
+                DSSUtils.getTimeValueInSeconds(parameters.getIssuanceDate().getTime()), selectivelyDisclosable);
+    }
+
+    /**
+     * Builds the subject claim.
+     *
+     * @param parameters the claim parameters
+     * @param selectivelyDisclosable whether selectively disclosable
+     * @return the claim or null
+     */
+    protected SDJWTEAAClaim buildSubjectClaim(final SDJWTClaimParameters parameters,
+                                              final boolean selectivelyDisclosable) {
+        if (parameters.getSubject() == null) {
+            return null;
+        }
+        return buildClaim(SDJWTConstants.SUBJECT, parameters.getSubject(), selectivelyDisclosable);
     }
 
     /**

@@ -40,13 +40,6 @@ public interface EAAPayloadParameters {
     DigestAlgorithm getDigestAlgorithm();
 
     /**
-     * Gets the EAA issuance date
-     *
-     * @return {@link Date}
-     */
-    Date getIssuanceDate();
-
-    /**
      * Gets the EAA notBefore date
      *
      * @return {@link Date}

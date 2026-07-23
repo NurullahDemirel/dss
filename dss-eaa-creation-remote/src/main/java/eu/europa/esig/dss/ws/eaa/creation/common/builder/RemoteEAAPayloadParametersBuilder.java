@@ -102,9 +102,6 @@ public class RemoteEAAPayloadParametersBuilder {
         if (remoteEAAPayloadParameters.getIssuer() != null) {
             payloadParameters.setIssuer(remoteEAAPayloadParameters.getIssuer());
         }
-        if (remoteEAAPayloadParameters.getSubject() != null) {
-            payloadParameters.setSubject(remoteEAAPayloadParameters.getSubject());
-        }
         if (remoteEAAPayloadParameters.getVerifiableCredentialsType() != null) {
             payloadParameters.setVerifiableCredentialsType(remoteEAAPayloadParameters.getVerifiableCredentialsType());
         }
@@ -164,9 +161,6 @@ public class RemoteEAAPayloadParametersBuilder {
     protected void fillCommonParameters(AbstractEAAPayloadParameters payloadParameters, RemoteEAAPayloadParameters remoteEAAPayloadParameters) {
         if (remoteEAAPayloadParameters.getDigestAlgorithm() != null) {
             payloadParameters.setDigestAlgorithm(remoteEAAPayloadParameters.getDigestAlgorithm());
-        }
-        if (remoteEAAPayloadParameters.getIssuanceDate() != null) {
-            payloadParameters.setIssuanceDate(remoteEAAPayloadParameters.getIssuanceDate());
         }
         if (remoteEAAPayloadParameters.getNotBeforeDate() != null) {
             payloadParameters.setNotBeforeDate(remoteEAAPayloadParameters.getNotBeforeDate());
@@ -229,6 +223,12 @@ public class RemoteEAAPayloadParametersBuilder {
             return;
         }
 
+        if (selectivelyDisclosable.getIssuanceDate() != null) {
+            claimParameters.setIssuanceDate(selectivelyDisclosable.getIssuanceDate());
+        }
+        if (selectivelyDisclosable.getSubject() != null) {
+            claimParameters.setSubject(selectivelyDisclosable.getSubject());
+        }
         if (selectivelyDisclosable.getPicture() != null) {
             claimParameters.setPicture(selectivelyDisclosable.getPicture());
         }
@@ -305,6 +305,9 @@ public class RemoteEAAPayloadParametersBuilder {
             return;
         }
 
+        if (selectivelyDisclosable.getIssuanceDate() != null) {
+            claimParameters.setIssuanceDate(selectivelyDisclosable.getIssuanceDate());
+        }
         if (selectivelyDisclosable.getBirthdateApproximateMask() != null) {
             claimParameters.setBirthdateApproximateMask(selectivelyDisclosable.getBirthdateApproximateMask());
         }

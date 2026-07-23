@@ -157,8 +157,6 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
             assertNotNull(eaa.getEAAExpiration());
 
             assertEquals(getPayloadParameters().getIssuer(), eaa.getEAAIssuer());
-            assertEquals(getPayloadParameters().getSubject(), eaa.getEAASubject());
-
             // TODO : deviceKeyType
             // assertEquals(getPayloadParameters().getDeviceKeyType(), eaa.getDeviceKeyType());
 
@@ -207,7 +205,6 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
 
             assertEquals(getPayloadParameters().getDigestAlgorithm(), eaa.getSelectiveDisclosuresDigestAlgorithm());
 
-            assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().getIssuanceDate()), DSSUtils.formatDateToRFC(eaa.getEAAIssuedAt()));
             assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().getNotBeforeDate()), DSSUtils.formatDateToRFC(eaa.getEAANotBefore()));
             assertEquals(DSSUtils.formatDateToRFC(getPayloadParameters().getExpirationDate()), DSSUtils.formatDateToRFC(eaa.getEAAExpiration()));
 
@@ -218,8 +215,6 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
             assertEquals(Utils.isTrue(getPayloadParameters().isOneTime()), Utils.isTrue(eaa.getOneTimeUse()));
 
             assertSDJWTClaims(getPayloadParameters().selectivelyDisclosable(), getPayloadParameters().nonSelectivelyDisclosable(), eaa);
-
-
         }
     }
 
@@ -248,6 +243,9 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
     }
 
     protected void assertSDJWTClaims(SDJWTClaimParameters sd, SDJWTClaimParameters nonSd, EAAWrapper eaa) {
+
+        assertEitherDate(sd.getIssuanceDate(), nonSd.getIssuanceDate(), eaa.getEAAIssuedAt());
+        assertEither(sd.getSubject(), nonSd.getSubject(), eaa.getEAASubject());
 
         assertEither(sd.getGivenName(), nonSd.getGivenName(), eaa.getGivenName());
         assertEither(sd.getFamilyName(), nonSd.getFamilyName(), eaa.getFamilyName());
@@ -389,7 +387,10 @@ public abstract class AbstractSDJWTEAAPresentationTestIssuance extends AbstractE
     }
 
     private boolean hasConfiguredClaims(SDJWTClaimParameters p) {
-        return p.getGivenName() != null
+        return p.getIssuanceDate() != null
+                || p.getSubject() != null
+
+                || p.getGivenName() != null
                 || p.getFamilyName() != null
                 || p.getBirthdate() != null
                 || (p.getNationalities() != null && !p.getNationalities().isEmpty())

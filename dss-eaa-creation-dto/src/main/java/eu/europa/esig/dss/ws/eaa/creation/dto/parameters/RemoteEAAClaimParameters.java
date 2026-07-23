@@ -35,6 +35,11 @@ public class RemoteEAAClaimParameters implements Serializable {
     private static final long serialVersionUID = -5502634016096583321L;
 
     /* Common claims */
+
+    /** Date of the EAA issuance */
+    private Date issuanceDate;
+    /** EAA subject */
+    private String subject;
     
     /** The user's first or given name information */
     private String givenName;
@@ -250,6 +255,42 @@ public class RemoteEAAClaimParameters implements Serializable {
      */
     public RemoteEAAClaimParameters() {
         // empty
+    }
+
+    /**
+     * Gets the issuance date
+     *
+     * @return {@link Date}
+     */
+    public Date getIssuanceDate() {
+        return issuanceDate;
+    }
+
+    /**
+     * Sets the issuance date
+     *
+     * @param issuanceDate {@link Date}
+     */
+    public void setIssuanceDate(Date issuanceDate) {
+        this.issuanceDate = issuanceDate;
+    }
+
+    /**
+     * Gets the subject
+     *
+     * @return {@link String}
+     */
+    public String getSubject() {
+        return subject;
+    }
+
+    /**
+     * Sets the subject
+     *
+     * @param subject {@link String}
+     */
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     /**

@@ -90,9 +90,9 @@ class SDJWTEAAPayloadBuilderTest {
 
         final Date now = new Date();
         final Date expiration = new Date(now.getTime() + 3600 * 1000);
-        parameters.setIssuanceDate(now);
+        parameters.nonSelectivelyDisclosable().setIssuanceDate(now);
         parameters.setExpirationDate(expiration);
-        parameters.setSubject("test-subject");
+        parameters.nonSelectivelyDisclosable().setSubject("test-subject");
         parameters.setIssuer("test-issuer");
 
         final Map<String, Object> map = parsePayload(parameters);
@@ -152,9 +152,9 @@ class SDJWTEAAPayloadBuilderTest {
     void onlyTechnicalClaims() throws JoseException {
         SDJWTEAAPayloadParameters params = new SDJWTEAAPayloadParameters();
         params.setIssuer("https://issuer.example.com");
-        params.setSubject("user_42");
+        params.nonSelectivelyDisclosable().setSubject("user_42");
         Date now = new Date(1683000000000L);
-        params.setIssuanceDate(now);
+        params.nonSelectivelyDisclosable().setIssuanceDate(now);
         params.setExpirationDate(new Date(now.getTime() + 3_600_000));
 
         Map<String, Object> map = parsePayload(params);
@@ -355,7 +355,7 @@ class SDJWTEAAPayloadBuilderTest {
     void sameParamsProduceDeterministicPayload() {
         SDJWTEAAPayloadParameters params = new SDJWTEAAPayloadParameters();
         params.setIssuer("https://issuer.example.com");
-        params.setIssuanceDate(new Date());
+        params.nonSelectivelyDisclosable().setIssuanceDate(new Date());
         params.selectivelyDisclosable().setFamilyName("Doe");
         params.selectivelyDisclosable().setGivenName("John");
 
@@ -372,12 +372,12 @@ class SDJWTEAAPayloadBuilderTest {
 
         SDJWTEAAPayloadParameters params1 = new SDJWTEAAPayloadParameters();
         params1.setIssuer("https://issuer-a.example.com");
-        params1.setIssuanceDate(now);
+        params1.nonSelectivelyDisclosable().setIssuanceDate(now);
         params1.selectivelyDisclosable().setFamilyName("Doe");
 
         SDJWTEAAPayloadParameters params2 = new SDJWTEAAPayloadParameters();
         params2.setIssuer("https://issuer-b.example.com"); // different issuer → different seed
-        params2.setIssuanceDate(now);
+        params2.nonSelectivelyDisclosable().setIssuanceDate(now);
         params2.selectivelyDisclosable().setFamilyName("Doe");
 
         SDJWTEAAPayloadBuilder builder = new SDJWTEAAPayloadBuilder();

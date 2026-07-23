@@ -47,8 +47,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
 
     /** DigestAlgorithm used to compute hashes for selectively disclosable claims  */
     private DigestAlgorithm digestAlgorithm;
-    /** Date of the EAA issuance */
-    private Date issuanceDate;
     /** Date of the EAA technical validity start */
     private Date notBeforeDate;
     /** Date of the EAA technical validity end */
@@ -77,8 +75,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
 
     /** EAA issuer subject */
     private String issuer;
-    /** EAA subject */
-    private String subject;
     /** Type identifier of the embedded Verifiable Credential. */
     private String verifiableCredentialsType;
     /** Integrity metadata or cryptographic binding associated with the Verifiable Credential. */
@@ -196,24 +192,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
      */
     public void setDigestAlgorithm(DigestAlgorithm digestAlgorithm) {
         this.digestAlgorithm = digestAlgorithm;
-    }
-
-    /**
-     * Gets the issuance date
-     *
-     * @return {@link Date}
-     */
-    public Date getIssuanceDate() {
-        return issuanceDate;
-    }
-
-    /**
-     * Sets the issuance date
-     *
-     * @param issuanceDate {@link Date}
-     */
-    public void setIssuanceDate(Date issuanceDate) {
-        this.issuanceDate = issuanceDate;
     }
 
     /**
@@ -415,24 +393,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
     }
 
     /**
-     * Gets the subject
-     *
-     * @return {@link String}
-     */
-    public String getSubject() {
-        return subject;
-    }
-
-    /**
-     * Sets the subject
-     *
-     * @param subject {@link String}
-     */
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    /**
      * Gets the Verifiable Credential type
      *
      * @return {@link String}
@@ -600,7 +560,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
                 "eaaType=" + eaaType +
                 ", preComputedPayload=" + preComputedPayload +
                 ", digestAlgorithm=" + digestAlgorithm +
-                ", issuanceDate=" + issuanceDate +
                 ", notBeforeDate=" + notBeforeDate +
                 ", expirationDate=" + expirationDate +
                 ", deviceKey=" + deviceKey +
@@ -612,7 +571,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
                 ", decoyDigestNumber=" + decoyDigestNumber +
                 ", shuffleHashes=" + shuffleHashes +
                 ", issuer='" + issuer + '\'' +
-                ", subject='" + subject + '\'' +
                 ", verifiableCredentialsType='" + verifiableCredentialsType + '\'' +
                 ", verifiableCredentialsTypeIntegrity=" + verifiableCredentialsTypeIntegrity +
                 ", docType='" + docType + '\'' +
@@ -634,7 +592,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
         return eaaType == that.eaaType
                 && Objects.equals(preComputedPayload, that.preComputedPayload)
                 && digestAlgorithm == that.digestAlgorithm
-                && Objects.equals(issuanceDate, that.issuanceDate)
                 && Objects.equals(notBeforeDate, that.notBeforeDate)
                 && Objects.equals(expirationDate, that.expirationDate)
                 && Objects.equals(deviceKey, that.deviceKey)
@@ -646,7 +603,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
                 && Objects.equals(decoyDigestNumber, that.decoyDigestNumber)
                 && Objects.equals(shuffleHashes, that.shuffleHashes)
                 && Objects.equals(issuer, that.issuer)
-                && Objects.equals(subject, that.subject)
                 && Objects.equals(verifiableCredentialsType, that.verifiableCredentialsType)
                 && Objects.equals(verifiableCredentialsTypeIntegrity, that.verifiableCredentialsTypeIntegrity)
                 && Objects.equals(docType, that.docType)
@@ -663,7 +619,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
         int result = Objects.hashCode(eaaType);
         result = 31 * result + Objects.hashCode(preComputedPayload);
         result = 31 * result + Objects.hashCode(digestAlgorithm);
-        result = 31 * result + Objects.hashCode(issuanceDate);
         result = 31 * result + Objects.hashCode(notBeforeDate);
         result = 31 * result + Objects.hashCode(expirationDate);
         result = 31 * result + Objects.hashCode(deviceKey);
@@ -675,7 +630,6 @@ public class RemoteEAAPayloadParameters implements Serializable {
         result = 31 * result + Objects.hashCode(decoyDigestNumber);
         result = 31 * result + Objects.hashCode(shuffleHashes);
         result = 31 * result + Objects.hashCode(issuer);
-        result = 31 * result + Objects.hashCode(subject);
         result = 31 * result + Objects.hashCode(verifiableCredentialsType);
         result = 31 * result + Objects.hashCode(verifiableCredentialsTypeIntegrity);
         result = 31 * result + Objects.hashCode(docType);

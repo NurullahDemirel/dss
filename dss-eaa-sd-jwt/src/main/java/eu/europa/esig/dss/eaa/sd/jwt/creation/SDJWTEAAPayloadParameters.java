@@ -38,9 +38,6 @@ public class SDJWTEAAPayloadParameters extends AbstractEAAPayloadParameters {
     /** EAA issuer subject */
     private String issuer;
 
-    /** EAA subject */
-    private String subject;
-
     /** Contains the type of the key used for the device authentication. */
     private String deviceKeyType;
 
@@ -90,24 +87,6 @@ public class SDJWTEAAPayloadParameters extends AbstractEAAPayloadParameters {
      */
     public void setIssuer(final String issuer) {
         this.issuer = issuer;
-    }
-
-    /**
-     * Gets the EAA subject
-     *
-     * @return {@link String}
-     */
-    public String getSubject() {
-        return subject;
-    }
-
-    /**
-     * Sets the EAA subject
-     *
-     * @param subject {@link String}
-     */
-    public void setSubject(final String subject) {
-        this.subject = subject;
     }
 
     /**
@@ -287,7 +266,6 @@ public class SDJWTEAAPayloadParameters extends AbstractEAAPayloadParameters {
     public String toString() {
         return "SDJWTEAAPayloadParameters [" +
                 "issuer='" + issuer + '\'' +
-                ", subject='" + subject + '\'' +
                 ", selectivelyDisclosableParameters=" + selectivelyDisclosableParameters +
                 ", nonSelectivelyDisclosableParameters=" + nonSelectivelyDisclosableParameters +
                 ", verifiableCredentialsType='" + verifiableCredentialsType + '\'' +

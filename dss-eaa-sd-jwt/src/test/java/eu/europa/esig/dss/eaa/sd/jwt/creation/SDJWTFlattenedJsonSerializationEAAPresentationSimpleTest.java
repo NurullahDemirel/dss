@@ -53,7 +53,7 @@ class SDJWTFlattenedJsonSerializationEAAPresentationSimpleTest extends AbstractS
         claim = SDJWTEAAClaim.create("test-key", "test-value");
 
         payloadParameters = new SDJWTEAAPayloadParameters();
-        payloadParameters.setIssuanceDate(issuanceDate);
+        payloadParameters.nonSelectivelyDisclosable().setIssuanceDate(issuanceDate);
         payloadParameters.setExpirationDate(expiration);
         payloadParameters.setIssuer("https://issuer.example.com");
 

@@ -43,7 +43,7 @@ class SDJWTCompactOneTimeCreationTest extends AbstractSDJWTEAAPresentationTestIs
 
         parameters = new SDJWTEAAPayloadParameters();
         parameters.setIssuer("https://issuer.example.com");
-        parameters.setSubject(getSigningCert().getSubject().getPrettyPrintRFC2253());
+        parameters.nonSelectivelyDisclosable().setSubject(getSigningCert().getSubject().getPrettyPrintRFC2253());
         parameters.nonSelectivelyDisclosable().setIssuingAuthority("Public body");
         parameters.nonSelectivelyDisclosable().setIssuingCountry("LU");
         parameters.nonSelectivelyDisclosable().setIssuingAuthorityRegistrationIdentifier("XX12345");

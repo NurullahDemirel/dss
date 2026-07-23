@@ -50,7 +50,7 @@ class SDJWTCompactStatusAndAttestedAttributesCreationTest extends AbstractSDJWTE
 
         payloadParameters = new SDJWTEAAPayloadParameters();
         payloadParameters.setIssuer("https://issuer.example.com");
-        payloadParameters.setIssuanceDate(issuanceDate);
+        payloadParameters.nonSelectivelyDisclosable().setIssuanceDate(issuanceDate);
         payloadParameters.setExpirationDate(new Date(issuanceDate.getTime() + 3600 * 1000));
         payloadParameters.nonSelectivelyDisclosable().setIssuingAuthority("Public body");
         payloadParameters.nonSelectivelyDisclosable().setGivenName("Alice");

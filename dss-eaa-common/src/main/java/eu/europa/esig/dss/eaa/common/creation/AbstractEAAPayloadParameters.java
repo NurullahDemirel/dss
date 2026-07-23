@@ -36,9 +36,6 @@ public abstract class AbstractEAAPayloadParameters implements EAAPayloadParamete
     /** DigestAlgorithm used to compute hashes for selectively disclosable claims  */
     private DigestAlgorithm digestAlgorithm = DigestAlgorithm.SHA256;
 
-    /** Date of the EAA issuance */
-    private Date issuanceDate;
-
     /** Date of the EAA technical validity start */
     private Date notBeforeDate;
 
@@ -88,20 +85,6 @@ public abstract class AbstractEAAPayloadParameters implements EAAPayloadParamete
     public void setDigestAlgorithm(DigestAlgorithm digestAlgorithm) {
         Objects.requireNonNull(digestAlgorithm, "DigestAlgorithm cannot be null!");
         this.digestAlgorithm = digestAlgorithm;
-    }
-
-    @Override
-    public Date getIssuanceDate() {
-        return issuanceDate;
-    }
-
-    /**
-     * Sets the EAA issuance date
-     *
-     * @param issuanceDate {@link Date}
-     */
-    public void setIssuanceDate(final Date issuanceDate) {
-        this.issuanceDate = issuanceDate;
     }
 
     @Override
@@ -269,7 +252,6 @@ public abstract class AbstractEAAPayloadParameters implements EAAPayloadParamete
     public String toString() {
         return "AbstractEAAPayloadParameters [" +
                 "digestAlgorithm=" + digestAlgorithm +
-                ", issuanceDate=" + issuanceDate +
                 ", notBeforeDate=" + notBeforeDate +
                 ", expirationDate=" + expirationDate +
                 ", category='" + category + '\'' +

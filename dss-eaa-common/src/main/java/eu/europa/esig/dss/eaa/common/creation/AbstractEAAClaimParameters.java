@@ -37,6 +37,11 @@ import java.util.Map;
  */
 public abstract class AbstractEAAClaimParameters<C extends EAAClaim> implements EAAClaimParameters<C> {
 
+    /**
+     * Date of the issuance of digital credentials
+     */
+    private Date issuanceDate;
+
     /* OpenID Connect Core 1.0 */
 
     /**
@@ -227,6 +232,20 @@ public abstract class AbstractEAAClaimParameters<C extends EAAClaim> implements 
      */
     protected AbstractEAAClaimParameters() {
         // empty
+    }
+
+    @Override
+    public Date getIssuanceDate() {
+        return issuanceDate;
+    }
+
+    /**
+     * Sets the EAA issuance date
+     *
+     * @param issuanceDate {@link Date}
+     */
+    public void setIssuanceDate(final Date issuanceDate) {
+        this.issuanceDate = issuanceDate;
     }
 
     @Override

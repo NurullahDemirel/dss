@@ -35,6 +35,13 @@ import java.util.Map;
 public interface EAAClaimParameters<C extends EAAClaim> {
 
     /**
+     * Gets the issuance date of the digital credentials
+     *
+     * @return {@link Date}
+     */
+    Date getIssuanceDate();
+
+    /**
      * Gets the user's first or given name information
      *
      * @return {@link String}
