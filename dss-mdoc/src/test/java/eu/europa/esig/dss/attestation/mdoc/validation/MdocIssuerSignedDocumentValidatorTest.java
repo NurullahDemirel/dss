@@ -67,6 +67,9 @@ class MdocIssuerSignedDocumentValidatorTest extends AbstractTestDocumentValidato
         mdoc = new InMemoryDocument(CBORUtils.serializeCborObject(bothKeys));
         assertTrue(validator.isSupported(mdoc));
 
+        mdoc = new FileDocument("src/test/resources/validation/mdocIssuerSigned.cbor");
+        assertTrue(validator.isSupported(mdoc));
+
         CBORMap wrongKeyMap = new CBORMap();
         wrongKeyMap.put("test", 1);
         DSSDocument wrong = new InMemoryDocument(CBORUtils.serializeCborObject(wrongKeyMap));
