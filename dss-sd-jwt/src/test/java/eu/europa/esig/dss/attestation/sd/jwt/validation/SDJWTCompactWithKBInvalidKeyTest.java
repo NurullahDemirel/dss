@@ -223,7 +223,7 @@ class SDJWTCompactWithKBInvalidKeyTest extends AbstractSDJWTTestValidation {
         for (SignatureWrapper signatureWrapper : diagnosticData.getSignatures()) {
             if (signatureWrapper.isKeyBindingSignature()) {
                 assertNull(signatureWrapper.getSigningCertificate());
-                assertNull(signatureWrapper.getSigningCertificatePublicKey());
+                assertNotNull(signatureWrapper.getSigningCertificatePublicKey());
                 kbSignatureFound = true;
             } else {
                 assertNotNull(signatureWrapper.getSigningCertificate());
