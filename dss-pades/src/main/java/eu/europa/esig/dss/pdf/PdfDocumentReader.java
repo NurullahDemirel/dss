@@ -22,13 +22,11 @@ package eu.europa.esig.dss.pdf;
 
 import eu.europa.esig.dss.enumerations.CertificationPermission;
 import eu.europa.esig.dss.pades.validation.PdfSignatureDictionary;
-import eu.europa.esig.dss.pades.validation.PdfSignatureField;
 
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Reads the PDF Document
@@ -45,11 +43,10 @@ public interface PdfDocumentReader extends Closeable {
 	
 	/**
 	 * Extracts PdfSignatureDictionaries present in the signature
-	 * 
-	 * @return a map between {@link PdfSignatureDictionary} and related {@link PdfSignatureField}s
-	 * @throws IOException if an exception occurs
+	 *
+	 * @return a list of {@link PdfSignatureDictionary}s
 	 */
-	Map<PdfSignatureDictionary, List<PdfSignatureField>> extractSigDictionaries() throws IOException;
+	List<PdfSignatureDictionary> extractSigDictionaries();
 	
 	/**
 	 * Checks if a signature for the given PDF Signature Dictionary covers the whole document
