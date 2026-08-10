@@ -213,7 +213,7 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 				List<PdfSignatureField> pdfSignatureFields = pdfSigFieldMap.get(sigDictNumber);
 
 				if (Utils.collectionSize(pdfSignatureFields) > 1) {
-					LOG.warn("More than one field refers to the same signature dictionary: {}!", pdfSignatureFields);
+					LOG.warn("More than one field refers to the same signature dictionary: {}!", getFieldNames(pdfSignatureFields));
 				}
 				try {
 					PdfDict dictionary = new PdfBoxDict((COSDictionary) sigDictObject.getObject(), pdDocument);
@@ -222,11 +222,15 @@ public class PdfBoxDocumentReader implements PdfDocumentReader {
 
 				} catch (Exception e) {
 					LOG.warn("Unable to create a PdfSignatureDictionary for field(s) {}",
-							pdfSignatureFields.stream().map(PdfSignatureField::getFieldName).collect(Collectors.toList()), e);
+							getFieldNames(pdfSignatureFields), e);
 				}
 			}
 		}
 		return signatureDictionaries;
+	}
+
+	private List<String> getFieldNames(List<PdfSignatureField> signatureFields) {
+		return signatureFields.stream().map(PdfSignatureField::getFieldName).collect(Collectors.toList());
 	}
 
 	@Override

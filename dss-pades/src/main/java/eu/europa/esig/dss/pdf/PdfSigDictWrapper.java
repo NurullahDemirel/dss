@@ -28,6 +28,7 @@ import eu.europa.esig.dss.pades.validation.PdfSignatureField;
 import eu.europa.esig.dss.pdf.modifications.DefaultPdfObjectModificationsFinder;
 import eu.europa.esig.dss.pdf.modifications.ObjectModification;
 import eu.europa.esig.dss.pdf.modifications.PdfObjectModifications;
+import eu.europa.esig.dss.pdf.modifications.PdfObjectTree;
 import eu.europa.esig.dss.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -347,12 +347,6 @@ public class PdfSigDictWrapper implements PdfSignatureDictionary {
 			PdfDict revisionDict = revisionSignatureField.getDictionary();
 			PdfDict finalDict = finalSignatureField.getDictionary();
 
-			if (!new HashSet<>(Arrays.asList(revisionDict.list())).equals(new HashSet<>(Arrays.asList(finalDict.list())))) {
-				LOG.warn("The signature field '{}' does not contain the same set of objects!",
-						finalSignatureField.getFieldName());
-				return false;
-			}
-
 			for (String key : revisionDict.list()) {
 				if (PAdESConstants.VALUE_NAME.equals(key)) {
 					// NOTE: /V dictionary shall be checked only once (same for given signature fields)
@@ -362,7 +356,7 @@ public class PdfSigDictWrapper implements PdfSignatureDictionary {
 						return false;
 					}
 
-				} else if (Arrays.asList(PAdESConstants.RECT_NAME, PAdESConstants.APPEARANCE_DICTIONARY_NAME).contains(key)) {
+				} else if (Arrays.asList(PAdESConstants.RECT_NAME, PAdESConstants.APPEARANCE_DICTIONARY_NAME, PAdESConstants.ANNOT_FLAG).contains(key)) {
 					if (!checkDictionary(modificationsFinder, key, revisionDict, finalDict)) {
 						LOG.warn("The signature field '{}' from final PDF revision is not equal to the signed revision version!",
 								finalSignatureField.getFieldName());
@@ -379,20 +373,28 @@ public class PdfSigDictWrapper implements PdfSignatureDictionary {
 									PdfDict revisionDict, PdfDict finalDict) {
 		PdfObjectModifications pdfObjectModifications = modificationsFinder.find(
 				key, revisionDict.getObject(key), finalDict.getObject(key));
-		// TODO : report all changes ?
 		List<ObjectModification> undefinedChanges = pdfObjectModifications.getUndefinedChanges();
-		removeReferenceData(undefinedChanges);
+		removeTraversalData(undefinedChanges);
 		return Utils.isCollectionEmpty(undefinedChanges);
 	}
 
-	private void removeReferenceData(List<ObjectModification> modifications) {
+	private void removeTraversalData(List<ObjectModification> modifications) {
 		// /Reference /Data dictionary contains references to PDF objects covered by the signature.
 		// The changes inside do not impact signature validity directly.
+		// For /AP we check only the top level, to avoid verification of the shared /Resources
 		if (Utils.isCollectionNotEmpty(modifications)) {
 			modifications.removeIf(objectModification ->
-					objectModification.getObjectTree().getKeyChain().contains(PAdESConstants.REFERENCE_NAME) &&
-					objectModification.getObjectTree().getKeyChain().contains(PAdESConstants.DATA_NAME));
+					(objectModification.getObjectTree().getKeyChain().contains(PAdESConstants.REFERENCE_NAME) &&
+							objectModification.getObjectTree().getKeyChain().contains(PAdESConstants.DATA_NAME))
+					|| (objectModification.getObjectTree().getKeyChain().contains(PAdESConstants.APPEARANCE_DICTIONARY_NAME) &&
+							count(objectModification.getObjectTree(), PAdESConstants.RESOURCES_NAME) > 1 &&
+							count(objectModification.getObjectTree(), PAdESConstants.XOBJECT_NAME) > 1)
+			);
 		}
+	}
+
+	private long count(PdfObjectTree objectTree, String key) {
+		return objectTree.getKeyChain().stream().filter(key::equals).count();
 	}
 
 	@Override

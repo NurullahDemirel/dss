@@ -152,6 +152,8 @@ public final class PAdESConstants {
 	public static final String RECT_NAME = "Rect";
 	/** 'Reference' */
 	public static final String REFERENCE_NAME = "Reference";
+	/** 'Resources' */
+	public static final String RESOURCES_NAME = "Resources";
 	/** 'Root' */
 	public static final String ROOT_NAME = "Root";
 	/** 'M' (Signing date) */
@@ -190,6 +192,8 @@ public final class PAdESConstants {
 	public static final String VALUE_NAME = "V";
 	/** 'Version' */
 	public static final String VERSION_NAME = "Version";
+	/** 'XObject' */
+	public static final String XOBJECT_NAME = "XObject";
 
 	/* Build properties dictionary */
 
