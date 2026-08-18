@@ -713,7 +713,9 @@ public final class CAdESUtils {
 			LOG.warn("Illegal content for CMSSignedData (OID : {}) : OCTET STRING is not allowed !", attribute.getAttrType());
 		} else {
 			ASN1Primitive asn1Primitive = value.toASN1Primitive();
-			return new CMSSignedData(asn1Primitive.getEncoded());
+			try (ByteArrayInputStream bais = new ByteArrayInputStream(asn1Primitive.getEncoded())) {
+				return new CMSSignedData(bais);
+			}
 		}
 		return null;
 	}
