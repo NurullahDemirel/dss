@@ -93,9 +93,21 @@ public abstract class AbstractRunnableLoTEAnalysis<S extends LoTESource> impleme
      */
     protected void doAnalyze() {
         String url = getSource().getUrl();
-        LOG.debug("Downloading url '{}'...", url);
-        DSSDocument document = dssFileLoader.getDocument(url);
-        ILoTEAnalysisExecutor<S> analysisExecutor = getAnalysisExecutor(document);
+
+        DSSDocument document = null;
+        ILoTEAnalysisExecutor<S> analysisExecutor = null;
+        try {
+            LOG.debug("Downloading url '{}'...", url);
+            document = dssFileLoader.getDocument(url);
+            analysisExecutor = getAnalysisExecutor(document);
+
+        } catch (Exception e) {
+            // wrapped exception
+            LOG.warn(e.getMessage());
+            cacheAccess.downloadError(e);
+            return;
+        }
+
         document = download(analysisExecutor, document, url);
         if (document != null) {
             parsing(analysisExecutor, document);
@@ -134,7 +146,7 @@ public abstract class AbstractRunnableLoTEAnalysis<S extends LoTESource> impleme
             LOG.warn(e.getMessage());
             cacheAccess.downloadError(e);
         }
-        return document;
+        return null;
     }
 
     /**

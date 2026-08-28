@@ -53,6 +53,7 @@ import org.bouncycastle.asn1.DLSet;
 import org.bouncycastle.asn1.cms.Attribute;
 import org.bouncycastle.asn1.cms.AttributeTable;
 import org.bouncycastle.asn1.cms.Attributes;
+import org.bouncycastle.asn1.cms.Time;
 import org.bouncycastle.asn1.esf.RevocationValues;
 import org.bouncycastle.asn1.ess.OtherCertID;
 import org.bouncycastle.asn1.ocsp.BasicOCSPResponse;
@@ -67,7 +68,6 @@ import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.asn1.x509.GeneralName;
 import org.bouncycastle.asn1.x509.GeneralNames;
 import org.bouncycastle.asn1.x509.IssuerSerial;
-import org.bouncycastle.asn1.x509.Time;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.ocsp.BasicOCSPResp;
 import org.bouncycastle.cert.ocsp.OCSPException;
@@ -97,6 +97,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Utility class that contains some ASN1 related method.
@@ -196,6 +197,8 @@ public final class DSSASN1Utils {
 	 * @return array of bytes representing the encoded asn1Encodable
 	 */
 	private static byte[] getEncoded(ASN1Encodable asn1Encodable, String encoding) {
+		Objects.requireNonNull(asn1Encodable, "ASN1Encodable cannot be null");
+		Objects.requireNonNull(encoding, "Encoding cannot be null");
 		try {
 			return asn1Encodable.toASN1Primitive().getEncoded(encoding);
 		} catch (IOException e) {
@@ -835,7 +838,7 @@ public final class DSSASN1Utils {
 	 */
 	public static IssuerSerial getIssuerSerial(byte[] binaries) {
 		try (ASN1InputStream is = new ASN1InputStream(binaries)) {
-			ASN1Sequence seq = (ASN1Sequence) is.readObject();
+			ASN1Primitive seq = is.readObject();
 			return IssuerSerial.getInstance(seq);
 		} catch (Exception e) {
 			LOG.warn("Unable to decode IssuerSerialV2 textContent '{}' : {}", Utils.toBase64(binaries), e.getMessage(), e);

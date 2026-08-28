@@ -62,7 +62,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.x500.X500Principal;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -225,7 +227,7 @@ public class TimestampToken extends Token {
 	 * @throws CMSException if CMS data building exception occurs
 	 */
 	public TimestampToken(final byte[] binaries, final TimestampType type, final List<TimestampedReference> timestampedReferences) throws TSPException, IOException, CMSException {
-		this(new CMSSignedData(binaries), type, timestampedReferences);
+		this(toCMSSignedData(binaries), type, timestampedReferences);
 	}
 
 	/**
@@ -241,7 +243,13 @@ public class TimestampToken extends Token {
 	 */
 	public TimestampToken(final byte[] binaries, final TimestampType type, final List<TimestampedReference> timestampedReferences,
 						  final TimestampIdentifierBuilder identifierBuilder) throws TSPException, IOException, CMSException {
-		this(new CMSSignedData(binaries), type, timestampedReferences, identifierBuilder);
+		this(toCMSSignedData(binaries), type, timestampedReferences, identifierBuilder);
+	}
+
+	private static CMSSignedData toCMSSignedData(final byte[] encoded) throws IOException, CMSException {
+		try (InputStream is = new ByteArrayInputStream(encoded)) {
+			return new CMSSignedData(is);
+		}
 	}
 
 	/**

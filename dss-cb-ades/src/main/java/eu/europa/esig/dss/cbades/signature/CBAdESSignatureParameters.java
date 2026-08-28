@@ -42,7 +42,6 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      * Enumeration defining ways to embed the 'x5chain' header into a COSE signature
      */
     public enum X5ChainHeaderPlacement {
-
         /**
          * Insert the 'x5chain' header within the protected headers map (signed)
          */
@@ -52,7 +51,7 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
          */
         unprotectedHeader,
         /**
-         * Insert the 'x5chain' header within the 'uHeaders' unprotected header (unsigned)
+         * Insert the 'x5chain' header as an item within the 'uHeaders' unprotected header array (unsigned)
          */
         uHeaders,
     }
@@ -65,7 +64,7 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
     private boolean includeCertificateChain = true;
 
     /**
-     * Defines the element within COSE signature to embed the 'x5chain' header parameter.
+     * Defines the element within COSE signature to embed the 'x5chain' header parameter into.
      * Applies when the {@code includeCertificateChain} parameter is enabled.
      * DEFAULT: X5ChainHeaderPlacement.protectedHeader ('x5chain' is to be included within the protected header)
      */
@@ -75,8 +74,9 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      * Defines whether the thumbprints of the whole X.509 certificate chain should be included, using a 'x5ts' signed header.
      * When certificate chain is not provided, only the signing-certificate will be included to the chain.
      * When disabled, creates a 'x5t' signed header with only signing-certificate's thumbprint provided.
+     * DEFAULT : FALSE (the 'x5t' signed header with a signing-certificate's thumbprint to be included)
      */
-    private boolean includeCertificateChainThumbprints = true;
+    private boolean includeCertificateChainThumbprints = false;
 
     /**
      * Defines a MimeType of the signature to be created, to be provided within a signed header ('typ' attribute)
@@ -130,7 +130,7 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      * <p>
      * Default: TRUE (tagged signature structure is used, i.e. COSE_Sign_Tagged or COSE_Sign1_Tagged)
      */
-    private boolean tagged = true;
+    private Boolean tagged;
 
     /**
      * Externally supplied data from the application, carried outside the COSE signature structure,
@@ -241,6 +241,8 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      * When enabled, adds the signing-certificate at the first position, with other certificates following
      * in the provided order.
      * When disabled, creates a 'x5t' signed header with only signing-certificate's thumbprint provided.
+     * <p>
+     * DEFAULT : FALSE (the 'x5t' signed header with a signing-certificate's thumbprint to be included)
      *
      * @param includeCertificateChainThumbprints whether the thumbprints of the certificate chain should be included
      */
@@ -382,7 +384,7 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      *
      * @return TRUE if a tagged signature structure is used, FALSE for untagged
      */
-    public boolean isTagged() {
+    public Boolean isTagged() {
         return tagged;
     }
 
@@ -397,7 +399,7 @@ public class CBAdESSignatureParameters extends AbstractSignatureParameters<CBAdE
      *
      * @param tagged whether the tagged signature structure shall be used
      */
-    public void setTagged(boolean tagged) {
+    public void setTagged(Boolean tagged) {
         this.tagged = tagged;
     }
 

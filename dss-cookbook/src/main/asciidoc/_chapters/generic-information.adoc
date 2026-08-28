@@ -42,7 +42,7 @@ In a more detailed manner the following concepts and features are addressed in t
 * Validation of the signing certificate;
 * Timestamp creation;
 * Timestamp validation and qualification;
-* Electronic Attestation of Attributes;
+* Attestations (EAA, PID, etc.);
 * REST and SOAP webservices.
 
 This is not an exhaustive list of all the possibilities offered by the framework and the proposed examples cover only the most useful features. However, to discover every detail of the operational principles of the framework, the JavaDoc is available within the source code.
@@ -117,6 +117,7 @@ For the DSS demo: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html[GNU
 |OOXML			|Office Open XML
 |PAdES			|PDF Advanced Electronic Signatures
 |PC/SC			|Personal computer/Smart Card
+|PID			|Person Identification Data
 |PDF			|Portable Document Format
 |PDFBox			|Apache PDFBox - A Java PDF Library: http://pdfbox.apache.org/
 |PKCS			|Public Key Cryptographic Standards
@@ -168,7 +169,7 @@ For the DSS demo: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html[GNU
 |[[R17]]	R17	|ESI - Building blocks and table of contents for human readable signature policy documents                  |https://www.etsi.org/deliver/etsi_ts/119100_119199/11917201/01.01.01_60/ts_11917201v010101p.pdf[ETSI TS 119 172-1]		         	|1.1.1 (2015-07)
 |[[R18]]	R18	|ESI - XML format for signature policies                                        |https://www.etsi.org/deliver/etsi_ts/119100_119199/11917202/01.01.01_60/ts_11917202v010101p.pdf[ETSI TS 119 172-2]                                  			|1.1.1 (2019-12)
 |[[R19]]	R19	|ESI - ASN.1 format for signature policies                                      |https://www.etsi.org/deliver/etsi_ts/119100_119199/11917203/01.01.01_60/ts_11917203v010101p.pdf[ETSI TS 119 172-3]                                 			|1.1.1 (2019-12)
-|[[R20]]	R20	|ESI - Cryptographic Suites                                                     |https://www.etsi.org/deliver/etsi_ts/119300_119399/119312/01.05.01_60/ts_119312v010501p.pdf[ETSI TS 119 312]                                       			|1.5.1 (2024-12)
+|[[R20]]	R20	|ESI - Cryptographic Suites                                                     |https://www.etsi.org/deliver/etsi_ts/119300_119399/119312/02.01.01_60/ts_119312v020101p.pdf[ETSI TS 119 312]                                       			|2.1.1 (2026-06)
 |[[R21]]	R21	|ESI - Schema for machine-readable cryptographic algorithms,and cipher suites catalogues                    |https://www.etsi.org/deliver/etsi_ts/119300_119399/119322/01.02.01_60/ts_119322v010201p.pdf[ETSI TS 119 322]                       |1.2.1 (2024-12)
 |[[R22]]    R22 |Internet RFC 7515: JSON Web Signature (JWS)                                    |https://www.ietf.org/rfc/rfc7515.txt[RFC 7515]                                                                                                                 |
 |[[R23]]    R23 |Internet RFC 6283: Extensible Markup Language Evidence Record Syntax (XMLERS)  |https://www.ietf.org/rfc/rfc6283.txt[RFC 6283]                                                                                                                 |
@@ -192,6 +193,7 @@ For the DSS demo: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html[GNU
 |[[R41]]	R41	|ESI - CB AdES (CBOR-AdES) digital signatures									|https://www.etsi.org/deliver/etsi_ts/119100_119199/11915201/01.01.01_60/ts_11915201v010101p.pdf[ETSI TS 119 152 part 1]                                    	|1.1.1 (2026-03)
 |[[R42]]	R42	|Internet RFC 9052: CBOR Object Signing and Encryption (COSE): Structures and Process						|https://www.ietf.org/rfc/rfc9052.txt[RFC 9052]                                                                                  	|
 |[[R43]]	R43	|Internet RFC 9338: CBOR Object Signing and Encryption (COSE): Countersignatures						    |https://www.ietf.org/rfc/rfc9338.txt[RFC 9338]                                                                                 	|
+|[[R44]]	R44	|Internet Draft: Token Status List (TSL)					            	    |https://www.ietf.org/archive/id/draft-ietf-oauth-status-list-21.txt[draft-ietf-oauth-status-list]                                                              |21
 
 |=======================
 

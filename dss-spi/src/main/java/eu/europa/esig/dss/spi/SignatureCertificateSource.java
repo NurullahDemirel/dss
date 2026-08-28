@@ -263,6 +263,11 @@ public abstract class SignatureCertificateSource extends TokenCertificateSource 
 					}
 				}
 			}
+
+			if (Utils.isCollectionNotEmpty(candidates.getCertificateValidityList())) {
+				candidates.setTheCertificateValidity(candidates.getCertificateValidityList().get(0));
+			}
+
 			return candidates;
 
 		} else if (signingCertificateSource instanceof ListCertificateSource) {

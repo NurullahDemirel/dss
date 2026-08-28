@@ -52,10 +52,14 @@ import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.CertificateValidator;
 import eu.europa.esig.dss.validation.reports.CertificateReports;
 import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -89,7 +93,7 @@ class LoTEJsonGenerationTest extends PKIFactoryAccess {
     private String signer = LOTE_SIGNER_CERTIFICATE;
 
     @BeforeEach
-    public void init() {
+    void init() {
         urlMap = new HashMap<>();
 
         cacheDirectory = new File("target/cache");
@@ -333,6 +337,12 @@ class LoTEJsonGenerationTest extends PKIFactoryAccess {
     @Override
     protected String getSigningAlias() {
         return signer;
+    }
+
+    @AfterEach
+    void clean() throws IOException {
+        cacheDirectory.mkdirs();
+        Files.walk(cacheDirectory.toPath()).map(Path::toFile).forEach(File::delete);
     }
 
 }

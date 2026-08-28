@@ -33,6 +33,7 @@ import eu.europa.esig.dss.enumerations.CertificateApprovalStatus;
 import eu.europa.esig.dss.enumerations.CertificateApprovalStatusEnum;
 import eu.europa.esig.dss.enumerations.Indication;
 import eu.europa.esig.dss.enumerations.JWSSerializationType;
+import eu.europa.esig.dss.enumerations.MimeTypeEnum;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.i18n.MessageTag;
@@ -60,10 +61,14 @@ import eu.europa.esig.dss.utils.Utils;
 import eu.europa.esig.dss.validation.CertificateValidator;
 import eu.europa.esig.dss.validation.reports.CertificateReports;
 import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -104,7 +109,7 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
     private String signer;
 
     @BeforeEach
-    public void init() {
+    void init() {
         urlMap = new HashMap<>();
 
         cacheDirectory = new File("target/cache");
@@ -223,8 +228,8 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
         listAndSchemeInformation.put("LoTEType", EU_LIST_OF_LISTS_TYPE);
 
         List<JsonObject> schemeOperatorName = new ArrayList<>();
-        schemeOperatorName.add(getMultiLangString("fr", "Agence Nationale de la Confiance Numérique"));
-        schemeOperatorName.add(getMultiLangString("en", "National Agency for Digital Trust"));
+        schemeOperatorName.add(getMultiLangString("fr", "Commission Européenne"));
+        schemeOperatorName.add(getMultiLangString("en", "European Commission"));
         listAndSchemeInformation.put("SchemeOperatorName", schemeOperatorName);
 
         JsonObject schemeOperatorAddress = new JsonObject();
@@ -279,8 +284,15 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
         selfLoTEPointer.put("ServiceDigitalIdentities", serviceDigitalIdentities);
 
         List<JsonObject> loteQualifiers = new ArrayList<>();
-        loteQualifiers.add(getLoTEQualifier("LoTEType", EU_LIST_OF_LISTS_TYPE));
-        loteQualifiers.add(getLoTEQualifier("SchemeTerritory", "EU"));
+
+        JsonObject loteQualifier = new JsonObject();
+        loteQualifier.put("LoTEType", EU_LIST_OF_LISTS_TYPE);
+        loteQualifier.put("SchemeOperatorName", schemeOperatorName);
+        loteQualifier.put("SchemeTerritory", "EU");
+        loteQualifier.put("SchemeTypeCommunityRules",schemeTypeCommunityRules);
+        loteQualifier.put("MimeType", MimeTypeEnum.JSON.getMimeTypeString());
+        loteQualifiers.add(loteQualifier);
+
         selfLoTEPointer.put("LoTEQualifiers", loteQualifiers);
 
         pointersToOtherLOTE.add(selfLoTEPointer);
@@ -293,8 +305,22 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
         otherLoTEPointer.put("ServiceDigitalIdentities", serviceDigitalIdentities);
 
         loteQualifiers = new ArrayList<>();
-        loteQualifiers.add(getLoTEQualifier("LoTEType", PID_PROVIDERS_LIST_TYPE));
-        loteQualifiers.add(getLoTEQualifier("SchemeTerritory", "EU"));
+        loteQualifier = new JsonObject();
+        loteQualifier.put("LoTEType", PID_PROVIDERS_LIST_TYPE);
+
+        List<JsonObject> schemeOperatorNameLoTE = new ArrayList<>();
+        schemeOperatorNameLoTE.add(getMultiLangString("fr", "Agence Nationale de la Confiance Numérique"));
+        schemeOperatorNameLoTE.add(getMultiLangString("en", "National Agency for Digital Trust"));
+        loteQualifier.put("SchemeOperatorName", schemeOperatorNameLoTE);
+
+        schemeTypeCommunityRules = new ArrayList<>();
+        schemeTypeCommunityRules.add(getNonEmptyMultiLangURI("en", PID_LIST_SCHEME_TYPE_COMMUNITY_RULES));
+        loteQualifier.put("SchemeTypeCommunityRules", schemeTypeCommunityRules);
+
+        loteQualifier.put("SchemeTerritory", "EU");
+        loteQualifier.put("MimeType", MimeTypeEnum.JSON.getMimeTypeString());
+        loteQualifiers.add(loteQualifier);
+
         otherLoTEPointer.put("LoTEQualifiers", loteQualifiers);
 
         pointersToOtherLOTE.add(otherLoTEPointer);
@@ -461,12 +487,6 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
         return serviceDigitalIdentity;
     }
 
-    private JsonObject getLoTEQualifier(String headerName, Object value) {
-        JsonObject loteQualifier = new JsonObject();
-        loteQualifier.put(headerName, value);
-        return loteQualifier;
-    }
-
     private JsonObject getMultiLangString(String lang, String value) {
         JsonObject multiLangString = new JsonObject();
         multiLangString.put("lang", lang);
@@ -506,6 +526,12 @@ class LoLoTEJsonGenerationTest extends PKIFactoryAccess {
     @Override
     protected String getSigningAlias() {
         return signer;
+    }
+
+    @AfterEach
+    void clean() throws IOException {
+        cacheDirectory.mkdirs();
+        Files.walk(cacheDirectory.toPath()).map(Path::toFile).forEach(File::delete);
     }
 
 }

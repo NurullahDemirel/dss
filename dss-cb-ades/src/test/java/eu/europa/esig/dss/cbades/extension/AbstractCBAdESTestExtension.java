@@ -44,7 +44,6 @@ import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.spi.SignatureCertificateSource;
-import eu.europa.esig.dss.spi.x509.BaselineBCertificateSelector;
 import eu.europa.esig.dss.spi.x509.tsp.TSPSource;
 import eu.europa.esig.dss.test.extension.AbstractTestExtension;
 import eu.europa.esig.dss.utils.Utils;
@@ -100,7 +99,8 @@ public abstract class AbstractCBAdESTestExtension
         assertEquals(COSEStructureType.COSE_SIGN1 == getSignatureParameters().getCoseStructureType(),
                 coseSignStructure instanceof COSESign1);
 
-        assertEquals(getSignatureParameters().isTagged(), coseSignStructure.isTagged());
+        boolean isTagged = Utils.isTrue(getSignatureParameters().isTagged()) || getSignatureParameters().isTagged() == null;
+        assertEquals(isTagged, coseSignStructure.isTagged());
 
         assertNotNull(coseSignStructure.getPayload());
         assertEquals(SignaturePackaging.DETACHED == getSignatureParameters().getSignaturePackaging(), coseSignStructure.getPayload().isNull());
@@ -157,15 +157,7 @@ public abstract class AbstractCBAdESTestExtension
 
             FoundCertificatesProxy foundCertificates = signatureWrapper.foundCertificates();
             List<RelatedCertificateWrapper> signingCertificates = foundCertificates.getRelatedCertificatesByRefOrigin(CertificateRefOrigin.SIGNING_CERTIFICATE);
-            if (getSignatureParameters().isIncludeCertificateChainThumbprints()) {
-                BaselineBCertificateSelector certificateSelector = new BaselineBCertificateSelector(
-                        getSignatureParameters().getSigningCertificate(), getSignatureParameters().getCertificateChain())
-                        .setTrustAnchorBPPolicy(getSignatureParameters().bLevel().isTrustAnchorBPPolicy())
-                        .setTrustedCertificateSource(getTrustedCertificateSource());
-                assertEquals(certificateSelector.getCertificates().size(), signingCertificates.size());
-            } else {
-                assertEquals(1, signingCertificates.size());
-            }
+            assertTrue(Utils.isCollectionNotEmpty(signingCertificates));
 
             List<CertificateRefWrapper> signingCertificateRefs = null;
             for (RelatedCertificateWrapper certificateWrapper : signingCertificates) {

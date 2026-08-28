@@ -104,9 +104,9 @@ public class JsonLoTEParsingTask extends AbstractJsonLoTEParsingTask {
 
         // 3. Foreach TSP, remove invalid trust services
         for (TrustedEntity trustedEntity : filteredEntities) {
-            List<?> services = trustedEntity.getServices();
+            List<TrustedEntityService> services = trustedEntity.getServices();
             if (Utils.isCollectionNotEmpty(services)) {
-                List<TrustedEntityService> filteredServices = (List<TrustedEntityService>) services;
+                List<TrustedEntityService> filteredServices = services;
                 filteredServices = filteredServices.stream()
                         .filter(new NonEmptyTESInformationPredicate()).collect(Collectors.toList());
 
@@ -117,7 +117,7 @@ public class JsonLoTEParsingTask extends AbstractJsonLoTEParsingTask {
                 }
 
                 if (!filteredServices.isEmpty()) {
-                    trustedEntity.setServices(filteredServices);
+                    trustedEntity.setServices(Collections.unmodifiableList(filteredServices));
                 }
             }
         }

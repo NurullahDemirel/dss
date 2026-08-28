@@ -26,6 +26,7 @@ import eu.europa.esig.dss.model.policy.MultiValuesRule;
 import eu.europa.esig.dss.validation.process.ChainItem;
 import eu.europa.esig.dss.validation.process.ValidationProcessUtils;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public abstract class AbstractMultiValuesCheckItem<T extends XmlConstraintsConcl
 	 * @param values {@link String} to check
 	 * @return TRUE if the values are allowed by the constraint, FALSE otherwise
 	 */
-	protected boolean processValuesCheck(List<String> values) {
+	protected boolean processValuesCheck(Collection<String> values) {
 		return ValidationProcessUtils.processValuesCheck(values, constraint.getValues());
 	}
 
@@ -76,7 +77,7 @@ public abstract class AbstractMultiValuesCheckItem<T extends XmlConstraintsConcl
      * @param values {@link String} to check
      * @return TRUE if all the values are allowed by the constraint, FALSE otherwise
      */
-    protected boolean processAllValuesCheck(List<String> values) {
+    protected boolean processAllValuesCheck(Collection<String> values) {
         return ValidationProcessUtils.processAllValuesCheck(values, constraint.getValues());
     }
 
@@ -86,7 +87,7 @@ public abstract class AbstractMultiValuesCheckItem<T extends XmlConstraintsConcl
 	 * @param values {@link String} to check
 	 * @return TRUE if all the values are allowed by the constraint, FALSE otherwise
 	 */
-	protected boolean processValuesForEachExpectedCheck(List<String> values) {
+	protected boolean processValuesForEachExpectedCheck(Collection<String> values) {
 		return ValidationProcessUtils.processValuesForEachExpectedCheck(values, constraint.getValues());
 	}
 

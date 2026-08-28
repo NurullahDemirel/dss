@@ -36,7 +36,7 @@ import eu.europa.esig.dss.model.x509.CertificateToken;
 import eu.europa.esig.dss.model.x509.revocation.crl.CRL;
 import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
 import eu.europa.esig.dss.spi.SignatureCertificateSource;
-import eu.europa.esig.dss.spi.eaa.EAA;
+import eu.europa.esig.dss.spi.attestation.Attestation;
 import eu.europa.esig.dss.spi.signature.identifier.SignatureIdentifier;
 import eu.europa.esig.dss.spi.signature.identifier.SignatureIdentifierBuilder;
 import eu.europa.esig.dss.spi.validation.CertificateVerifier;
@@ -55,7 +55,7 @@ import eu.europa.esig.dss.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -135,9 +135,9 @@ public abstract class DefaultAdvancedSignature implements AdvancedSignature {
 	private AdvancedSignature masterSignature;
 
 	/**
-	 * EAA in case of a key binding signature
+	 * attestation in case of a key binding signature
 	 */
-	private EAA eaa;
+	private Attestation attestation;
 
 	/**
 	 * Contains information whether the signature is a key binding signature
@@ -167,7 +167,7 @@ public abstract class DefaultAdvancedSignature implements AdvancedSignature {
 	/**
 	 * Cached map of computed SignatureDigestReference's as defined in ETSI TS 119 102-2 ch. "4.1.1.5 Signature Reference"
 	 */
-	private Map<DigestAlgorithm, SignatureDigestReference> signatureDigestReferences = new HashMap<>();
+	private Map<DigestAlgorithm, SignatureDigestReference> signatureDigestReferences = new EnumMap<>(DigestAlgorithm.class);
 
 	/**
 	 * Performs a conformance check for the signature to a given profile
@@ -414,13 +414,13 @@ public abstract class DefaultAdvancedSignature implements AdvancedSignature {
 	}
 
 	@Override
-	public EAA getEAA() {
-		return eaa;
+	public Attestation getAttestation() {
+		return attestation;
 	}
 
 	@Override
-	public void setEAA(EAA eaa) {
-		this.eaa = eaa;
+	public void setAttestation(Attestation attestation) {
+		this.attestation = attestation;
 	}
 
 	@Override
@@ -592,7 +592,7 @@ public abstract class DefaultAdvancedSignature implements AdvancedSignature {
 	@Override
 	public SignatureDigestReference getSignatureDigestReference(DigestAlgorithm digestAlgorithm) {
 		if (signatureDigestReferences == null) {
-			signatureDigestReferences = new HashMap<>();
+			signatureDigestReferences = new EnumMap<>(DigestAlgorithm.class);
 		}
 		return signatureDigestReferences.computeIfAbsent(digestAlgorithm, v -> buildSignatureDigestReference(digestAlgorithm));
 	}

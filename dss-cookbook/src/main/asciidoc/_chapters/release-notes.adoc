@@ -11,27 +11,50 @@
 |===
 |Version           |Release date             |Features
 
+|v6.5              |August 2026             a|Main new features / improvements :
+
+                                            * Attestation modules refactoring (`dss-sd-jwt`, `dss-mdoc`);
+                                            * Cryptographic algorithms deprecation dates update per ETSI TS 119 312 v2.1.1 <<R20>>;
+                                            * Support of `x5c` as unsigned header parameter (JAdES, CB-AdES);
+                                            * RFC 9864 COSE algorithms validation support;
+                                            * New `TLAlert` to detect and report invalid updates in `TSLSequenceNumber`;
+                                            * Demos : added properties to enable certain alerts in web application;
+                                            * Demos : added property to enforce RFC 8017 conformance on RSA signature validation (BC);
+                                            * Demos : added property to configure maximum nesting level in ASN.1 structures (BC);
+                                            * Demos : added LoTE validation job summary webpage;
+                                            * Dependencies update (BouncyCastle, HttpClient5, PdfBox, etc.).
+
+Bug fixes :
+
+                                            * Fixes related to attestations handling (creation and validation);
+                                            * Fixes related to LoTE processing;
+                                            * `ExpirationAndSignatureCheckStrategy` mistakenly synchronizes Trusted Lists with zero or more signatures;
+                                            * PAdES : `/AP` of existing signature field can be created without invalidating the signature;
+                                            * JAdES : Performance issue in `JWSCompactSerializationParser#isSupported` method;
+                                            * Missing commits for QWAC and crypto suites processing;
+                                            * Outdated links to the eIDAS Dashboard in Simple Reports.
+
 |v6.5.RC1          |July 2026              a|Main new features / improvements :
 
                                             * Creation and validation of CB-AdES signatures (ETSI TS 119 152-1 <<R41>>);
-                                            * Creation of Electronic Attestation of Attribute Presentations (EAAP) on SD-JWT VC <<R36>> & ISO/IEC-mdoc <<R38>>;
-                                            * Validation of Electronic Attestation of Attributes (EAA) based on SD-JWT VC <<R36>> and ISO/IEC-mdoc <<R38>> as per ETSI TS 119-472-1 <<R34>>;
-                                            * EAA Qualification validation (QEAA, PuB-EAA, PID);
-                                            * EAA revocation verification (Token Status List, Identifiers List);
+                                            * Creation of attestations and presentations in SD-JWT <<R35>> & ISO/IEC-mdoc <<R38>>;
+                                            * Validation of attestations based on SD-JWT <<R35>> and ISO/IEC-mdoc <<R38>>, with support of ETSI TS 119-472-1 <<R34>>;
+                                            * Attestation qualification validation (QEAA, PuB-EAA, PID, etc.);
+                                            * Attestation revocation verification (Token Status List, Identifiers List);
                                             * Introduce generic validation job module for a document validation;
                                             * Validation job for a List of Trusted Entities (ETSI TS 119 602 <<R33>>), in XML and JSON;
                                             * Validation of certificate approval status using a LoTE (ETSI TS 119 605 <<R39>>);
-                                            * REST and SOAP webservices for EAA creation and validation;
+                                            * REST and SOAP webservices for attestation creation and validation;
                                             * XAdES : Add alternative XPath query executor for XML processing;
                                             * PAdES : Review DPI behavior for visual PDF signatures;
-                                            * PAdES : Resolve limitations in DSSSecureRansomProvider;
+                                            * PAdES : Resolve limitations in `DSSSecureRandomProvider`;
                                             * JAdES : Accept arbitrary `kid` protected header values;
                                             * JAdES : Add support of `x5c` as unsigned header parameter;
                                             * Support of ETSI TS 119 412-6 QcStatements;
                                             * Added a predicate to `FileCacheDataLoader` to choose whether to cache the downloaded data;
                                             * Dependencies update (BouncyCastle, HttpClient5, PdfBox, VeraPDF, etc.);
                                             * Demos : New page for CB-AdES signature creation;
-                                            * Demos : New page in the webapp for validation of EAAs;
+                                            * Demos : New page in the webapp for validation of attestations;
                                             * Demos : OJEU keystore update;
                                             * Demos : Webapp upgraded to Spring-Boot 4;
                                             * Java 26 support.
@@ -603,14 +626,14 @@ _pass:[*] October 2015: Implementing Acts Art. 27 & 37 (eSig formats)_
 
 To upgrade version of DSS, locate to the `pom.xml` file of your project, search for the properties and then change the dss version in the corresponding field(s).
 
-The example below shows how to switch to DSS version `6.5.RC1` using <<BomModule>>:
+The example below shows how to switch to DSS version `6.5` using <<BomModule>>:
 
 [source,xml]
 .pom.xml
 ----
 <properties>
     ...
-    <dss.version>6.5.RC1</dss.version>
+    <dss.version>6.5</dss.version>
     ...
 </properties>
 

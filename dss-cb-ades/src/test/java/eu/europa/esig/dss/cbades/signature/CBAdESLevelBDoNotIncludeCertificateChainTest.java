@@ -26,7 +26,6 @@ import eu.europa.esig.dss.cbades.COSEProtectedHeader;
 import eu.europa.esig.dss.cbades.COSESign;
 import eu.europa.esig.dss.cbades.COSESignStructure;
 import eu.europa.esig.dss.cbades.cbor.CBORArray;
-import eu.europa.esig.dss.cbades.cbor.CBORObject;
 import eu.europa.esig.dss.diagnostic.CertificateRefWrapper;
 import eu.europa.esig.dss.diagnostic.DiagnosticData;
 import eu.europa.esig.dss.diagnostic.RelatedCertificateWrapper;
@@ -38,6 +37,7 @@ import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.signature.DocumentSignatureService;
+import eu.europa.esig.dss.spi.DSSUtils;
 import eu.europa.esig.dss.spi.signature.AdvancedSignature;
 import eu.europa.esig.dss.spi.x509.KidCertificateSource;
 import eu.europa.esig.dss.utils.Utils;
@@ -47,6 +47,7 @@ import org.junit.jupiter.api.BeforeEach;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -96,26 +97,19 @@ class CBAdESLevelBDoNotIncludeCertificateChainTest extends AbstractCBAdESTestSig
 
     private void assertRequirementsValid(COSEProtectedHeader protectedHeader) {
         CBORArray x5t = protectedHeader.getAsArray(COSEHeaderParameter.X5T.cbor());
-        assertNull(x5t);
+        assertNotNull(x5t);
+
+        Long algId = x5t.getAsLongOrString(COSEConstants.COSE_CERT_HASH_ALG);
+        assertNotNull(algId);
+        DigestAlgorithm digestAlgorithm = DigestAlgorithm.forCOSE(algId);
+        assertEquals(getSignatureParameters().getSigningCertificateDigestMethod(), digestAlgorithm);
+
+        byte[] hashValue = x5t.getAsBinaries(COSEConstants.COSE_CERT_HASH_VALUE);
+        assertNotNull(hashValue);
+        assertArrayEquals(DSSUtils.digest(digestAlgorithm, getSignatureParameters().getSigningCertificate().getEncoded()), hashValue);
 
         CBORArray x5ts = protectedHeader.getAsArray(COSEHeaderParameter.X5TS.cbor());
-        assertNotNull(x5ts);
-        assertEquals(2, x5ts.getSize());
-
-        for (CBORObject cborObject : x5ts.getValueAsList()) {
-            assertTrue(cborObject.isArray());
-            assertInstanceOf(CBORArray.class, cborObject);
-
-            CBORArray x5tItem = (CBORArray) cborObject;
-
-            Long algId = x5tItem.getAsLongOrString(COSEConstants.COSE_CERT_HASH_ALG);
-            assertNotNull(algId);
-            DigestAlgorithm digestAlgorithm = DigestAlgorithm.forCOSE(algId);
-            assertEquals(getSignatureParameters().getSigningCertificateDigestMethod(), digestAlgorithm);
-
-            byte[] hashValue = x5tItem.getAsBinaries(COSEConstants.COSE_CERT_HASH_VALUE);
-            assertNotNull(hashValue);
-        }
+        assertNull(x5ts);
 
         CBORArray x5chain = protectedHeader.getAsArray(COSEHeaderParameter.X5CHAIN.cbor());
         assertNull(x5chain);
@@ -130,7 +124,7 @@ class CBAdESLevelBDoNotIncludeCertificateChainTest extends AbstractCBAdESTestSig
         SignatureWrapper signatureWrapper = diagnosticData.getSignatureById(diagnosticData.getFirstSignatureId());
 
         List<RelatedCertificateWrapper> relatedCertificates = signatureWrapper.foundCertificates().getRelatedCertificates();
-        assertEquals(2, relatedCertificates.size());
+        assertEquals(1, relatedCertificates.size());
 
         RelatedCertificateWrapper signingCertificate = null;
         for (RelatedCertificateWrapper certificateWrapper : relatedCertificates) {
@@ -156,7 +150,7 @@ class CBAdESLevelBDoNotIncludeCertificateChainTest extends AbstractCBAdESTestSig
         assertTrue(signCertFound);
         assertTrue(keyIdentifierFound);
 
-        assertEquals(2, signatureWrapper.foundCertificates().getRelatedCertificatesByRefOrigin(CertificateRefOrigin.SIGNING_CERTIFICATE).size());
+        assertEquals(1, signatureWrapper.foundCertificates().getRelatedCertificatesByRefOrigin(CertificateRefOrigin.SIGNING_CERTIFICATE).size());
         assertEquals(1, signatureWrapper.foundCertificates().getRelatedCertificatesByRefOrigin(CertificateRefOrigin.KEY_IDENTIFIER).size());
 
         assertNotNull(signatureWrapper.getSigningCertificate());

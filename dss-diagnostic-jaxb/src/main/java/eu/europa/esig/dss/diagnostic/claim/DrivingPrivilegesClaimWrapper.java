@@ -23,6 +23,7 @@ package eu.europa.esig.dss.diagnostic.claim;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDrivingPrivilegeClaim;
 import eu.europa.esig.dss.diagnostic.jaxb.XmlDrivingPrivilegesClaim;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -74,11 +75,12 @@ public class DrivingPrivilegesClaimWrapper extends ClaimWrapper {
 
     @Override
     public List<ClaimWrapper> getList() {
+        final List<ClaimWrapper> result = new ArrayList<>(super.getList());
         List<DrivingPrivilegeClaimWrapper> drivingPrivileges = getDrivingPrivileges();
         if (drivingPrivileges != null && !drivingPrivileges.isEmpty()) {
-            return drivingPrivileges.stream().map(c -> (ClaimWrapper) c).collect(Collectors.toList());
+            result.addAll(drivingPrivileges.stream().map(c -> (ClaimWrapper) c).collect(Collectors.toList()));
         }
-        return Collections.emptyList();
+        return result;
     }
 
     @Override

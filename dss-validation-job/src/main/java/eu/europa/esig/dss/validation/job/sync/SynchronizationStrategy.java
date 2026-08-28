@@ -29,7 +29,7 @@ import eu.europa.esig.dss.model.job.DocumentListInfo;
  * @param <D> current {@link DocumentInfo}
  * @param <L> parent {@link DocumentListInfo}
  */
-public interface SynchronizationStrategy<D extends DocumentInfo<L>, L extends DocumentListInfo<L, D>> {
+public interface SynchronizationStrategy<D extends DocumentInfo, L extends DocumentListInfo<D>> {
 
 	/**
 	 * Returns true if the certificates from the trusted list can be synchronized

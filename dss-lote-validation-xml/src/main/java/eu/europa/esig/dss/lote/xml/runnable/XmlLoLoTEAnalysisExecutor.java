@@ -22,9 +22,9 @@ package eu.europa.esig.dss.lote.xml.runnable;
 
 import eu.europa.esig.dss.lote.runnable.LoLoTEAnalysisExecutor;
 import eu.europa.esig.dss.lote.source.LoLoTESource;
-import eu.europa.esig.dss.lote.xml.download.LoTEXmlDownloadTask;
+import eu.europa.esig.dss.lote.xml.download.XmlLoTEDownloadTask;
 import eu.europa.esig.dss.lote.xml.parsing.XmlLoLoTEParsingTask;
-import eu.europa.esig.dss.lote.xml.validation.LoTEXmlValidationTask;
+import eu.europa.esig.dss.lote.xml.validation.XmlLoTEValidationTask;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.spi.x509.CertificateSource;
 import eu.europa.esig.dss.validation.job.download.DownloadTask;
@@ -54,7 +54,7 @@ public class XmlLoLoTEAnalysisExecutor implements LoLoTEAnalysisExecutor {
 
     @Override
     public DownloadTask getDownloadTask(DSSDocument document, String url) {
-        return new LoTEXmlDownloadTask(document, url);
+        return new XmlLoTEDownloadTask(document, url);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class XmlLoLoTEAnalysisExecutor implements LoLoTEAnalysisExecutor {
 
     @Override
     public ValidationTask getValidationTask(DSSDocument document, CertificateSource signingCertificateSource) {
-        return new LoTEXmlValidationTask(document, signingCertificateSource);
+        return new XmlLoTEValidationTask(document, signingCertificateSource);
     }
 
 }

@@ -29,7 +29,7 @@ import eu.europa.esig.dss.model.job.DocumentListInfo;
  * @param <D> current {@link DocumentInfo}
  * @param <L> parent {@link DocumentListInfo}
  */
-public class AcceptAllStrategy<D extends DocumentInfo<L>, L extends DocumentListInfo<L, D>> implements SynchronizationStrategy<D, L> {
+public class AcceptAllStrategy<D extends DocumentInfo, L extends DocumentListInfo<D>> implements SynchronizationStrategy<D, L> {
 
 	/**
 	 * Default constructor

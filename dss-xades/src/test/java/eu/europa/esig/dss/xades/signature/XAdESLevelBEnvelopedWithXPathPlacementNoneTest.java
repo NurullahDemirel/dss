@@ -70,6 +70,8 @@ class XAdESLevelBEnvelopedWithXPathPlacementNoneTest extends AbstractXAdESTestSi
 	protected void onDocumentSigned(byte[] byteArray) {
 		super.onDocumentSigned(byteArray);
 		Document dom = DomUtils.buildDOM(byteArray);
+		DSSNamespace namespace = new DSSNamespace("http://www.w3.org/TR/html4/", "h");
+		XPathUtils.registerNamespace(namespace);
 		Element referencedElement = XPathUtils.getElement(dom.getDocumentElement(),
 				XPathQueryBuilder.all().element(DSSElement.fromDefinition("tr", new DSSNamespace("http://www.w3.org/TR/html4/", "h"))).build());
 		assertNotNull(referencedElement.getLastChild());

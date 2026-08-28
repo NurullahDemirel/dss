@@ -238,21 +238,21 @@ public abstract class CryptographicSuiteCatalogue {
     }
 
     /**
-     * Gets the {@code CryptographicSuite} for validation of an EAA
+     * Gets the {@code CryptographicSuite} for validation of an attestation
      *
      * @return {@link CryptographicSuite}
      */
-    public CryptographicSuite getEAACryptographicSuite() {
+    public CryptographicSuite getAttestationCryptographicSuite() {
         // no separate handling
         return getCryptographicSuite();
     }
 
     /**
-     * Gets the {@code CryptographicSuite} for validation of an EAA revocation
+     * Gets the {@code CryptographicSuite} for validation of an attestation revocation
      *
      * @return {@link CryptographicSuite}
      */
-    public CryptographicSuite getEAARevocationCryptographicSuite() {
+    public CryptographicSuite getAttestationRevocationCryptographicSuite() {
         // no separate handling
         return getCryptographicSuite();
     }
@@ -292,12 +292,7 @@ public abstract class CryptographicSuiteCatalogue {
      * @return {@link CryptographicSuite}
      */
     protected CryptographicSuite getCryptographicSuite(CryptographicSuiteMetadata metadata, List<CryptographicSuiteAlgorithm> algorithmList) {
-        CryptographicSuite cryptographicSuite = cryptographicSuiteMap.get(algorithmList);
-        if (cryptographicSuite == null) {
-            cryptographicSuite = new CryptographicSuite19322(metadata, algorithmList);
-            cryptographicSuiteMap.put(algorithmList, cryptographicSuite);
-        }
-        return cryptographicSuite;
+        return cryptographicSuiteMap.computeIfAbsent(algorithmList, v -> new CryptographicSuite19322(metadata, algorithmList));
     }
 
 }

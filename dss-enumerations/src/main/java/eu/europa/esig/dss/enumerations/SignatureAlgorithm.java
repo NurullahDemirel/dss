@@ -26,6 +26,7 @@ import java.security.GeneralSecurityException;
 import java.security.spec.PSSParameterSpec;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -740,7 +741,7 @@ public enum SignatureAlgorithm implements OidAndUriBasedEnum {
 
     private static Map<Long, SignatureAlgorithm> registerCoseAlgorithms() {
         // https://www.iana.org/assignments/cose/cose.xml
-        final Map<Long, SignatureAlgorithm> coseAlgorithms = new HashMap<>();
+        final Map<Long, SignatureAlgorithm> coseAlgorithms = new LinkedHashMap<>();
 
         coseAlgorithms.put(-257L, RSA_SHA256);
         coseAlgorithms.put(-258L, RSA_SHA384);
@@ -750,10 +751,26 @@ public enum SignatureAlgorithm implements OidAndUriBasedEnum {
         coseAlgorithms.put(-38L, RSA_SSA_PSS_SHA384_MGF1);
         coseAlgorithms.put(-39L, RSA_SSA_PSS_SHA512_MGF1);
 
+        // RFC 9864, ECDSA definitions with a specified curve
+        coseAlgorithms.put(-9L, ECDSA_SHA256); // ECDSA using P-256 curve
+        coseAlgorithms.put(-51L, ECDSA_SHA384); // ECDSA using P-384
+        coseAlgorithms.put(-52L, ECDSA_SHA512); // ECDSA using P-521
+
+        coseAlgorithms.put(-265L, ECDSA_SHA256); // ECDSA using BrainpoolP256r1
+        coseAlgorithms.put(-266L, ECDSA_SHA384); // ECDSA using BrainpoolP320r1
+        coseAlgorithms.put(-267L, ECDSA_SHA384); // ECDSA using BrainpoolP384r1
+        coseAlgorithms.put(-268L, ECDSA_SHA512); // ECDSA using BrainpoolP512r1
+
+        // RFC 9053, polymorphic ECDSA definitions
         coseAlgorithms.put(-7L, ECDSA_SHA256);
         coseAlgorithms.put(-35L, ECDSA_SHA384);
         coseAlgorithms.put(-36L, ECDSA_SHA512);
 
+        // RFC 9864
+        coseAlgorithms.put(-19L, ED25519);
+        coseAlgorithms.put(-53L, ED448);
+
+        // RFC 9053, deprecated
         coseAlgorithms.put(-8L, ED25519);
 
         return coseAlgorithms;
@@ -765,6 +782,7 @@ public enum SignatureAlgorithm implements OidAndUriBasedEnum {
             coseAlgorithms.put(entry.getValue(), entry.getKey());
             ensurePlainECDSA(coseAlgorithms, entry.getValue(), entry.getKey());
         }
+        // TODO : ED448 -8 key left for legacy reasons, to be removed when upgrading to new default algorithm identifiers
         coseAlgorithms.put(SignatureAlgorithm.ED448, -8L);
         return coseAlgorithms;
     }

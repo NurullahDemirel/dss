@@ -33,13 +33,13 @@ import java.util.Map;
 public final class LOTEJsonUtils extends JSONSchemaAbstractUtils {
 
     /** LoTE schema URI */
-    private static final String SCHEMA_URI =  "1960201_json_schema.json";
+    private static final String SCHEMA_URI = "1960201_json_schema.json";
 
     /** LoTE SIE extension schema URI */
-    private static final String SIE_SCHEMA_URI =  "1960201_json_schema_sie.json";
+    private static final String SIE_SCHEMA_URI = "1960201_json_schema_sie.json";
 
     /** LoTE Additional Types extension schema URI */
-    private static final String ADDITIONAL_TYPES_SCHEMA_URI =  "1960201_json_schema_tie.json";
+    private static final String ADDITIONAL_TYPES_SCHEMA_URI = "1960201_json_schema_tie.json";
 
     /** RFC 7517 schema URI */
     private static final String RFC7517_URI = "rfcs/rfc7517.json";

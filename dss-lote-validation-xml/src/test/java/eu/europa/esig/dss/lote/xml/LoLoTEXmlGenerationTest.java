@@ -87,6 +87,7 @@ import eu.europa.esig.lote.xml.LOTEFacade;
 import eu.europa.esig.lote.xml.definition.LOTENamespace;
 import jakarta.xml.bind.JAXBElement;
 import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -97,7 +98,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -136,7 +140,7 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
     private String signer;
 
     @BeforeEach
-    public void init() {
+    void init() {
         urlMap = new HashMap<>();
 
         cacheDirectory = new File("target/cache");
@@ -250,10 +254,11 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
         listAndSchemeInformation.setLoTESequenceNumber(BigInteger.ONE);
         listAndSchemeInformation.setLoTEType("http://uri.etsi.org/19602/LoTEType/EUlistofthelists");
 
-        listAndSchemeInformation.setSchemeOperatorName(getNamesType(
-                getLangString("fr", "Agence Nationale de la Confiance Numérique"),
-                getLangString("en", "National Agency for Digital Trust")
-        ));
+        InternationalNamesType schemeOperatorNames = getNamesType(
+                getLangString("fr", "Commission Européenne"),
+                getLangString("en", "European Commission")
+        );
+        listAndSchemeInformation.setSchemeOperatorName(schemeOperatorNames);
 
         listAndSchemeInformation.setSchemeOperatorAddress(getAddressType(Arrays.asList(
                 getPostalAddress("fr", "12 Boulevard Sécurité", "Paris", "Île-de-France","75015", "ZZ"),
@@ -267,7 +272,8 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
 
         listAndSchemeInformation.setSchemeInformationURI(getLangUriList(getLangURI("en", "https://example.org/scheme-info")));
         listAndSchemeInformation.setStatusDeterminationApproach("http://uri.etsi.org/19602/ListOfLists/StatusDetn/EU");
-        listAndSchemeInformation.setSchemeTypeCommunityRules(getLangUriList(getLangURI("en", "http://uri.etsi.org/19602/ListOfLists/schemerules/EU")));
+        NonEmptyMultiLangURIListType schemeTypeCommunityRules = getLangUriList(getLangURI("en", "http://uri.etsi.org/19602/ListOfLists/schemerules/EU"));
+        listAndSchemeInformation.setSchemeTypeCommunityRules(schemeTypeCommunityRules);
         listAndSchemeInformation.setSchemeTerritory("EU");
 
         listAndSchemeInformation.setHistoricalInformationPeriod(BigInteger.valueOf(65535));
@@ -305,6 +311,14 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
         otherInfoSchemeTerritory.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeTerritory"),
                 String.class, "EU"));
         additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTerritory);
+        AnyType otherInfoSchemeOperatorNames = new AnyType();
+        otherInfoSchemeOperatorNames.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeOperatorName"),
+                InternationalNamesType.class, schemeOperatorNames));
+        additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeOperatorNames);
+        AnyType otherInfoSchemeTypeCommunityRules = new AnyType();
+        otherInfoSchemeTypeCommunityRules.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeTypeCommunityRules"),
+                NonEmptyMultiLangURIListType.class, schemeTypeCommunityRules));
+        additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTypeCommunityRules);
         loloteSelfPointer.setAdditionalInformation(additionalInformationType);
 
         otherLoTEPointersType.getOtherLoTEPointer().add(loloteSelfPointer);
@@ -327,6 +341,19 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
         otherInfoSchemeTerritory.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeTerritory"),
                 String.class, "EU"));
         additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTerritory);
+        otherInfoSchemeTypeCommunityRules = new AnyType();
+        schemeOperatorNames = getNamesType(
+                getLangString("fr", "Agence Nationale de la Confiance Numérique"),
+                getLangString("en", "National Agency for Digital Trust")
+        );
+        otherInfoSchemeTypeCommunityRules.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeOperatorName"),
+                InternationalNamesType.class, schemeOperatorNames));
+        additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTypeCommunityRules);
+        schemeTypeCommunityRules = getLangUriList(getLangURI("en", "http://uri.etsi.org/19602/PubEAAProvidersList/schemerules/EU"));
+        otherInfoSchemeTypeCommunityRules = new AnyType();
+        otherInfoSchemeTypeCommunityRules.getContent().add(new JAXBElement<>(new QName(LOTENamespace.NS.getUri(), "SchemeTypeCommunityRules"),
+                NonEmptyMultiLangURIListType.class, schemeTypeCommunityRules));
+        additionalInformationType.getTextualInformationOrOtherInformation().add(otherInfoSchemeTypeCommunityRules);
         lotePointer.setAdditionalInformation(additionalInformationType);
 
         otherLoTEPointersType.getOtherLoTEPointer().add(lotePointer);
@@ -578,6 +605,12 @@ class LoLoTEXmlGenerationTest extends PKIFactoryAccess {
     @Override
     protected String getSigningAlias() {
         return signer;
+    }
+
+    @AfterEach
+    void clean() throws IOException {
+        cacheDirectory.mkdirs();
+        Files.walk(cacheDirectory.toPath()).map(Path::toFile).forEach(File::delete);
     }
 
 }

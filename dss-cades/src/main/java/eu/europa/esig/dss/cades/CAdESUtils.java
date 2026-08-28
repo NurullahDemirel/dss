@@ -709,11 +709,15 @@ public final class CAdESUtils {
 	 */
 	public static CMSSignedData getCMSSignedData(Attribute attribute) throws CMSException, IOException {
 		ASN1Encodable value = DSSASN1Utils.getAsn1Encodable(attribute);
-		if (value instanceof DEROctetString) {
-			LOG.warn("Illegal content for CMSSignedData (OID : {}) : OCTET STRING is not allowed !", attribute.getAttrType());
-		} else {
-			ASN1Primitive asn1Primitive = value.toASN1Primitive();
-			return new CMSSignedData(asn1Primitive.getEncoded());
+		if (value != null) {
+			if (value instanceof DEROctetString) {
+				LOG.warn("Illegal content for CMSSignedData (OID : {}) : OCTET STRING is not allowed !", attribute.getAttrType());
+			} else {
+				ASN1Primitive asn1Primitive = value.toASN1Primitive();
+				try (ByteArrayInputStream bais = new ByteArrayInputStream(asn1Primitive.getEncoded())) {
+					return new CMSSignedData(bais);
+				}
+			}
 		}
 		return null;
 	}
@@ -727,8 +731,11 @@ public final class CAdESUtils {
 	 */
 	public static byte[] getEncodedValue(Attribute attribute) throws IOException {
 		ASN1Encodable value = DSSASN1Utils.getAsn1Encodable(attribute);
-		ASN1Primitive asn1Primitive = value.toASN1Primitive();
-		return asn1Primitive.getEncoded();
+		if (value != null) {
+			ASN1Primitive asn1Primitive = value.toASN1Primitive();
+			return asn1Primitive.getEncoded();
+		}
+		return null;
 	}
 
 	/**

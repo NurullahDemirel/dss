@@ -28,7 +28,7 @@ import eu.europa.esig.dss.validation.job.alerts.DocumentAlert;
 /**
  * The class to process events on LOTL
  */
-public class LOTLAlert extends DocumentAlert<LOTLInfo, LOTLInfo> {
+public class LOTLAlert extends DocumentAlert<LOTLInfo> {
 
 	/**
 	 * Default constructor

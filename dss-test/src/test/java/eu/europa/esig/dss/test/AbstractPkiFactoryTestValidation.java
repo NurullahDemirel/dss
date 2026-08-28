@@ -104,11 +104,11 @@ import eu.europa.esig.dss.model.DSSException;
 import eu.europa.esig.dss.model.DigestDocument;
 import eu.europa.esig.dss.model.identifier.OriginalIdentifierProvider;
 import eu.europa.esig.dss.model.identifier.TokenIdentifierProvider;
+import eu.europa.esig.dss.model.policy.ValidationPolicy;
 import eu.europa.esig.dss.model.signature.SignaturePolicy;
 import eu.europa.esig.dss.model.x509.revocation.Revocation;
 import eu.europa.esig.dss.model.x509.revocation.crl.CRL;
 import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
-import eu.europa.esig.dss.model.policy.ValidationPolicy;
 import eu.europa.esig.dss.simplereport.SimpleReport;
 import eu.europa.esig.dss.simplereport.SimpleReportFacade;
 import eu.europa.esig.dss.simplereport.jaxb.XmlCertificateChain;
@@ -1172,6 +1172,10 @@ public abstract class AbstractPkiFactoryTestValidation extends PKIFactoryAccess 
 				assertTrue(certIds.contains(certificate.getId()));
 			}
 			for (CertificateWrapper certificate : signatureWrapper.foundCertificates()
+					.getRelatedCertificatesByOrigin(CertificateOrigin.UNPROTECTED_HEADER)) {
+				assertTrue(certIds.contains(certificate.getId()));
+			}
+			for (CertificateWrapper certificate : signatureWrapper.foundCertificates()
 					.getRelatedCertificatesByOrigin(CertificateOrigin.ATTR_AUTHORITIES_CERT_VALUES)) {
 				assertTrue(certIds.contains(certificate.getId()));
 			}
@@ -1192,6 +1196,10 @@ public abstract class AbstractPkiFactoryTestValidation extends PKIFactoryAccess 
 			}
 			for (OrphanCertificateWrapper certificate : signatureWrapper.foundCertificates()
 					.getOrphanCertificatesByOrigin(CertificateOrigin.CERTIFICATE_VALUES)) {
+				assertTrue(orphanCertIds.contains(certificate.getId()));
+			}
+			for (OrphanCertificateWrapper certificate : signatureWrapper.foundCertificates()
+					.getOrphanCertificatesByOrigin(CertificateOrigin.UNPROTECTED_HEADER)) {
 				assertTrue(orphanCertIds.contains(certificate.getId()));
 			}
 			for (OrphanCertificateWrapper certificate : signatureWrapper.foundCertificates()
@@ -2671,7 +2679,7 @@ public abstract class AbstractPkiFactoryTestValidation extends PKIFactoryAccess 
 					ValidationStatusType signatureValidationStatus = validationReport.getSignatureValidationStatus();
 					assertNotNull(signatureValidationStatus);
 					if (ObjectType.OTHER == validationObject.getObjectType()) {
-						// skip process for EAA, as may have different validation results than BBB alone
+						// skip process for attestation, as may have different validation results than BBB alone
 						continue;
 					}
 					assertEquals(conclusion.getIndication(), signatureValidationStatus.getMainIndication());
@@ -2736,7 +2744,7 @@ public abstract class AbstractPkiFactoryTestValidation extends PKIFactoryAccess 
 			assertEquals(diagnosticData.getTimestampList().size(), timestampCounter);
 			assertEquals(diagnosticData.getEvidenceRecords().size(), evidenceRecordCounter);
 			assertEquals(diagnosticData.getAllSignerDocuments().size(), signedDataCounter);
-			assertEquals(diagnosticData.getEAAs().size(), otherCounter);
+			assertEquals(diagnosticData.getAttestations().size(), otherCounter);
 			
 		} else {
 			assertEquals(0, diagnosticData.getUsedCertificates().size());

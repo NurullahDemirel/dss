@@ -39,7 +39,7 @@ public abstract class AbstractSerializableSignatureParameters<TP extends Seriali
 
 	/**
 	 * This variable indicates whether a signing certificate revocation shall be checked.
-	 *
+	 * <p>
 	 * Default : false
 	 */
 	private boolean checkCertificateRevocation = false;
@@ -47,7 +47,7 @@ public abstract class AbstractSerializableSignatureParameters<TP extends Seriali
 	/**
 	 * This variable indicates if it is possible to generate ToBeSigned data without
 	 * the signing certificate.
-	 *
+	 * <p>
 	 * Default : false
 	 */
 	private boolean generateTBSWithoutCertificate = false;

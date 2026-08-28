@@ -31,9 +31,7 @@ import eu.europa.esig.dss.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class is used to verify permissions of a PDF document and to check whether modifications are allowed
@@ -117,29 +115,21 @@ public class PdfPermissionsChecker {
             LOG.info("A usage rights signature is present. The feature is deprecated and the entry is not handled.");
         }
 
-        try {
-            String signatureFieldId = fieldParameters.getFieldId();
+        String signatureFieldId = fieldParameters.getFieldId();
 
-            Map<PdfSignatureDictionary, List<PdfSignatureField>> sigDictionaries = documentReader.extractSigDictionaries();
-            for (PdfSignatureDictionary signatureDictionary : sigDictionaries.keySet()) {
-                SigFieldPermissions fieldMDP = signatureDictionary.getFieldMDP();
-                if (fieldMDP != null && isSignatureFieldCreationForbidden(fieldMDP, signatureFieldId)) {
-                    alertOnForbiddenSignatureCreation("FieldMDP dictionary does not permit a new signature creation!");
+        List<PdfSignatureDictionary> sigDictionaries = documentReader.extractSigDictionaries();
+        for (PdfSignatureDictionary signatureDictionary : sigDictionaries) {
+            SigFieldPermissions fieldMDP = signatureDictionary.getFieldMDP();
+            if (fieldMDP != null && isSignatureFieldCreationForbidden(fieldMDP, signatureFieldId)) {
+                alertOnForbiddenSignatureCreation("FieldMDP dictionary does not permit a new signature creation!");
+            }
+            for (PdfSignatureField signatureField : signatureDictionary.getSignatureFields()) {
+                SigFieldPermissions lockDict = signatureField.getLockDictionary();
+                if (lockDict != null && lockDict.getCertificationPermission() != null &&
+                        isSignatureFieldCreationForbidden(lockDict, signatureFieldId)) {
+                    alertOnForbiddenSignatureCreation("Lock dictionary does not permit a new signature creation!");
                 }
             }
-
-            for (List<PdfSignatureField> signatureFieldList : sigDictionaries.values()) {
-                for (PdfSignatureField signatureField : signatureFieldList) {
-                    SigFieldPermissions lockDict = signatureField.getLockDictionary();
-                    if (lockDict != null && lockDict.getCertificationPermission() != null &&
-                            isSignatureFieldCreationForbidden(lockDict, signatureFieldId)) {
-                        alertOnForbiddenSignatureCreation("Lock dictionary does not permit a new signature creation!");
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            LOG.warn("An error occurred while reading signature dictionary entries : {}", e.getMessage(), e);
         }
     }
 

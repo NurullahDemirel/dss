@@ -104,7 +104,8 @@ public abstract class AbstractCBAdESCounterSignatureTest extends AbstractCounter
         assertEquals(COSEStructureType.COSE_SIGN1 == getSignatureParameters().getCoseStructureType(),
                 coseSignStructure instanceof COSESign1);
 
-        assertEquals(getSignatureParameters().isTagged(), coseSignStructure.isTagged());
+        boolean isTagged = Utils.isTrue(getSignatureParameters().isTagged()) || getSignatureParameters().isTagged() == null;
+        assertEquals(isTagged, coseSignStructure.isTagged());
 
         assertNotNull(coseSignStructure.getPayload());
         assertEquals(SignaturePackaging.DETACHED == getSignatureParameters().getSignaturePackaging(), coseSignStructure.getPayload().isNull());

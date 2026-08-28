@@ -24,9 +24,9 @@ import eu.europa.esig.dss.cbades.CBAdESUtils;
 import eu.europa.esig.dss.cbades.COSEParser;
 import eu.europa.esig.dss.cbades.COSESign;
 import eu.europa.esig.dss.cbades.COSESignStructure;
-import eu.europa.esig.dss.enumerations.COSESignatureType;
 import eu.europa.esig.dss.cbades.cbor.CBORByteString;
 import eu.europa.esig.dss.cbades.cbor.CBORUtils;
+import eu.europa.esig.dss.enumerations.COSESignatureType;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.enumerations.MimeTypeEnum;
@@ -90,7 +90,7 @@ public class CBAdESService extends AbstractSignatureService<CBAdESSignatureParam
         Objects.requireNonNull(toSignDocument, "toSignDocument cannot be null!");
         Objects.requireNonNull(parameters, "SignatureParameters cannot be null!");
 
-        assertSigningCertificateValid(parameters);
+        assertSignatureParameters(parameters);
 
         CBAdESBuilder cbadesBuilder = getCBAdESBuilder(parameters, Collections.singletonList(toSignDocument));
         return cbadesBuilder.buildDataToBeSigned();
@@ -119,7 +119,7 @@ public class CBAdESService extends AbstractSignatureService<CBAdESSignatureParam
         Objects.requireNonNull(parameters, "SignatureParameters cannot be null!");
         Objects.requireNonNull(signatureValue, "SignatureValue cannot be null!");
         assertMultiDocumentsAllowed(toSignDocuments, parameters);
-        assertSigningCertificateValid(parameters);
+        assertSignatureParameters(parameters);
 
         CBAdESBuilder cbadesBuilder = getCBAdESBuilder(parameters, toSignDocuments);
         DSSDocument signedDocument = cbadesBuilder.build(signatureValue);
@@ -220,7 +220,6 @@ public class CBAdESService extends AbstractSignatureService<CBAdESSignatureParam
     public ToBeSigned getDataToBeCounterSigned(DSSDocument signatureDocument, CBAdESCounterSignatureParameters parameters) {
         Objects.requireNonNull(signatureDocument, "signatureDocument cannot be null!");
         verifyAndSetCounterSignatureParameters(parameters);
-        assertSigningCertificateValid(parameters);
 
         final CBAdESCounterSignatureBuilder counterSignatureBuilder =
                 new CBAdESCounterSignatureBuilder(certificateVerifier, parameters, signatureDocument);
@@ -234,7 +233,6 @@ public class CBAdESService extends AbstractSignatureService<CBAdESSignatureParam
         Objects.requireNonNull(parameters, "SignatureParameters cannot be null!");
         Objects.requireNonNull(signatureValue, "signatureValue cannot be null!");
         verifyAndSetCounterSignatureParameters(parameters);
-        assertSigningCertificateValid(parameters);
 
         final CBAdESCounterSignatureBuilder counterSignatureBuilder =
                 new CBAdESCounterSignatureBuilder(certificateVerifier, parameters, signatureDocument);
@@ -323,6 +321,21 @@ public class CBAdESService extends AbstractSignatureService<CBAdESSignatureParam
             throw new IllegalArgumentException(String.format("The SigDMechanism '%s' is not supported by CBAdES Counter Signature!",
                     parameters.getSigDMechanism()));
         }
+
+        assertSignatureParameters(parameters);
+    }
+
+    /**
+     * This method verifies validity of the signature parameters and provides the necessary configuration, where applicable
+     *
+     * @param signatureParameters {@link CBAdESSignatureParameters}
+     */
+    protected void assertSignatureParameters(final CBAdESSignatureParameters signatureParameters) {
+        assertSigningCertificateValid(signatureParameters);
+        if (signatureParameters.isTagged() == null) {
+            signatureParameters.setTagged(true);
+            LOG.debug("No tagged parameters provided. Use default value 'true' instead.'");
+        }
     }
 
     @Override
@@ -344,12 +357,12 @@ public class CBAdESService extends AbstractSignatureService<CBAdESSignatureParam
                     }
                     break;
                 case SHA384:
-                    if (384 != keySize) {
+                    if (320 != keySize && 384 != keySize) {
                         throw new IllegalArgumentException(String.format(errorMessage, signatureAlgorithm.getDigestAlgorithm(), 384));
                     }
                     break;
                 case SHA512:
-                    if (521 != keySize) {
+                    if (512 != keySize && 521 != keySize) {
                         throw new IllegalArgumentException(String.format(errorMessage, signatureAlgorithm.getDigestAlgorithm(), 521));
                     }
                     break;
